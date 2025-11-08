@@ -1,14 +1,19 @@
-namespace Library.interfaces;
+using System;
+using System.Collections.Generic;
 
-public interface IClienteBase
+namespace Library.interfaces
 {
-    public string Nombre { get; set; }
-    public string Apellido { get; set; }
-    public string Telefono { get; set; }
-    public string Correo { get; set; }
-    public string Genero { get; set; }
-    public DateTime FechaDeNacimiento { get; set; }
-    public List<Etiqueta> Etiquetas { get; set; }
-    public List<IInteraccion> Interacciones { get; set; }
-    public List<IImporte> Importes { get; set; }
+    public interface IClienteBase
+    {
+        string Nombre { get; set; }
+        string Apellido { get; set; }
+        string Telefono { get; set; }
+        string Correo { get; set; }
+        string Genero { get; set; }
+        DateTime FechaDeNacimiento { get; set; }
+        List<Etiqueta> Etiquetas { get; set; }
+        List<IInteraccion> Interacciones { get; set; }
+        List<IImporte> Importes { get; set; }
+    }
 }
+

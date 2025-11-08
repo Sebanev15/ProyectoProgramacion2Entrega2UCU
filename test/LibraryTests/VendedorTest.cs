@@ -1,8 +1,13 @@
 using Library.interfaces;
-
-namespace LibraryTest;
 using Library;
-public class VendedorTest
+using System.Collections.Generic;
+using System;
+using System.IO;
+using NUnit.Framework;
+
+namespace LibraryTest
+{
+    public class VendedorTest
 {
     private class ClienteGenerico : IClienteBase
     {
@@ -74,5 +79,5 @@ public class VendedorTest
         Assert.That(vendedor2.GestionSistema.GestionCliente.Clientes.Count, Is.EqualTo(0));
 
     }
-    
+}
 }

@@ -1,11 +1,13 @@
-using System.Runtime.CompilerServices;
-using NuGet.Frameworks;
-
-namespace LibraryTest;
+using NUnit.Framework;
 using Library;
+using System;
+using System.IO;
 using Library.abstractions;
-[TestFixture]
-public class AdministradorTest
+
+namespace LibraryTest
+{
+    [TestFixture]
+    public class AdministradorTest
 {
     private class UsuarioGenerico : UsuarioBase
     {
@@ -17,7 +19,7 @@ public class AdministradorTest
     }
     
     private Administrador administrador;
-    private System sistema;
+    private Library.System sistema;
     private UsuarioGenerico usuarioGenerico1;
     private UsuarioGenerico usuarioGenerico2;
     
@@ -25,7 +27,7 @@ public class AdministradorTest
     public void Setup()
     { 
         administrador = new Administrador("Sebastian","seba@gmail.com","099111222");
-        sistema = new System();
+        sistema = new Library.System();
         usuarioGenerico1 = new UsuarioGenerico("NombreGenerico", "correo@gmail.com", "099222333");
         usuarioGenerico2 = new UsuarioGenerico("NombreGenerico", "correo2@gmail.com", "099333444");
         sistema.usuarios.Add(usuarioGenerico1);
@@ -54,15 +56,15 @@ public class AdministradorTest
         
         administrador.CrearUsuario(usuarioGenerico1, sistema);
         string output = consoleOutput.ToString();
-        Assert.IsTrue(output.Contains("ERROR: No se pudo añadir el usuario al sistema"));
+        Assert.That(output.Contains("ERROR: No se pudo añadir el usuario al sistema"));
     }
 
     [Test]
     public void SuspenderUsuarioTest()
     {
-        Assert.IsFalse(usuarioGenerico1.EstaSuspendido);
+        Assert.That(!usuarioGenerico1.EstaSuspendido);
         administrador.SuspenderUsuario(usuarioGenerico1);
-        Assert.IsTrue(usuarioGenerico1.EstaSuspendido);
+        Assert.That(usuarioGenerico1.EstaSuspendido);
     }
 
     [Test]
@@ -81,4 +83,5 @@ public class AdministradorTest
         string output = consoleOutput.ToString();
         Assert.That(output.Contains("ERROR: No se pudo eliminar el usuario porque no estaba en el sistema"));
     }
+}
 }

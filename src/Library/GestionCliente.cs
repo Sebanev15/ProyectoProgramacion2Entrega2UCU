@@ -1,8 +1,10 @@
 using Library.abstractions;
 
-namespace Library;
-
-public class GestionCliente:GestionClienteBase
+namespace Library
 {
     
+    public class GestionCliente:GestionClienteBase
+    {
+    
+    }
 }

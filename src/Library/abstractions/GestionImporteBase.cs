@@ -1,36 +1,38 @@
 using Library.interfaces;
-
-namespace Library.abstractions;
-
-public abstract class GestionImporteBase
+using System.Collections.Generic;
+using System;
+namespace Library.abstractions
 {
-    public List<IImporte>Importes { get; set; }
-
-
-    public GestionImporteBase()
+    public abstract class GestionImporteBase
     {
-        this.Importes = new List<IImporte>();
-    }
+        public List<IImporte>Importes { get; set; }
 
-    public List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
-    {
-        List<IImporte> listaVentasTotales = new List<IImporte>();
-        foreach (IImporte venta in Importes)
+
+        public GestionImporteBase()
         {
-            if (venta.Fecha>=fechaInicio && venta.Fecha<=fechaFin)
+            this.Importes = new List<IImporte>();
+        }
+
+        public List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
+        {
+            List<IImporte> listaVentasTotales = new List<IImporte>();
+            foreach (IImporte venta in Importes)
             {
-                listaVentasTotales.Add(venta);
+                if (venta.Fecha>=fechaInicio && venta.Fecha<=fechaFin)
+                {
+                    listaVentasTotales.Add(venta);
+                }
             }
+            return listaVentasTotales;
         }
-        return listaVentasTotales;
-    }
 
-    public void AgregarImporte(IImporte importe, IClienteBase cliente){
-        if (!cliente.Importes.Contains(importe))
-        {
-            cliente.Importes.Add(importe);    
-        }
+        public void AgregarImporte(IImporte importe, IClienteBase cliente){
+            if (!cliente.Importes.Contains(importe))
+            {
+                cliente.Importes.Add(importe);    
+            }
         
-    }
+        }
 
+    }
 }

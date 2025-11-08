@@ -1,8 +1,11 @@
-namespace Library.interfaces;
+using System;
 
-public interface IImporte
+namespace Library.interfaces
 {
-    public DateTime Fecha { get; set; }
-    public double Monto { get; set; }
-    public IClienteBase Cliente{ get; set; }
+    public interface IImporte
+    {
+        DateTime Fecha { get; set; }
+        double Monto { get; set; }
+        IClienteBase Cliente{ get; set; }
+    }
 }

@@ -1,27 +1,29 @@
 ﻿using Library.abstractions;
 using Library.interfaces;
+using System;
 
-namespace Library;
-
-public class Vendedor: UsuarioBase
+namespace Library
 {
-    public Vendedor(string esteNombre, string esteCorreo, string esteTelefono) : base(esteNombre, esteCorreo,
-        esteTelefono)
+    public class Vendedor: UsuarioBase
     {
-
-    }
-
-    public void AsignarOtroVendedor(Vendedor vendedor, IClienteBase cliente)
-    {
-        if (this.GestionSistema.GestionCliente.Clientes.Contains(cliente))
+        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono) : base(esteNombre, esteCorreo,
+            esteTelefono)
         {
-            this.GestionSistema.GestionCliente.EliminarCliente(cliente);
-            vendedor.GestionSistema.GestionCliente.AgregarCliente(cliente);    
+
         }
-        else
+
+        public void AsignarOtroVendedor(Vendedor vendedor, IClienteBase cliente)
         {
-            Console.WriteLine("ERROR: El cliente no existe");
-        }
+            if (this.GestionSistema.GestionCliente.Clientes.Contains(cliente))
+            {
+                this.GestionSistema.GestionCliente.EliminarCliente(cliente);
+                vendedor.GestionSistema.GestionCliente.AgregarCliente(cliente);    
+            }
+            else
+            {
+                Console.WriteLine("ERROR: El cliente no existe");
+            }
         
+        }
     }
 }

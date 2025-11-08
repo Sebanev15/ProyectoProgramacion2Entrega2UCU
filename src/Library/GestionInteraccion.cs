@@ -1,8 +1,9 @@
 using Library.abstractions;
 
-namespace Library;
-
-public class GestionInteraccion:GestionInteraccionBase
+namespace Library
 {
+    public class GestionInteraccion:GestionInteraccionBase
+    {
     
+    }
 }

@@ -1,18 +1,19 @@
 using Library.abstractions;
 using Library.interfaces;
-using Library.abstractions;
-namespace Library;
 
-public class GestionSistema : IGestionSistema
+namespace Library
 {
-    public GestionClienteBase GestionCliente { get; set; }
-    public GestionInteraccionBase GestionInteraccion { get; set; }
-    public GestionImporteBase GestionImporte { get; set; }
-
-    public GestionSistema()
+    public class GestionSistema : IGestionSistema
     {
-        GestionCliente = new GestionCliente();
-        GestionImporte = new GestionImporte();
-        GestionInteraccion = new GestionInteraccion();
+        public GestionClienteBase GestionCliente { get; set; }
+        public GestionInteraccionBase GestionInteraccion { get; set; }
+        public GestionImporteBase GestionImporte { get; set; }
+
+        public GestionSistema()
+        {
+            GestionCliente = new GestionCliente();
+            GestionImporte = new GestionImporte();
+            GestionInteraccion = new GestionInteraccion();
+        }
     }
 }

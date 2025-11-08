@@ -1,12 +1,16 @@
-namespace Library;
 using Library.interfaces;
-public class Etiqueta
-{
-    public string NombreEtiqueta { get; set; }
-    public List<IClienteBase> Clientes { get; set; }
+using System.Collections.Generic;
 
-    public Etiqueta(string nombreEtiqueta)
+namespace Library
+{
+    public class Etiqueta
     {
-        NombreEtiqueta = nombreEtiqueta;
+        public string NombreEtiqueta { get; set; }
+        public List<IClienteBase> Clientes { get; set; }
+
+        public Etiqueta(string nombreEtiqueta)
+        {
+            NombreEtiqueta = nombreEtiqueta;
+        }
     }
 }

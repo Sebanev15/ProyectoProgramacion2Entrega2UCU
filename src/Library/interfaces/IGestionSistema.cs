@@ -1,11 +1,11 @@
 using Library.abstractions;
 
-namespace Library.interfaces;
-using abstractions;
-public interface IGestionSistema
+namespace Library.interfaces
 {
-    public GestionClienteBase GestionCliente { get; set; }
-    public GestionInteraccionBase GestionInteraccion { get; set; }
-    public GestionImporteBase GestionImporte { get; set; }
-    
+    public interface IGestionSistema
+    {
+        GestionClienteBase GestionCliente { get; set; }
+        GestionInteraccionBase GestionInteraccion { get; set; }
+        GestionImporteBase GestionImporte { get; set; }
+    }
 }

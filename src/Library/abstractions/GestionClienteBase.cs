@@ -1,8 +1,10 @@
 using Library.interfaces;
+using System.Collections.Generic;
+using System;
 
-namespace Library.abstractions;
-
-public abstract class GestionClienteBase
+namespace Library.abstractions
+{
+    public abstract class GestionClienteBase
 {
     public List<IClienteBase> Clientes { get; set; }
 
@@ -107,7 +109,7 @@ public abstract class GestionClienteBase
         {
             foreach (IInteraccion interaccion in cliente.Interacciones)
             {
-                if (interaccion.Comentarios.Count()<=0)
+                if (interaccion.Comentarios.Count<=0)
                 {
                     resultadoClientesNoRespondidos.Add(cliente);
                 }
@@ -117,3 +119,5 @@ public abstract class GestionClienteBase
     }
 
 }
+}
+

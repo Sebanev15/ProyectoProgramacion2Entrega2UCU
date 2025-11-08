@@ -1,22 +1,25 @@
 using Library;
+using NUnit.Framework;
 using Library.abstractions;
 
-namespace LibraryTest;
-[TestFixture]
-public class GestionSistemaTest
+namespace LibraryTest
 {
-
-    private GestionClienteBase cliente;
-    private GestionInteraccionBase interaccion;
-    private GestionImporteBase importe;
-    
-    [SetUp]
-    public void Setup()
+    [TestFixture]
+    public class GestionSistemaTest
     {
 
-        cliente = new GestionCliente();
-        interaccion = new GestionInteraccion();
-        importe = new GestionImporte();
+        private GestionClienteBase cliente;
+        private GestionInteraccionBase interaccion;
+        private GestionImporteBase importe;
+    
+        [SetUp]
+        public void Setup()
+        {
+            
+            cliente = new GestionCliente();
+            interaccion = new GestionInteraccion();
+            importe = new GestionImporte();
 
+        }
     }
 }

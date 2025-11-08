@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using NUnit.Framework;
 using Library;
+using NUnit.Framework;
 using Library.interfaces;
-using Library.abstractions;
+using System;
 
-namespace Library.Tests
+namespace LibraryTest
 {
     [TestFixture]
     public class FachadaTest
@@ -81,7 +78,7 @@ namespace Library.Tests
 
             Assert.That(original.Nombre, Is.EqualTo(modificado.Nombre));
             Assert.That(original.Etiquetas.Count, Is.EqualTo(1));
-            Assert.IsFalse(original.Etiquetas[0]==modificado.Etiquetas[0]);
+            Assert.That(original.Etiquetas[0]!=modificado.Etiquetas[0]);
 
         }
 

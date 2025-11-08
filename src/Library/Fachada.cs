@@ -1,8 +1,11 @@
-namespace Library;
-using interfaces;
-using abstractions;
+using Library.abstractions;
+using Library.interfaces;
+using System;
+using System.Collections.Generic;
 
-public class Fachada
+namespace Library
+{
+    public class Fachada
 {
     private GestionImporteBase _gestionImporte;
     private GestionInteraccionBase _gestionInteraccion;
@@ -126,4 +129,5 @@ public class Fachada
     {
         vendedorInicial.AsignarOtroVendedor(vendedorAsignado, cliente);
     }
+}
 }

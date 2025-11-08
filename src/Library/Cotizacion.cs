@@ -1,17 +1,19 @@
 using Library.interfaces;
+using System;
 
-namespace Library;
-
-public class Cotizacion: IImporte
+namespace Library
 {
-    public DateTime Fecha { get; set; }
-    public double Monto { get; set; }
-    public IClienteBase Cliente { get; set; }
-
-    public Cotizacion(DateTime fecha, double monto, IClienteBase cliente)
+    public class Cotizacion: IImporte
     {
-        Fecha = fecha;
-        Monto = monto;
-        Cliente = cliente;
+        public DateTime Fecha { get; set; }
+        public double Monto { get; set; }
+        public IClienteBase Cliente { get; set; }
+
+        public Cotizacion(DateTime fecha, double monto, IClienteBase cliente)
+        {
+            Fecha = fecha;
+            Monto = monto;
+            Cliente = cliente;
+        }
     }
 }
