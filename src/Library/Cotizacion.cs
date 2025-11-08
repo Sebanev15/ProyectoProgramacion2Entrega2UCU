@@ -7,9 +7,9 @@ namespace Library
     {
         public DateTime Fecha { get; set; }
         public double Monto { get; set; }
-        public IClienteBase Cliente { get; set; }
+        public Cliente Cliente { get; set; }
 
-        public Cotizacion(DateTime fecha, double monto, IClienteBase cliente)
+        public Cotizacion(DateTime fecha, double monto, Cliente cliente)
         {
             Fecha = fecha;
             Monto = monto;

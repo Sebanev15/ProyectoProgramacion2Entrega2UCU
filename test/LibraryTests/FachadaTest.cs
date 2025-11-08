@@ -8,9 +8,7 @@ namespace LibraryTest
     [TestFixture]
     public class FachadaTest
     {
-        private GestionImporte _gestionImporte;
-        private GestionInteraccion _gestionInteraccion;
-        private GestionCliente _gestionCliente;
+        private GestionSistema _gestionSistema;
         private Fachada _fachada;
         private DateTime _fecha;
         private Cliente _cliente;
@@ -21,12 +19,10 @@ namespace LibraryTest
         [SetUp]
         public void Setup()
         {
-            _gestionImporte = new GestionImporte();
-            _gestionInteraccion = new GestionInteraccion();
-            _gestionCliente = new GestionCliente();
+            _gestionSistema = new GestionSistema();
             _fecha = new DateTime(2024, 10, 1);
             _cliente = new Cliente("juan", "smith", "12345678", "juansmith007@gmail.com", "M",_fecha);
-            _fachada = new Fachada(_gestionImporte, _gestionInteraccion, _gestionCliente);
+            _fachada = new Fachada(_gestionSistema);
             _usuario = new Usuario("Usuariooo", "usuario@mail.com", "23423423");
             _interaccion = new Correo(_fecha, "importante", _cliente, _usuario, true);
             _admin = new Administrador("Mauro", "mauroeladmin@gmail.com", "12341234");
@@ -88,23 +84,23 @@ namespace LibraryTest
             var fecha = _fecha;
             var cliente = _cliente;
             _fachada.AgregarCliente(cliente);
-            Assert.That(_gestionCliente.Clientes, Does.Contain(cliente));
+            Assert.That(_gestionSistema.Clientes, Does.Contain(cliente));
             _fachada.EliminarCliente(cliente);
-            Assert.That(_gestionCliente.Clientes, Does.Not.Contain(cliente));
+            Assert.That(_gestionSistema.Clientes, Does.Not.Contain(cliente));
         }
 
         [Test]
         public void BuscarClienteFachadaTest()
         {
             var resultado = _fachada.BuscarCliente("Pedro");
-            Assert.That(resultado, Is.EqualTo(_gestionCliente.BuscarCliente("Pedro")));
+            Assert.That(resultado, Is.EqualTo(_gestionSistema.BuscarCliente("Pedro")));
         }
 
         [Test]
         public void AgregarEtiquetaFachadaTest()
         {
             var cliente = _cliente;
-            var etiqueta = new Etiqueta("Premium"); GestionCliente gestionCliente = new GestionCliente();
+            var etiqueta = new Etiqueta("Premium"); GestionSistema gestionCliente = new GestionSistema();
 
             _fachada.AgregarEtiqueta(cliente, etiqueta);
 

@@ -12,12 +12,12 @@ namespace Library
 
         }
 
-        public void AsignarOtroVendedor(Vendedor vendedor, IClienteBase cliente)
+        public void AsignarOtroVendedor(Vendedor vendedor, Cliente cliente)
         {
-            if (this.GestionSistema.GestionCliente.Clientes.Contains(cliente))
+            if (this.GestionSistema.Clientes.Contains(cliente))
             {
-                this.GestionSistema.GestionCliente.EliminarCliente(cliente);
-                vendedor.GestionSistema.GestionCliente.AgregarCliente(cliente);    
+                this.GestionSistema.EliminarCliente(cliente);
+                vendedor.GestionSistema.AgregarCliente(cliente);    
             }
             else
             {

@@ -7,25 +7,18 @@ namespace Library
 {
     public class Fachada
 {
-    private GestionImporteBase _gestionImporte;
-    private GestionInteraccionBase _gestionInteraccion;
-    private GestionClienteBase _gestionCliente;
-    public Fachada(
-        GestionImporteBase gestionImporte,
-        GestionInteraccionBase gestionInteraccion,
-        GestionClienteBase gestionCliente)
+    private GestionSistema _gestionSistema;
+    public Fachada(GestionSistema gestionSistema)
     {
-        _gestionImporte = gestionImporte;
-        _gestionInteraccion = gestionInteraccion;
-        _gestionCliente = gestionCliente;
+        _gestionSistema = gestionSistema;
     }
     
-    public Cotizacion CrearCotizacion(DateTime fecha, double monto, IClienteBase cliente)
+    public Cotizacion CrearCotizacion(DateTime fecha, double monto, Cliente cliente)
     {
         return new Cotizacion(fecha, monto, cliente);
     }
     
-    public Venta CrearVenta(string producto, DateTime fecha, double monto, IClienteBase cliente)
+    public Venta CrearVenta(string producto, DateTime fecha, double monto, Cliente cliente)
     {
         return new Venta(producto,fecha, monto, cliente);
     }
@@ -41,68 +34,68 @@ namespace Library
         return new Etiqueta(nombreEtiqueta);
     }
 
-    public void AgregarCliente(IClienteBase cliente){
-        _gestionCliente.AgregarCliente(cliente);
+    public void AgregarCliente(Cliente cliente){
+        _gestionSistema.AgregarCliente(cliente);
     }
     
-    public void ModificarCliente (IClienteBase clienteBase, IClienteBase clienteModificado)
+    public void ModificarCliente (Cliente clienteBase, Cliente clienteModificado)
     {
-        _gestionCliente.ModificarCliente(clienteBase, clienteModificado);
+        _gestionSistema.ModificarCliente(clienteBase, clienteModificado);
     }
 
-    public void EliminarCliente(IClienteBase cliente)
+    public void EliminarCliente(Cliente cliente)
     {
-        _gestionCliente.EliminarCliente(cliente);
+        _gestionSistema.EliminarCliente(cliente);
     }
 
-    public List<IClienteBase> BuscarCliente(string clienteBusqueda)
+    public List<Cliente> BuscarCliente(string clienteBusqueda)
     {
-        return _gestionCliente.BuscarCliente(clienteBusqueda);
+        return _gestionSistema.BuscarCliente(clienteBusqueda);
     }
 
     public void ListarClientes()
     {
-        _gestionCliente.ListarClientes();
+        _gestionSistema.ListarClientes();
     }
 
-    public void AgregarEtiqueta(IClienteBase cliente, Etiqueta etiqueta)
+    public void AgregarEtiqueta(Cliente cliente, Etiqueta etiqueta)
     {
-        _gestionCliente.AgregarEtiqueta(cliente, etiqueta);
+        _gestionSistema.AgregarEtiqueta(cliente, etiqueta);
     }
 
     public void ObtenerClientesInactivos()
     {
-        _gestionCliente.ObtenerClientesInactivos();
+        _gestionSistema.ObtenerClientesInactivos();
     }
 
     public void ObtenerClientesNoRespondidos()
     {
-        _gestionCliente.ObtenerClientesNoRespondidos();
+        _gestionSistema.ObtenerClientesNoRespondidos();
     }
 
     public void ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
     {
-        _gestionImporte.ObtenerVentasTotales(fechaInicio, fechaFin);
+        _gestionSistema.ObtenerVentasTotales(fechaInicio, fechaFin);
     }
 
-    public void AgregarImporte(IImporte importe, IClienteBase cliente)
+    public void AgregarImporte(IImporte importe, Cliente cliente)
     {
-        _gestionImporte.AgregarImporte(importe, cliente);
+        _gestionSistema.AgregarImporte(importe, cliente);
     }
 
-    public void RegistrarInteraccion(IClienteBase cliente, IInteraccion interaccion)
+    public void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion)
     {
-        _gestionInteraccion.RegistrarInteraccion(cliente, interaccion);
+        _gestionSistema.RegistrarInteraccion(cliente, interaccion);
     }
 
     public void BuscarInteracciones(DateTime fecha, string busqueda)
     {
-        _gestionInteraccion.BuscarInteracciones(fecha, busqueda);
+        _gestionSistema.BuscarInteracciones(fecha, busqueda);
     }
 
     public void AgregarComentario(IInteraccion interaccion, string comentario)
     {
-        _gestionInteraccion.AgregarComentario(interaccion, comentario);
+        _gestionSistema.AgregarComentario(interaccion, comentario);
     }
     //UsuarioBase
     public static void AdminReactivarUsuario(Administrador admin, UsuarioBase usuario)
@@ -125,7 +118,7 @@ namespace Library
     }
     //Vendedor
 
-    public void AsignarOtroVendedor(Vendedor vendedorInicial, Vendedor vendedorAsignado, IClienteBase cliente)
+    public void AsignarOtroVendedor(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
     {
         vendedorInicial.AsignarOtroVendedor(vendedorAsignado, cliente);
     }

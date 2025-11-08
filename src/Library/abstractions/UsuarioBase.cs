@@ -8,7 +8,7 @@ namespace Library.abstractions
         public string Correo { get; set; }
         public string Telefono { get; set; }
     
-        public IGestionSistema GestionSistema = new GestionSistema();
+        public GestionSistema GestionSistema = new GestionSistema();
         public bool EstaSuspendido { get; set; }
 
         public UsuarioBase(string esteNombre, string esteCorreo, string esteTelefono)

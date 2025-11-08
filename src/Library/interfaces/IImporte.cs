@@ -6,6 +6,6 @@ namespace Library.interfaces
     {
         DateTime Fecha { get; set; }
         double Monto { get; set; }
-        IClienteBase Cliente{ get; set; }
+        Cliente Cliente{ get; set; }
     }
 }
