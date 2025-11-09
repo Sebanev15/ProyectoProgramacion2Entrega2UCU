@@ -5,7 +5,7 @@ using System;
 
 namespace Library
 {
-    public class GestionSistema
+    public class GestionSistema: IGestionSistema
     {
         public List<IInteraccion> Interacciones { get; set; }
         public List<IImporte>Importes { get; set; }
