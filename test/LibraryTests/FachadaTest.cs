@@ -257,8 +257,8 @@ namespace LibraryTest
         {
             var administrador = _admin;
             var sistema = new Library.System();
-            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333");
-            var usuarioGenerico2 = new Usuario("NombreGenerico", "correo2@gmail.com", "099333444");
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333", _gestionSistema);
+            var usuarioGenerico2 = new Usuario("NombreGenerico", "correo2@gmail.com", "099333444", _gestionSistema);
             sistema.usuarios.Add(usuarioGenerico1);
             administrador.CrearUsuario(usuarioGenerico2, sistema);
             Assert.That(sistema.usuarios.Count, Is.EqualTo(2));
@@ -272,7 +272,7 @@ namespace LibraryTest
             Console.SetOut(consoleOutput);
             var administrador = _admin;
             var sistema = new Library.System();
-            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333");
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",_gestionSistema);
             
             administrador.CrearUsuario(usuarioGenerico1, sistema);
             string output = consoleOutput.ToString();
@@ -284,7 +284,7 @@ namespace LibraryTest
         {
             var administrador = _admin;
             var sistema = new Library.System();
-            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333");
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",_gestionSistema);
             
             administrador.EliminarUsuario(usuarioGenerico1, sistema);
             Assert.That(sistema.usuarios.Count, Is.EqualTo(0));
@@ -293,8 +293,8 @@ namespace LibraryTest
         [Test]
         public void AsignarOtroVendedorCorrectoTest()
         {
-            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333");
-            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333");
+            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333",_gestionSistema);
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333",_gestionSistema);
             
             var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
             vendedor1.GestionSistema.AgregarCliente(cliente);
@@ -308,8 +308,8 @@ namespace LibraryTest
         [Test]
         public void AsignarOtroVendedorIncorrectoTest()
         {
-            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333");
-            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333");
+            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333",_gestionSistema);
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333",_gestionSistema);
             
             var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
             vendedor1.GestionSistema.AgregarCliente(cliente);
