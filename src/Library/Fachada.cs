@@ -63,19 +63,19 @@ namespace Library
         _gestionSistema.AgregarEtiqueta(cliente, etiqueta);
     }
 
-    public void ObtenerClientesInactivos()
+    public List<Cliente> ObtenerClientesInactivos()
     {
-        _gestionSistema.ObtenerClientesInactivos();
+        return _gestionSistema.ObtenerClientesInactivos();
     }
 
-    public void ObtenerClientesNoRespondidos()
+    public List<Cliente> ObtenerClientesNoRespondidos()
     {
-        _gestionSistema.ObtenerClientesNoRespondidos();
+        return _gestionSistema.ObtenerClientesNoRespondidos();
     }
 
-    public void ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
+    public List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
     {
-        _gestionSistema.ObtenerVentasTotales(fechaInicio, fechaFin);
+        return _gestionSistema.ObtenerVentasTotales(fechaInicio, fechaFin);
     }
 
     public void AgregarImporte(IImporte importe, Cliente cliente)
@@ -88,16 +88,15 @@ namespace Library
         _gestionSistema.RegistrarInteraccion(cliente, interaccion);
     }
 
-    public void BuscarInteracciones(DateTime fecha, string busqueda)
+    public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda)
     {
-        _gestionSistema.BuscarInteracciones(fecha, busqueda);
+        return _gestionSistema.BuscarInteracciones(fecha, busqueda);
     }
 
     public void AgregarComentario(IInteraccion interaccion, string comentario)
     {
         _gestionSistema.AgregarComentario(interaccion, comentario);
     }
-    //UsuarioBase
     public static void AdminReactivarUsuario(Administrador admin, UsuarioBase usuario)
     {
         admin.ReactivarUsuario(usuario);
@@ -114,9 +113,8 @@ namespace Library
 
     public void AdminEliminarUsuario(Administrador admin, UsuarioBase usuario, System sistema)
     {
-        admin.EliminarUsuario(usuario,sistema);
+        admin.EliminarUsuario(usuario, sistema);
     }
-    //Vendedor
 
     public void AsignarOtroVendedor(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
     {

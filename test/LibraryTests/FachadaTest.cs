@@ -45,6 +45,16 @@ namespace LibraryTest
         }
 
         [Test]
+        public void CrearVentaFachadaTest()
+        {
+            var venta = _fachada.CrearVenta("procesador", _fecha, 20000, _cliente);
+            Assert.That(venta, Is.Not.Null);
+            Assert.That(venta.Fecha, Is.EqualTo(_fecha));
+            Assert.That(venta.Monto, Is.EqualTo(20000));
+            Assert.That(venta.Cliente, Is.EqualTo(_cliente));
+        }
+
+        [Test]
         public void CrearClienteFachadaTest()
         {
             var cliente2 = _fachada.CrearCliente("Ana", "García", "12345678", "ana@mail.com", "F", new DateTime(1995, 5, 10));
@@ -55,6 +65,14 @@ namespace LibraryTest
             Assert.That(cliente2.Correo, Is.EqualTo("ana@mail.com"));
             Assert.That(cliente2.Genero, Is.EqualTo("F"));
             Assert.That(cliente2.FechaDeNacimiento, Is.EqualTo(new DateTime(1995, 5, 10)));
+        }
+
+        [Test]
+        public void CrearEtiquetaFachadaTest()
+        {
+            var etiqueta = _fachada.CrearEtiqueta("rimbombante");
+            Assert.That(etiqueta.NombreEtiqueta, Is.EqualTo("rimbombante"));
+
         }
         
 
@@ -97,6 +115,24 @@ namespace LibraryTest
         }
 
         [Test]
+        public void ListarClientesFachadaTest()
+        {
+            DateTime fechaN = new DateTime(2024, 10, 20);
+            var jorjito = new Cliente("jorjito", "perez", "00", "monson@gmail.com", "M", fechaN);
+            var jorge = new Cliente("jorge", "perez", "00", "monson@gmail.com", "M", fechaN);
+            
+            var gestionSist = _gestionSistema;
+            gestionSist.AgregarCliente(jorge);
+            gestionSist.AgregarCliente(jorjito);
+            Assert.That(gestionSist.Clientes.Count, Is.EqualTo(2));
+            var sw = new StringWriter();
+            Console.SetOut(sw);
+            _fachada.ListarClientes();
+            string resultado = sw.ToString();
+            Assert.That(resultado, Does.Contain("jorjito"));
+            Assert.That(resultado, Does.Contain("jorge"));
+        }
+        [Test]
         public void AgregarEtiquetaFachadaTest()
         {
             var cliente = _cliente;
@@ -107,6 +143,51 @@ namespace LibraryTest
             Assert.That(cliente.Etiquetas.Contains(etiqueta));
         }
 
+        [Test]
+        public void ObtenerClientesInactivosFachadaTest()
+        {
+            var gestionSist = _gestionSistema;
+            var cliente = _cliente;
+            DateTime fechaNueva = new DateTime(2024, 10, 20);
+            cliente.Interacciones.Add(new Reunion(fechaNueva, "Reunion1", cliente, _usuario, "Eiffel" ));
+            Assert.That(_fachada.ObtenerClientesInactivos(),Is.EqualTo(gestionSist.ObtenerClientesInactivos()));
+        }
+
+        [Test]
+        public void ObtenerClientesNoRespondidosTest()
+        {
+            var usuario = _usuario;
+            DateTime fechaN = new DateTime(2024, 10, 20);
+            var jorjito = new Cliente("jorjito", "perez", "00", "monson@gmail.com", "M", fechaN);
+            var jorge = new Cliente("jorge", "perez", "00", "monson@gmail.com", "M", fechaN);
+            _gestionSistema.AgregarCliente(jorge);
+            _gestionSistema.AgregarCliente(jorjito);
+            Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(2));
+            DateTime fechaNueva = new DateTime(2024, 10, 20);
+            Reunion reunion = new Reunion(fechaNueva, "Reunion1", jorge, usuario, "Eiffel");
+            jorge.Interacciones.Add(reunion);
+             
+            List<Cliente> resultado= _gestionSistema.ObtenerClientesNoRespondidos();
+            Assert.That(resultado.Count, Is.EqualTo(1));
+            Assert.That(_fachada.ObtenerClientesNoRespondidos(),Is.EqualTo(_gestionSistema.ObtenerClientesNoRespondidos()));
+             
+            string comentario = "Esta reunion fue respondida";
+            reunion.Comentarios.Add(comentario);
+            resultado = _gestionSistema.ObtenerClientesNoRespondidos();
+            Assert.That(resultado.Count, Is.EqualTo(0));
+            Assert.That(_fachada.ObtenerClientesNoRespondidos(),Is.EqualTo(_gestionSistema.ObtenerClientesNoRespondidos()));
+
+        }
+        
+        [Test]
+        public void AgregarImporteFachadaTest()
+        {
+            var fecha = _fecha;
+            var cliente = _cliente;
+            var importe = _fachada.CrearCotizacion(fecha, 2000, cliente);
+            _fachada.AgregarImporte(importe,_cliente);
+        }
+        
         [Test]
         public void RegistrarInteraccionFachadaTest()
         {
