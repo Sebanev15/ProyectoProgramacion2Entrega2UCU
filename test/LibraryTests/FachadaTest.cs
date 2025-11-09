@@ -183,6 +183,24 @@ namespace LibraryTest
         }
         
         [Test]
+        public void ObtenerVentasTotalesTest()
+        {
+            var gestionSist = _gestionSistema;
+            var fecha = new DateTime(2024, 10, 20);
+            var fecha1 = new DateTime(2024, 11, 20);
+            var fecha2 = new DateTime(2024, 12, 20);
+            var venta = new Venta("caja", fecha, 12, _cliente);
+            var venta1 = new Cotizacion(fecha1, 12, _cliente);
+            gestionSist.Importes = new List<IImporte>();
+            gestionSist.Importes.Add(venta);
+            
+            List<IImporte> resultado = gestionSist.ObtenerVentasTotales(fecha,fecha2);
+
+            Assert.That(resultado.Count, Is.EqualTo(1));
+            Assert.That(_fachada.ObtenerVentasTotales(fecha,fecha2),Is.EqualTo(gestionSist.ObtenerVentasTotales(fecha,fecha2)));
+        }
+        
+        [Test]
         public void AgregarImporteFachadaTest()
         {
             var fecha = _fecha;
@@ -201,6 +219,26 @@ namespace LibraryTest
 
             Assert.That(cliente.Interacciones, Does.Contain(interaccion));
         }
+        
+        [Test]
+        public void BuscarInteraccionesTest()
+        {
+            var interaccion = _interaccion;
+            interaccion.Comentarios = new List<string>();
+            interaccion.Comentarios.Add("hola");
+            _gestionSistema.Interacciones.Add(interaccion);
+            List<IInteraccion> resultado= _fachada.BuscarInteracciones(_fecha, "importante");
+            Assert.That(resultado.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void AgregarComentarioTesting()
+        {
+            var interaccion = _interaccion;
+            interaccion.Comentarios = new List<string>();
+            _fachada.AgregarComentario(interaccion, "Finalizada en 10m");
+            Assert.That(interaccion.Comentarios.Contains("Finalizada en 10m"), Is.True);
+        }
 
         [Test]
         public void SuspenderReactivarUsuarioFachadaTest()
@@ -212,6 +250,78 @@ namespace LibraryTest
             Assert.That(usuario.EstaSuspendido, Is.True);
             Fachada.AdminReactivarUsuario(admin,usuario);
             Assert.That(usuario.EstaSuspendido, Is.False);
+        }
+        
+        [Test]
+        public void CrearUsuarioTest()
+        {
+            var administrador = _admin;
+            var sistema = new Library.System();
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333");
+            var usuarioGenerico2 = new Usuario("NombreGenerico", "correo2@gmail.com", "099333444");
+            sistema.usuarios.Add(usuarioGenerico1);
+            administrador.CrearUsuario(usuarioGenerico2, sistema);
+            Assert.That(sistema.usuarios.Count, Is.EqualTo(2));
+            Assert.That(sistema.usuarios[1], Is.EqualTo(usuarioGenerico2));
+        }
+
+        [Test]
+        public void CrearUsuarioYaExistenteTest()
+        {
+            var consoleOutput = new StringWriter();
+            Console.SetOut(consoleOutput);
+            var administrador = _admin;
+            var sistema = new Library.System();
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333");
+            
+            administrador.CrearUsuario(usuarioGenerico1, sistema);
+            string output = consoleOutput.ToString();
+            Assert.That(output.Contains("ERROR: No se pudo añadir el usuario al sistema"));
+        }
+        
+        [Test]
+        public void EliminarUsuarioTest()
+        {
+            var administrador = _admin;
+            var sistema = new Library.System();
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333");
+            
+            administrador.EliminarUsuario(usuarioGenerico1, sistema);
+            Assert.That(sistema.usuarios.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void AsignarOtroVendedorCorrectoTest()
+        {
+            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333");
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333");
+            
+            var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
+            vendedor1.GestionSistema.AgregarCliente(cliente);
+            
+            vendedor1.AsignarOtroVendedor(vendedor2, cliente);
+            Assert.That(vendedor1.GestionSistema.Clientes.Count, Is.EqualTo(0));
+            Assert.That(vendedor2.GestionSistema.Clientes.Count, Is.EqualTo(1));
+            Assert.That(vendedor2.GestionSistema.Clientes.Contains(cliente));
+        }
+        
+        [Test]
+        public void AsignarOtroVendedorIncorrectoTest()
+        {
+            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333");
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333");
+            
+            var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
+            vendedor1.GestionSistema.AgregarCliente(cliente);
+            
+            var consoleOutput = new StringWriter();
+            Console.SetOut(consoleOutput);
+        
+            vendedor2.AsignarOtroVendedor(vendedor1, cliente);
+            string output = consoleOutput.ToString();
+        
+            Assert.That(output.Contains("ERROR: El cliente no existe"));
+            Assert.That(vendedor2.GestionSistema.Clientes.Count, Is.EqualTo(0));
         }
     }
 }
