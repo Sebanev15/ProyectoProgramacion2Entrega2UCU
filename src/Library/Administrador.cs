@@ -1,11 +1,13 @@
 ﻿using Library.abstractions;
 using System;
+using Library.interfaces;
+
 namespace Library
 {
     public class Administrador: UsuarioBase
     {
-        public Administrador(string esteNombre, string esteCorreo, string esteTelefono) : base(esteNombre, esteCorreo,
-            esteTelefono)
+        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionSistema)
         {
 
         }
@@ -23,6 +25,13 @@ namespace Library
         
         }
 
+        /// <summary>
+        /// Suspende las funciones de un usuario.
+        /// </summary>
+        /// <remarks> .
+        /// **SOLID: Liskov Substitution Principle (LSP):** El método recibe un 'UsuarioBase', permitiendo que cualquier subclase pueda ser suspendida.
+        /// **GRASP: Information Expert (Delegación):** El Administrador DELEGA la acción al objeto usuario, ya que el usuario es el experto en gestionar su propio estado.
+        /// </remarks>
         public void SuspenderUsuario(UsuarioBase usuario)
         {
             usuario.Suspender();

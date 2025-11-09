@@ -15,8 +15,8 @@ namespace LibraryTest
     [SetUp]
     public void Setup()
     { 
-        vendedor1 = new Vendedor("Sebastian","seba@gmail.com","099111222");
-        vendedor2 = new Vendedor("Jose", "jose@gmail.com", "099000111");
+        vendedor1 = new Vendedor("Sebastian","seba@gmail.com","099111222", new GestionSistema());
+        vendedor2 = new Vendedor("Jose", "jose@gmail.com", "099000111", new GestionSistema());
         DateTime diaNacimiento = new DateTime(2000, 1, 1);
         cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", diaNacimiento);
         vendedor1.GestionSistema.AgregarCliente(cliente);
