@@ -32,7 +32,7 @@ namespace LibraryTest
         [Test]
         public void ClientesAsignacionDeLista()
         {
-            e.Clientes = new List<IClienteBase> { j };
+            e.Clientes = new List<Cliente> { j };
         
             Assert.That(e.Clientes.Count, Is.EqualTo(1));
         }

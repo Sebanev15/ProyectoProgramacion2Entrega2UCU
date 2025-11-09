@@ -8,7 +8,7 @@ namespace LibraryTest
     public class CotizacionTests
     {
         private Cotizacion c;
-        private IClienteBase j;
+        private Cliente j;
 
         [SetUp]
         public void Setup()

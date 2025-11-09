@@ -33,7 +33,7 @@ namespace LibraryTest
         {
             usuario.Suspender();
             usuario.Reactivar();
-            Assert.That(usuario.EstaSuspendido);
+            Assert.That(!usuario.EstaSuspendido);
         }
     }
 }

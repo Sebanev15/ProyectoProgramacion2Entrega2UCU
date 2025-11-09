@@ -8,7 +8,7 @@ namespace LibraryTest
     public class VentaTests
     {
         private Venta v;
-        private IClienteBase j;
+        private Cliente j;
 
 
         [SetUp]
