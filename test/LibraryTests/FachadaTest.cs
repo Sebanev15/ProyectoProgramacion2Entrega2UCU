@@ -26,9 +26,9 @@ namespace LibraryTest
             _fecha = new DateTime(2024, 10, 1);
             _cliente = new Cliente("juan", "smith", "12345678", "juansmith007@gmail.com", "M",_fecha);
             _fachada = new Fachada(_gestionSistema);
-            _usuario = new Usuario("Usuariooo", "usuario@mail.com", "23423423");
+            _usuario = new Usuario("Usuariooo", "usuario@mail.com", "23423423", new GestionSistema());
             _interaccion = new Correo(_fecha, "importante", _cliente, _usuario, true);
-            _admin = new Administrador("Mauro", "mauroeladmin@gmail.com", "12341234");
+            _admin = new Administrador("Mauro", "mauroeladmin@gmail.com", "12341234", new GestionSistema());
             _etiqueta = new Etiqueta("Importante");
         }
 

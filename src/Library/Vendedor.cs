@@ -6,12 +6,12 @@ namespace Library
 {
     public class Vendedor: UsuarioBase
     {
-        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono) : base(esteNombre, esteCorreo,
-            esteTelefono)
+        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionSistema)
         {
 
         }
-
+        
         public void AsignarOtroVendedor(Vendedor vendedor, Cliente cliente)
         {
             if (this.GestionSistema.Clientes.Contains(cliente))
