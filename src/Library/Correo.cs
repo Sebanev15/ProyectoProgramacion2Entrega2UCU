@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 namespace Library
 {
+    /// <summary>
+    /// Esta clase representa un correo al que se le puede asociar un cliente.
+    /// Es una interacción, por lo que depende de la interfaz IInteraccion.
+    /// </summary>
     public class Correo : IInteraccion
     {
         public DateTime Fecha { get; set; }

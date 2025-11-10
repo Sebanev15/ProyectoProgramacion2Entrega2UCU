@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 namespace Library
 {
+    /// <summary>
+    /// Esta clase representa una reunión a la que se le puede asociar un cliente.
+    /// Es una interacción, por lo que depende de la interfaz IInteraccion.
+    /// </summary>
     public class Reunion : IInteraccion
     {
         public DateTime Fecha { get; set; }

@@ -5,17 +5,6 @@ using System;
 
 namespace Library
 {
-    /// <summary>
-    /// Esta clase representa a la gestion del sistema.
-    ///  Sigue los siguientes principios SOLID {
-    /// - DIP: Se le quita dependencia directa con otras clases al aplicar una interfaz
-    /// - SRP: Esta clase quita responsabilidades poco coherentes a Usuario
-    /// }
-    /// Sigue los siguientes patrones GRASP{
-    /// - Polimorfismo: Implemente una interfaz para la gestion para preever que haya otra gestion que ocupe los mismos metodos
-    ///   de forma distinta. 
-    /// } 
-    /// </summary>
     public class GestionSistema: IGestionSistema
     {
         public List<IInteraccion> Interacciones { get; set; }
