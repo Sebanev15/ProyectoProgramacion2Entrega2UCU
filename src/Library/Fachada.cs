@@ -7,7 +7,8 @@ namespace Library
 {    
     /// <summary>
     /// La clase actúa como una interfaz unificada que guia las operaciones principales del sistema.
-    /// 
+    /// </summary>
+    /// <remarks>
     /// Aplica Bajo Acoplamiento:
     ///     Evita que otras capas dependan directamente de GestionSistema, manteniendo bajo acoplamiento.
     ///
@@ -20,15 +21,18 @@ namespace Library
     ///
     /// Aplica el Patrón de diseño Fachada(lo es):
     ///     Simplifica el uso del sistema al ofrecer una interfaz única y coherente para múltiples clases internas.
-    /// </summary>
+    /// </remarks>
     
     public class Fachada
     {
-        private GestionSistema _gestionSistema;
+        private IGestionCliente _gestionCliente { get; }
+        private IGestionUsuario _gestionUsuario { get; }
+        
         private static Fachada _instance;
         private Fachada()
         {
-            _gestionSistema = new GestionSistema();
+            _gestionCliente = new GestionCliente();
+            _gestionUsuario = new GestionUsuario();
         }
         
         public static Fachada GetInstancia()
@@ -39,7 +43,16 @@ namespace Library
             }
             return _instance;
         }
+
+        public GestionCliente GetGestionCliente()
+        {
+            return _gestionCliente;
+        }
         
+        public GestionUsuario GetGestionUsuario()
+        {
+            return _gestionUsuario;
+        }
         // -------------------------------------- CREACIÓN DE ENTIDADES ------------------------------------------------
         public Cotizacion CrearCotizacion(DateTime fecha, double monto, Cliente cliente)
         {
@@ -56,84 +69,95 @@ namespace Library
         {
             return new Cliente(nombre, apellido, telefono, correo, genero, fechaDeNacimiento);
         }
-
+        
         public Etiqueta CrearEtiqueta(string nombreEtiqueta)
         {
             return new Etiqueta(nombreEtiqueta);
         }
         
+        // -------------------------------------- ETIQUETAS ------------------------------------------------------------
+        public void AgregarEtiqueta(Etiqueta etiqueta, Cliente cliente)
+        {
+            _gestionCliente.AgregarEtiqueta(etiqueta, cliente);
+        }
+        
         // -------------------------------------- GESTIÓN DE CLIENTES --------------------------------------------------
         public void AgregarCliente(Cliente cliente){
-            _gestionSistema.AgregarCliente(cliente);
+            _gestionCliente.AgregarCliente(cliente);
         }
         
         public void ModificarCliente (Cliente clienteBase, Cliente clienteModificado)
         {
-            _gestionSistema.ModificarCliente(clienteBase, clienteModificado);
+            _gestionCliente.ModificarCliente(clienteBase, clienteModificado);
         }
 
         public void EliminarCliente(Cliente cliente)
         {
-            _gestionSistema.EliminarCliente(cliente);
+            _gestionCliente.EliminarCliente(cliente);
         }
 
         public List<Cliente> BuscarCliente(string clienteBusqueda)
         {
-            return _gestionSistema.BuscarCliente(clienteBusqueda);
+            return _gestionCliente.BuscarCliente(clienteBusqueda);
         }
 
         public void ListarClientes()
         {
-            _gestionSistema.ListarClientes();
+            _gestionCliente.ListarClientes();
         }
         
-        // -------------------------------------- ETIQUETAS ------------------------------------------------------------
-        public void AgregarEtiqueta(Cliente cliente, Etiqueta etiqueta)
-        {
-            _gestionSistema.AgregarEtiqueta(cliente, etiqueta);
-        }
         
         // -------------------------------------- INFORMES Y CONSULTAS -------------------------------------------------
         public List<Cliente> ObtenerClientesInactivos()
         {
-            return _gestionSistema.ObtenerClientesInactivos();
+            return _gestionCliente.ObtenerClientesInactivos();
         }
 
         public List<Cliente> ObtenerClientesNoRespondidos()
         {
-            return _gestionSistema.ObtenerClientesNoRespondidos();
+            return _gestionCliente.ObtenerClientesNoRespondidos();
         }
 
-        public List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
+        public double ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
         {
-            return _gestionSistema.ObtenerVentasTotales(fechaInicio, fechaFin);
+            return _gestionCliente.ObtenerVentasTotales(fechaInicio, fechaFin);
         }
         
         // -------------------------------------- IMPORTES E INTERACCIONES ---------------------------------------------
         public void AgregarImporte(IImporte importe, Cliente cliente)
         {
-            _gestionSistema.AgregarImporte(importe, cliente);
+            _gestionCliente.AgregarImporte(importe, cliente);
+        }
+
+        public void ModificarImporte(IImporte importeBase, IImporte importeModificar)
+        {
+            _gestionCliente.ModificarImporte(importeBase, importeModificar);
+        }
+
+        public void EliminarImporte(IImporte importe)
+        {
+            _gestionCliente.EliminarImporte();
         }
 
         public void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion)
         {
-            _gestionSistema.RegistrarInteraccion(cliente, interaccion);
+            _gestionCliente.RegistrarInteraccion(cliente, interaccion);
         }
 
         public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda)
         {
-            return _gestionSistema.BuscarInteracciones(fecha, busqueda);
+            return _gestionCliente.BuscarInteracciones(fecha, busqueda);
         }
 
-        public void AgregarComentario(IInteraccion interaccion, string comentario)
+        public void AgregarComentarioInteraccion(IInteraccion interaccion, string comentario)
         {
-            _gestionSistema.AgregarComentario(interaccion, comentario);
+            _gestionCliente.AgregarComentarioInteraccion(interaccion, comentario);
         }
         
         // ------------------------------------- ADMINISTRACIÓN --------------------------------------------------------
         public static void AdminReactivarUsuario(Administrador admin, Usuario usuario)
         {
-            admin.ReactivarUsuario(usuario);
+            _gestionUsuario.CrearUsuario(usuario);
         }
         public void AdminCrearUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
         {
@@ -142,7 +166,7 @@ namespace Library
 
         public static void AdminSuspenderUsuario(Administrador admin, Usuario usuario)
         {
-            admin.SuspenderUsuario(usuario);
+            _gestionUsuario.ReactivarUsuario(usuario);
         }
 
         public void AdminEliminarUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
@@ -150,10 +174,9 @@ namespace Library
             admin.EliminarUsuario(usuario, gestionUsuario);
         }
         
-        // ------------------------------------- ASIGNACIÓN DE VENDEDORES ----------------------------------------------
         public void AsignarOtroVendedor(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
         {
-            vendedorInicial.AsignarOtroVendedor(vendedorAsignado, cliente);
+            _gestionUsuario.AsignarOtroVendedor(vendedorInicial, vendedorAsignado, cliente);
         }
     }
 }
