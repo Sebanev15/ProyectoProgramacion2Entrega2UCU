@@ -9,12 +9,12 @@ using System.IO;
 namespace LibraryTest
 {
     [TestFixture]
-    public class GestionSistemaTest
+    public class GestionClienteTest
     {
 
         private IInteraccion interaccion;
         private UsuarioBase usuarero;
-        private GestionSistema _gestionSistema;
+        private GestionCliente _gestionCliente;
         private Cliente jorjito;
         private List<IImporte> Importes;
         private Cliente jorge;
@@ -26,10 +26,10 @@ namespace LibraryTest
         public void SetUp()
         {
             
-            _gestionSistema = new GestionSistema();
+            _gestionCliente = new GestionCliente();
             DateTime fechaN = new DateTime(2024, 10, 20);
             DateTime fechaReunion = new DateTime(2024, 12, 20);
-            usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionSistema());
+            usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionCliente());
             jorjito = new Cliente("jorjito", "perez", "00", "monson@gmail.com", "M", fechaN);
             jorjito.Interacciones = new List<IInteraccion>();
             interaccion = new Reunion( fechaReunion, "Reunion", jorjito, usuarero, "Montevideo");
@@ -39,19 +39,19 @@ namespace LibraryTest
             DateTime fecha1 = new DateTime(2024, 11, 20);
             venta = new Venta("caja", fecha, 12, jorge);
             cotizacion = new Cotizacion(fecha1, 12, jorge);
-            usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionSistema());
+            usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionCliente());
 
             Importes.Add(venta);
             Importes.Add(cotizacion);
             
-            _gestionSistema.Importes = Importes;
+            _gestionCliente.Importes = Importes;
         }
         
         [Test]
         public void RegistrarInteraccionTest()
         {
             Assert.That(jorjito.Interacciones.Count, Is.EqualTo(0));
-            _gestionSistema.RegistrarInteraccion(jorjito, interaccion);
+            _gestionCliente.RegistrarInteraccion(jorjito, interaccion);
             Assert.That(jorjito.Interacciones.Count, Is.EqualTo(1));
         
         }
@@ -62,8 +62,8 @@ namespace LibraryTest
             DateTime fechaBusqueda = new DateTime(2024, 12, 20);
             interaccion.Comentarios = new List<string>();
             interaccion.Comentarios.Add("hola");
-            _gestionSistema.Interacciones.Add(interaccion);
-            List<IInteraccion> resultado= _gestionSistema.BuscarInteracciones(fechaBusqueda, "Reunion");
+            _gestionCliente.Interacciones.Add(interaccion);
+            List<IInteraccion> resultado= _gestionCliente.BuscarInteracciones(fechaBusqueda, "Reunion", jorjito);
             Assert.That(resultado.Count, Is.EqualTo(1));
         }
 
@@ -71,16 +71,16 @@ namespace LibraryTest
         public void AgregarComentarioTesting()
         {
             interaccion.Comentarios = new List<string>();
-            _gestionSistema.AgregarComentario(interaccion, "Finalizada en 10m");
+            _gestionCliente.AgregarComentarioInteraccion(interaccion, "Finalizada en 10m");
             Assert.That(interaccion.Comentarios.Contains("Finalizada en 10m"), Is.True);
         
         }
         [Test]
         public void ObtenerVentasTotalesTesting()
         {
-            List<IImporte> resultado = _gestionSistema.ObtenerVentasTotales(
+            List<String> resultado = _gestionCliente.ObtenerVentasTotales(
                 new DateTime(2024, 10, 20),
-                new DateTime(2024, 12, 20)
+                new DateTime(2024, 12, 20) 
             );
 
             Assert.That(resultado.Count, Is.EqualTo(2));
@@ -92,58 +92,58 @@ namespace LibraryTest
         {
             jorge.Importes = new List<IImporte>();
             Assert.That(jorge.Importes.Count, Is.EqualTo(0));
-            _gestionSistema.AgregarImporte(venta, jorge);
+            _gestionCliente.AgregarImporte(venta, jorge);
             Assert.That(jorge.Importes.Count, Is.EqualTo(1));
         }
         
          [Test]
          public void AgregarClienteDouble()
          {
-             _gestionSistema.AgregarCliente(jorge);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(1));
-             _gestionSistema.AgregarCliente(jorge);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(1));
+             _gestionCliente.AgregarCliente(jorge);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(1));
+             _gestionCliente.AgregarCliente(jorge);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(1));
          }
          
          [Test]
          public void ModificarCliente()
          {
-             _gestionSistema.AgregarCliente(jorge);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(1));
-             _gestionSistema.AgregarCliente(jorjito);
-             _gestionSistema.ModificarCliente(jorge, jorjito);
+             _gestionCliente.AgregarCliente(jorge);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(1));
+             _gestionCliente.AgregarCliente(jorjito);
+             _gestionCliente.ModificarCliente(jorge, jorjito);
              Assert.That(jorge.Nombre, Is.EqualTo(jorjito.Nombre));
          }
          
          [Test]
          public void EliminarClienteDouble()
          {
-             _gestionSistema.AgregarCliente(jorge);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(1));
-             _gestionSistema.EliminarCliente(jorge);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(0));
-             _gestionSistema.EliminarCliente(jorge);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(0));
+             _gestionCliente.AgregarCliente(jorge);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(1));
+             _gestionCliente.EliminarCliente(jorge);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(0));
+             _gestionCliente.EliminarCliente(jorge);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(0));
          }
          
          [Test]
          public void BuscarClienteTesting()
          {
-             _gestionSistema.AgregarCliente(jorge);
-             _gestionSistema.AgregarCliente(jorjito);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(2));
-             List<Cliente> resultado=_gestionSistema.BuscarCliente("jorjito");
+             _gestionCliente.AgregarCliente(jorge);
+             _gestionCliente.AgregarCliente(jorjito);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(2));
+             List<Cliente> resultado=_gestionCliente.BuscarCliente("jorjito");
              Assert.That(resultado.Contains(jorjito), Is.True);
          }
          [Test]
          public void ListarClientesTesting()
          {
-             _gestionSistema.AgregarCliente(jorge);
-             _gestionSistema.AgregarCliente(jorjito);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(2));
+             _gestionCliente.AgregarCliente(jorge);
+             _gestionCliente.AgregarCliente(jorjito);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(2));
              var sw = new StringWriter();
              Console.SetOut(sw);
-             _gestionSistema.ListarClientes();
+             _gestionCliente.ListarClientes();
              string resultado = sw.ToString();
              Assert.That(resultado, Does.Contain("jorjito"));
              Assert.That(resultado, Does.Contain("jorge"));
@@ -152,40 +152,40 @@ namespace LibraryTest
          [Test]
          public void AgregarEtiqueta()
          {
-             _gestionSistema.AgregarCliente(jorge);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(1));
-             _gestionSistema.AgregarCliente(jorjito);
-             _gestionSistema.AgregarEtiqueta(jorjito, new Etiqueta("comercio"));
+             _gestionCliente.AgregarCliente(jorge);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(1));
+             _gestionCliente.AgregarCliente(jorjito);
+             _gestionCliente.AgregarEtiqueta(jorjito, new Etiqueta("comercio"));
              Assert.That(jorjito.Etiquetas.Count, Is.EqualTo(1));
          }
          [Test]
          public void ObtenerClientesInactivos()
          {
-             _gestionSistema.AgregarCliente(jorge);
-             _gestionSistema.AgregarCliente(jorjito);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(2));
+             _gestionCliente.AgregarCliente(jorge);
+             _gestionCliente.AgregarCliente(jorjito);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(2));
              DateTime fechaNueva = new DateTime(2024, 10, 20);
              jorge.Interacciones.Add(new Reunion(fechaNueva, "Reunion1", jorge, usuarero, "Eiffel" ));
-             List<Cliente> resultado= _gestionSistema.ObtenerClientesInactivos();
+             List<Cliente> resultado= _gestionCliente.ObtenerClientesInactivos();
              Assert.That(resultado.Count, Is.EqualTo(1));
          }
          
          [Test]
          public void ObtenerClientesNoRespondidosTesting()
          {
-             _gestionSistema.AgregarCliente(jorge);
-             _gestionSistema.AgregarCliente(jorjito);
-             Assert.That(_gestionSistema.Clientes.Count, Is.EqualTo(2));
+             _gestionCliente.AgregarCliente(jorge);
+             _gestionCliente.AgregarCliente(jorjito);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(2));
              DateTime fechaNueva = new DateTime(2024, 10, 20);
              Reunion reunion = new Reunion(fechaNueva, "Reunion1", jorge, usuarero, "Eiffel");
              jorge.Interacciones.Add(reunion);
              
-             List<Cliente> resultado= _gestionSistema.ObtenerClientesNoRespondidos();
+             List<Cliente> resultado= _gestionCliente.ObtenerClientesNoRespondidos();
              Assert.That(resultado.Count, Is.EqualTo(1));
              
              string comentario = "Esta reunion fue respondida";
              reunion.Comentarios.Add(comentario);
-             resultado = _gestionSistema.ObtenerClientesNoRespondidos();
+             resultado = _gestionCliente.ObtenerClientesNoRespondidos();
              Assert.That(resultado.Count, Is.EqualTo(0));
          }
     }
