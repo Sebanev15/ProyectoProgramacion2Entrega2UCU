@@ -188,5 +188,30 @@ namespace LibraryTest
              resultado = _gestionCliente.ObtenerClientesNoRespondidos();
              Assert.That(resultado.Count, Is.EqualTo(0));
          }
+
+         [Test]
+         public void EliminarImporteCorrectoTest()
+         {
+                _gestionCliente.EliminarImporte(venta);
+                Assert.That(_gestionCliente.Importes.Contains(venta), Is.False);
+         }
+         [Test]
+         public void EliminarImporteNoExistenteTest()
+         {
+             IImporte importeNoExistente = new Venta("noExiste", DateTime.Now, 50, jorge);
+             Assert.That(this.Importes.Contains(importeNoExistente), Is.False);
+             _gestionCliente.EliminarImporte(importeNoExistente);
+             Assert.That(this.Importes.Contains(importeNoExistente), Is.False);
+         }
+         
+         [Test]
+         public void ModificarImporteTest()
+         {
+             IImporte importeModificado = new Venta("cajaModificada", venta.Fecha, 20, jorge);
+             _gestionCliente.ModificarImporte(venta, importeModificado);
+             Assert.That(venta.Producto, Is.EqualTo("cajaModificada"));
+             Assert.That(venta.Monto, Is.EqualTo(20));
+             Assert.That(_gestionCliente.Importes.Contains(venta), Is.True);
+         }
     }
 }
