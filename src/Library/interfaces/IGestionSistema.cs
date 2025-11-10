@@ -3,6 +3,16 @@ using System;
 
 namespace Library.interfaces
 {
+/// <summary>
+    /// Esta interfaz representa a una gestion del sistema.
+    ///  Sigue los siguientes principios SOLID {
+    /// - DIP: Se le quita dependencia directa con otras clases al aplicar la interfaz
+    /// }
+    /// Sigue los siguientes patrones GRASP{
+    /// - Polimorfismo: Implementa la interfaz para la gestion para preever que haya otra gestion que ocupe los mismos metodos
+    ///   de forma distinta. 
+    /// } 
+    /// </summary>
     public interface IGestionSistema
     {
         List<IInteraccion> Interacciones { get; set; }
