@@ -99,7 +99,7 @@ namespace Library
         }
 
 
-        public string ObtenerVentasTotales()
+        public string ObtenerVentasTotales(DateTime inicio, DateTime fin)
         {
             string nombreCliente =this.Nombre;
             double monto = 0;
@@ -107,7 +107,7 @@ namespace Library
             
             foreach (IImporte importe in Importes)
             {
-                if (importe is Venta)
+                if (importe is Venta && (importe.Fecha >=inicio && importe.Fecha <=fin)  )
                 {
                     monto += importe.Monto;
                     cantidad++;
@@ -118,9 +118,14 @@ namespace Library
             return informacionVentas;
         }
 
-        public void ModificarDatos()
+        public void ModificarDatos(Cliente clienteMod)
         {
-            
+                foreach (var propiedad in clienteMod.GetType().GetProperties())
+                {
+                    var destinoProp = this.GetType().GetProperty(propiedad.Name);
+                    if (destinoProp != null && destinoProp.CanWrite)
+                        destinoProp.SetValue(this, propiedad.GetValue(clienteMod));
+                }
         }
     }
     }
