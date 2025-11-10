@@ -12,7 +12,7 @@ namespace Library
 
         }
     
-        public void CrearUsuario(Usuario usuario,GestionUsuario gestionUsuario)
+        public void CrearUsuario(Usuario usuario,IGestionUsuario gestionUsuario)
         {
             if (gestionUsuario.Usuarios.Contains(usuario))
             {
@@ -42,7 +42,7 @@ namespace Library
             usuario.Reactivar();
         }
 
-        public void EliminarUsuario(Usuario usuario, GestionUsuario gestionUsuario)
+        public void EliminarUsuario(Usuario usuario, IGestionUsuario gestionUsuario)
         {
             gestionUsuario.Usuarios.Remove(usuario);
         }

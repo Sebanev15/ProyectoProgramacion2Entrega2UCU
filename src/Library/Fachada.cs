@@ -155,23 +155,23 @@ namespace Library
         }
         
         // ------------------------------------- ADMINISTRACIÓN --------------------------------------------------------
-        public void AdminReactivarUsuario(Administrador admin, Usuario usuario)
+        public void ReactivarUsuario(Administrador admin, Usuario usuario)
         {
             _gestionUsuario.CrearUsuario(admin,usuario);
         }
-        public void AdminCrearUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
+        public void CrearUsuario(Administrador admin, Usuario usuario)
         {
-            admin.CrearUsuario(usuario,gestionUsuario);
+            admin.CrearUsuario(usuario,_gestionUsuario);
         }
 
-        public void AdminSuspenderUsuario(Administrador admin, Usuario usuario)
+        public void SuspenderUsuario(Administrador admin, Usuario usuario)
         {
             _gestionUsuario.ReactivarUsuario(admin, usuario);
         }
 
-        public void AdminEliminarUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
+        public void EliminarUsuario(Administrador admin, Usuario usuario)
         {
-            admin.EliminarUsuario(usuario, gestionUsuario);
+            admin.EliminarUsuario(usuario, _gestionUsuario);
         }
         
         public void AsignarOtroVendedor(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)

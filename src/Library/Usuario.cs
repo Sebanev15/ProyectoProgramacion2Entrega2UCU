@@ -22,7 +22,7 @@ namespace Library.abstractions
         public IGestionSistema GestionSistema;
         public bool EstaSuspendido { get; set; }
 
-        public Usuario(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema )
+        public Usuario(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario gestionUsuario)
         {
             this.Nombre = esteNombre;
             this.Correo = esteCorreo;
