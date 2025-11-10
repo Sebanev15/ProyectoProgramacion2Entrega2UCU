@@ -1,20 +1,45 @@
-﻿using Library.abstractions;
-using Library.interfaces;
+﻿using Library.interfaces;
 
-namespace Library
+namespace Library.abstractions
 {
-    public class Usuario: UsuarioBase
+    /// <summary>
+    /// Clase base para los usuarios del sistema.
+    /// haciendo esta clase abstracta, se cumple con OCP (Open/Closed Principle) ya que permitimos extender a nuevos tipos de usuarios y evitamos la modificacion directa de esta clase.
+    /// </summary>
+    public class Usuario
     {
+        public string Nombre { get; set; }
+        public string Correo { get; set; }
+        public string Telefono { get; set; }
+
         /// <summary>
-        /// Representa un usuario base sin privilegios especiales.
+        /// Referencia a la gestión del sistema
         /// </summary>
         /// <remarks>
-        /// **SOLID: Liskov Substitution Principle (LSP):**  Puede sustituir a 'UsuarioBase' en cualquier contexto sin alterar el comportamiento esperado, ya que no modifica ni restringe el contrato del tipo base.
+        /// **SOLID: Dependency Inversion Principle (DIP):** Depende de la ABSTRACCIÓN (`IGestionSistema`) y no de una clase concreta.
+        /// **GRASP: Low Coupling:** El acoplamiento es bajo porque depende de una interfaz y no de una implementación concreta.
         /// </remarks>
-        public Usuario(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
-            esteTelefono, estaGestionSistema)
-        {
+        public IGestionSistema GestionSistema;
+        public bool EstaSuspendido { get; set; }
 
+        public Usuario(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema )
+        {
+            this.Nombre = esteNombre;
+            this.Correo = esteCorreo;
+            this.Telefono = esteTelefono;
+            this.GestionSistema = estaGestionSistema;
+            this.EstaSuspendido = false;
+        }
+
+        
+        public void Suspender()
+        {
+            this.EstaSuspendido = true;
+        }
+
+        public void Reactivar()
+        {
+            this.EstaSuspendido = false;
         }
     }
 }

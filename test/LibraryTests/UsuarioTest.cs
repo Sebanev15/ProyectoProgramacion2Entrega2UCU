@@ -1,4 +1,5 @@
 using Library;
+using Library.abstractions;
 using NUnit.Framework;
 
 namespace LibraryTest

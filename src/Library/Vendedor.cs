@@ -4,7 +4,7 @@ using System;
 
 namespace Library
 {
-    public class Vendedor: UsuarioBase
+    public class Vendedor: Usuario
     {
         public Vendedor(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
             esteTelefono, estaGestionSistema)
