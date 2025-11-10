@@ -1,6 +1,5 @@
 using Library;
 using NUnit.Framework;
-using Library.abstractions;
 using Library.interfaces;
 using System.Collections.Generic;
 using System;
@@ -13,7 +12,7 @@ namespace LibraryTest
     {
 
         private IInteraccion interaccion;
-        private UsuarioBase usuarero;
+        private Usuario usuarero;
         private GestionCliente _gestionCliente;
         private Cliente jorjito;
         private List<IImporte> Importes;
