@@ -35,5 +35,17 @@ namespace Library
             Monto = monto;
             Cliente = cliente;
         }
+        public void ModificarImporte(IImporte importeMod)
+        {
+            if (importeMod is Cotizacion)
+            {
+                foreach (var propiedad in importeMod.GetType().GetProperties())
+                {
+                    var destinoProp = this.GetType().GetProperty(propiedad.Name);
+                    if (destinoProp != null && destinoProp.CanWrite)
+                        destinoProp.SetValue(this, propiedad.GetValue(importeMod));
+                }
+            }
+        }
     }
 }

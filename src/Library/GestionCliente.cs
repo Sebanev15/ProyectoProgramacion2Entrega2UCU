@@ -1,103 +1,61 @@
-﻿using Library.interfaces;
+using Library.abstractions;
+using Library.interfaces;
 using System.Collections.Generic;
 using System;
 
-
 namespace Library
 {
-    public class GestionCliente
+    public class GestionCliente: IGestionCliente
     {
         public List<IInteraccion> Interacciones { get; set; }
         public List<IImporte>Importes { get; set; }
         public List<Cliente> Clientes { get; set; }
         
-        public GestionCliente(){
+        public GestionCliente()
+        {
             this.Interacciones = new List<IInteraccion>();
             this.Importes = new List<IImporte>();
             this.Clientes = new List<Cliente>();
         }
-        
-        public List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
+
+        public void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion)
         {
-            List<IImporte> listaVentasTotales = new List<IImporte>();
-            foreach (IImporte venta in Importes)
+           cliente.RegistrarInteraccion(interaccion);
+        }
+
+        public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda, Cliente cliente)
+        {
+            return cliente.BuscarInteracciones(fecha, busqueda);
+        }
+
+        public void AgregarComentarioInteraccion(IInteraccion interaccion, string comentario)
+        {
+            interaccion.AgregarComentario(comentario);
+        }
+
+        public List<String> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
+        {
+            List<String> listaVentasTotales = new List<String>();
+            foreach (Cliente cliente in Clientes)
             {
-                if (venta.Fecha>=fechaInicio && venta.Fecha<=fechaFin)
-                {
-                    listaVentasTotales.Add(venta);
-                }
+                listaVentasTotales.Add(cliente.ObtenerVentasTotales(fechaInicio, fechaFin));
             }
             return listaVentasTotales;
         }
         
         public void AgregarImporte(IImporte importe, Cliente cliente){
-            if (!cliente.Importes.Contains(importe))
-            {
-                cliente.Importes.Add(importe);    
-            }
+            cliente.AgregarImporte(importe);
         }
-        
-        public void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion)
-        {
-            if(!cliente.Interacciones.Contains(interaccion))
-            {
-                cliente.Interacciones.Add(interaccion);
-            }
-        }
-        
-        public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda)
-        {
-            List<IInteraccion> resultadoInteracciones = new List<IInteraccion>();
-            foreach (IInteraccion interaccion in Interacciones)
-            {
-            
-
-                foreach (var informacionAtributo in interaccion.GetType().GetProperties())
-                {
-                    var valorAtributo = informacionAtributo.GetValue(interaccion);
-                    if (valorAtributo is string)
-                    {
-                  
-                        if (valorAtributo.Equals(busqueda) && !resultadoInteracciones.Contains(interaccion))
-                        {
-                            if (interaccion.Fecha==fecha)
-                            {
-                                resultadoInteracciones.Add(interaccion);
-                            }
-                        }
-                  
-                    }
-                }
-            
-            }
-            return resultadoInteracciones;
-        }
-        
-        public void AgregarComentario(IInteraccion interaccion, string comentario)
-        {
-            if (!interaccion.Comentarios.Contains(comentario))
-            {
-                interaccion.Comentarios.Add(comentario);
-            }
-        }
-        
-           public void AgregarCliente (Cliente cliente){
+    
+        public void AgregarCliente (Cliente cliente){
             if (!Clientes.Contains(cliente))
             {
                 this.Clientes.Add(cliente);    
             }
         }
         
-        public void ModificarCliente (Cliente clienteBase, Cliente clienteModificado){
-            if (Clientes.Contains(clienteBase))
-            {
-                    clienteBase.Nombre = clienteModificado.Nombre;
-                    clienteBase.Apellido = clienteModificado.Apellido;
-                    clienteBase.Correo = clienteModificado.Correo;
-                    clienteBase.Genero = clienteModificado.Genero;
-                    clienteBase.Telefono = clienteModificado.Telefono;
-                    clienteBase.FechaDeNacimiento = clienteModificado.FechaDeNacimiento;
-            }
+        public void ModificarCliente (Cliente clienteBase, Cliente clienteModificado){ 
+            clienteBase.ModificarDatos(clienteModificado);
         }
 
         public void EliminarCliente(Cliente cliente)
@@ -141,10 +99,7 @@ namespace Library
 
         public void AgregarEtiqueta(Cliente cliente, Etiqueta etiqueta)
         {
-            if (!cliente.Etiquetas.Contains(etiqueta))
-            {
-                cliente.Etiquetas.Add(etiqueta);
-            }
+            cliente.AgregarEtiqueta(etiqueta);
         }
 
         public List<Cliente> ObtenerClientesInactivos()
@@ -179,6 +134,18 @@ namespace Library
             }
             return resultadoClientesNoRespondidos;
         }
-    }
+
+        public void EliminarImporte(IImporte importe)
+        {
+            if (Importes.Contains(importe))
+            {
+                this.Importes.Remove(importe);    
+            }
+        }
+
+        public void ModificarImporte(IImporte importeBase, IImporte importeModificado)
+        {
+            importeBase.ModificarImporte(importeModificado);
+        }
     }
 }

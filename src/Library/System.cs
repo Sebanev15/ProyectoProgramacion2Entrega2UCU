@@ -6,6 +6,6 @@ namespace Library
     
     public class System
     {
-        public List<UsuarioBase> usuarios = new List<UsuarioBase>();
+        public List<Usuario> usuarios = new List<Usuario>();
     }
 }

@@ -14,11 +14,11 @@ namespace Library
         public string Tema { get; set; }
         public List<string> Comentarios { get; set; }
         public Cliente Cliente { get; set; }
-        public UsuarioBase Usuario { get; set; }
+        public Usuario Usuario { get; set; }
 
         public bool EsEnviado { get; set; }
     
-        public Mensaje(DateTime fecha, string tema, Cliente cliente, UsuarioBase usuario, bool esEnviado)
+        public Mensaje(DateTime fecha, string tema, Cliente cliente, Usuario usuario, bool esEnviado)
         {
             this.Fecha = fecha;
             this.Tema = tema;

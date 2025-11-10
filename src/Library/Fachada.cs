@@ -131,23 +131,23 @@ namespace Library
         }
         
         // ------------------------------------- ADMINISTRACIÓN --------------------------------------------------------
-        public static void AdminReactivarUsuario(Administrador admin, UsuarioBase usuario)
+        public static void AdminReactivarUsuario(Administrador admin, Usuario usuario)
         {
             admin.ReactivarUsuario(usuario);
         }
-        public void AdminCrearUsuario(Administrador admin, UsuarioBase usuario, System sistema)
+        public void AdminCrearUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
         {
-            admin.CrearUsuario(usuario,sistema);
+            admin.CrearUsuario(usuario,gestionUsuario);
         }
 
-        public static void AdminSuspenderUsuario(Administrador admin, UsuarioBase usuario)
+        public static void AdminSuspenderUsuario(Administrador admin, Usuario usuario)
         {
             admin.SuspenderUsuario(usuario);
         }
 
-        public void AdminEliminarUsuario(Administrador admin, UsuarioBase usuario, System sistema)
+        public void AdminEliminarUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
         {
-            admin.EliminarUsuario(usuario, sistema);
+            admin.EliminarUsuario(usuario, gestionUsuario);
         }
         
         // ------------------------------------- ASIGNACIÓN DE VENDEDORES ----------------------------------------------
