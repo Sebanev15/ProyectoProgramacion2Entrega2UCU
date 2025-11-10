@@ -5,8 +5,9 @@ namespace Library
 {
     public class Vendedor: Usuario
     {
-        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
-            esteTelefono, estaGestionCliente)
+
+        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionUsuario)
         {
 
         }
