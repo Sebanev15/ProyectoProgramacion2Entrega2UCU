@@ -10,6 +10,7 @@ namespace LibraryTest
 {
     public class ClienteTests
     {
+        private GestionCliente _gestionCliente;
         private Cliente j;
         private Usuario usuario;
         private IImporte venta;
@@ -17,8 +18,12 @@ namespace LibraryTest
         [SetUp]
         public void Setup()
         {
+            _gestionCliente = new GestionCliente();
+            usuario = new Usuario("perez", "perez@gmail.como", "099477123", _gestionCliente);
             j = new Cliente("Juan", "Sanchez", "099477123", "correo@mail.com", "Masculino", new DateTime(1997, 10, 24));
             venta = new Venta("producto1", new DateTime(2021, 10, 24), 10, j);
+            mensaje = new Mensaje(new DateTime(2021, 10, 24),"alo" , j, usuario, true);
+
         }
         
         [Test]
