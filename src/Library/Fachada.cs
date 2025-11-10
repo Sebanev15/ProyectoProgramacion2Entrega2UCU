@@ -25,8 +25,8 @@ namespace Library
     
     public class Fachada
     {
-        private IGestionCliente _gestionCliente;
-        private IGestionUsuario _gestionUsuario;
+        private IGestionCliente _gestionCliente { get; }
+        private IGestionUsuario _gestionUsuario { get; }
         
         private static Fachada _instance;
         private Fachada()
@@ -43,7 +43,16 @@ namespace Library
             }
             return _instance;
         }
+
+        public GestionCliente GetGestionCliente()
+        {
+            return _gestionCliente;
+        }
         
+        public GestionUsuario GetGestionUsuario()
+        {
+            return _gestionUsuario;
+        }
         // -------------------------------------- CREACIÓN DE ENTIDADES ------------------------------------------------
         public Cotizacion CrearCotizacion(DateTime fecha, double monto, Cliente cliente)
         {
