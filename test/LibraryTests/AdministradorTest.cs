@@ -3,6 +3,7 @@ using Library;
 using System;
 using System.IO;
 using Library.abstractions;
+using Library.interfaces;
 
 namespace LibraryTest
 {
@@ -11,8 +12,8 @@ namespace LibraryTest
 {
     private class UsuarioGenerico : UsuarioBase
     {
-        public UsuarioGenerico(string esteNombre, string esteCorreo, string esteTelefono) : base(esteNombre, esteCorreo,
-            esteTelefono)
+        public UsuarioGenerico(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionSistema)
         {
 
         }
@@ -26,10 +27,13 @@ namespace LibraryTest
     [SetUp]
     public void Setup()
     { 
-        administrador = new Administrador("Sebastian","seba@gmail.com","099111222");
+        IGestionSistema gestionSistemaAdmin = new GestionSistema();
+        administrador = new Administrador("Sebastian","seba@gmail.com","099111222", gestionSistemaAdmin);
         sistema = new Library.System();
-        usuarioGenerico1 = new UsuarioGenerico("NombreGenerico", "correo@gmail.com", "099222333");
-        usuarioGenerico2 = new UsuarioGenerico("NombreGenerico", "correo2@gmail.com", "099333444");
+        IGestionSistema gestionSistemaU1 = new GestionSistema();
+        IGestionSistema gestionSistemaU2 = new GestionSistema();
+        usuarioGenerico1 = new UsuarioGenerico("NombreGenerico", "correo@gmail.com", "099222333", gestionSistemaU1);
+        usuarioGenerico2 = new UsuarioGenerico("NombreGenerico", "correo2@gmail.com", "099333444", gestionSistemaU2);
         sistema.usuarios.Add(usuarioGenerico1);
     }
     [Test]
