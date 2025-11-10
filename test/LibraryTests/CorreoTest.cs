@@ -1,6 +1,5 @@
 using Library;
 using NUnit.Framework;
-using Library.abstractions;
 using System;
 
 namespace LibraryTests
@@ -18,7 +17,7 @@ namespace LibraryTests
         {
             randomDate = new DateTime(2025, 1, 1, 10, 30, 0);
             clientito = new Cliente("Juana", "de Arco", "12345678", "juanitayasabes@gmail.com", "F", randomDate);
-            usuarito = new Usuario("josefina", "josefina@gmail.com", "87654321", new GestionSistema());
+            usuarito = new Usuario("josefina", "josefina@gmail.com", "87654321", new GestionCliente());
             correito = new Correo(randomDate, "holaholahola", clientito, usuarito, true);
         }
 

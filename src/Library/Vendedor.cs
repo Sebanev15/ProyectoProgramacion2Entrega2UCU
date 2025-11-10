@@ -1,23 +1,22 @@
-﻿using Library.abstractions;
-using Library.interfaces;
+﻿using Library.interfaces;
 using System;
 
 namespace Library
 {
     public class Vendedor: Usuario
     {
-        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
-            esteTelefono, estaGestionSistema)
+        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionCliente)
         {
 
         }
         
         public void AsignarOtroVendedor(Vendedor vendedor, Cliente cliente)
         {
-            if (this.GestionSistema.Clientes.Contains(cliente))
+            if (this.GestionCliente.Clientes.Contains(cliente))
             {
-                this.GestionSistema.EliminarCliente(cliente);
-                vendedor.GestionSistema.AgregarCliente(cliente);    
+                this.GestionCliente.EliminarCliente(cliente);
+                vendedor.GestionCliente.AgregarCliente(cliente);    
             }
             else
             {

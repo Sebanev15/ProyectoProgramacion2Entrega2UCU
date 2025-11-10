@@ -1,5 +1,4 @@
 using Library;
-using Library.abstractions;
 using NUnit.Framework;
 
 namespace LibraryTest
@@ -11,7 +10,7 @@ namespace LibraryTest
         [SetUp]
         public void Setup()
         { 
-            usuario = new Usuario("Sebastian","seba@gmail.com","099111222", new GestionSistema());
+            usuario = new Usuario("Sebastian","seba@gmail.com","099111222", new GestionCliente());
         }
         [Test]
         public void ConstructorTest()

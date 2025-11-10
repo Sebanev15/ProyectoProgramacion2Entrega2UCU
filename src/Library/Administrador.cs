@@ -1,18 +1,17 @@
-﻿using Library.abstractions;
-using System;
+﻿using System;
 using Library.interfaces;
 
 namespace Library
 {
     public class Administrador: Usuario
     {
-        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
-            esteTelefono, estaGestionSistema)
+        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionCliente)
         {
 
         }
     
-        public void CrearUsuario(Usuario usuario,GestionUsuario gestionUsuario)
+        public void CrearUsuario(Usuario usuario,IGestionUsuario gestionUsuario)
         {
             if (gestionUsuario.Usuarios.Contains(usuario))
             {
@@ -42,7 +41,7 @@ namespace Library
             usuario.Reactivar();
         }
 
-        public void EliminarUsuario(Usuario usuario, GestionUsuario gestionUsuario)
+        public void EliminarUsuario(Usuario usuario, IGestionUsuario gestionUsuario)
         {
             gestionUsuario.Usuarios.Remove(usuario);
         }

@@ -15,11 +15,11 @@ namespace LibraryTest
     [SetUp]
     public void Setup()
     { 
-        vendedor1 = new Vendedor("Sebastian","seba@gmail.com","099111222", new GestionSistema());
-        vendedor2 = new Vendedor("Jose", "jose@gmail.com", "099000111", new GestionSistema());
+        vendedor1 = new Vendedor("Sebastian","seba@gmail.com","099111222", new GestionCliente());
+        vendedor2 = new Vendedor("Jose", "jose@gmail.com", "099000111", new GestionCliente());
         DateTime diaNacimiento = new DateTime(2000, 1, 1);
         cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", diaNacimiento);
-        vendedor1.GestionSistema.AgregarCliente(cliente);
+        vendedor1.GestionCliente.AgregarCliente(cliente);
     }
     
     [Test]
@@ -35,9 +35,9 @@ namespace LibraryTest
     public void AsignarOtroVendedorCorrectoTest()
     {
         vendedor1.AsignarOtroVendedor(vendedor2, cliente);
-        Assert.That(vendedor1.GestionSistema.Clientes.Count, Is.EqualTo(0));
-        Assert.That(vendedor2.GestionSistema.Clientes.Count, Is.EqualTo(1));
-        Assert.That(vendedor2.GestionSistema.Clientes.Contains(cliente));
+        Assert.That(vendedor1.GestionCliente.Clientes.Count, Is.EqualTo(0));
+        Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(1));
+        Assert.That(vendedor2.GestionCliente.Clientes.Contains(cliente));
     }
 
     [Test]
@@ -50,7 +50,7 @@ namespace LibraryTest
         string output = consoleOutput.ToString();
         
         Assert.That(output.Contains("ERROR: El cliente no existe"));
-        Assert.That(vendedor2.GestionSistema.Clientes.Count, Is.EqualTo(0));
+        Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(0));
 
     }
     

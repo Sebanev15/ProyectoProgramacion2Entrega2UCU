@@ -1,5 +1,4 @@
 using Library.interfaces;
-using Library.abstractions;
 using System;
 using System.Collections.Generic;
 namespace Library
@@ -26,6 +25,11 @@ namespace Library
             this.Usuario = usuario;
             this.EsEnviado = esEnviado;
             this.Comentarios = new List<string>();
+        }
+        
+        public void AgregarComentario(string comentario)
+        {
+            this.Comentarios.Add(comentario);
         }
     }
 }
