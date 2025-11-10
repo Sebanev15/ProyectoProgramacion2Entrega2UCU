@@ -5,29 +5,29 @@ using System.Collections.Generic;
 namespace Library
 {    
     /// <summary>
-    /// La clase actúa como una interfaz unificada que guia las operaciones principales del sistema.
+    /// La clase actúa como una interfaz unificada que guia las operaciones principales del Cliente.
     /// 
     /// Aplica Bajo Acoplamiento:
-    ///     Evita que otras capas dependan directamente de GestionSistema, manteniendo bajo acoplamiento.
+    ///     Evita que otras capas dependan directamente de GestionCliente, manteniendo bajo acoplamiento.
     ///
     /// Aplica Alta Cohesion:
-    ///     Centraliza las operaciones del sistema en un solo punto de acceso con una responsabilidad clara.
+    ///     Centraliza las operaciones del Cliente en un solo punto de acceso con una responsabilidad clara.
     ///
     /// Aplica DIP (Dependency Inversion Principle):
     ///     Las capas externas dependen de esta abstracción de alto nivel (la fachada),
     ///     no de las implementaciones concretas.
     ///
     /// Aplica el Patrón de diseño Fachada(lo es):
-    ///     Simplifica el uso del sistema al ofrecer una interfaz única y coherente para múltiples clases internas.
+    ///     Simplifica el uso del Cliente al ofrecer una interfaz única y coherente para múltiples clases internas.
     /// </summary>
     
     public class Fachada
     {
-        private GestionSistema _gestionSistema;
+        private GestionCliente _gestionCliente;
         private static Fachada _instance;
         private Fachada()
         {
-            _gestionSistema = new GestionSistema();
+            _gestionCliente = new GestionCliente();
         }
         
         public static Fachada GetInstancia()
@@ -63,70 +63,70 @@ namespace Library
         
         // -------------------------------------- GESTIÓN DE CLIENTES --------------------------------------------------
         public void AgregarCliente(Cliente cliente){
-            _gestionSistema.AgregarCliente(cliente);
+            _gestionCliente.AgregarCliente(cliente);
         }
         
         public void ModificarCliente (Cliente clienteBase, Cliente clienteModificado)
         {
-            _gestionSistema.ModificarCliente(clienteBase, clienteModificado);
+            _gestionCliente.ModificarCliente(clienteBase, clienteModificado);
         }
 
         public void EliminarCliente(Cliente cliente)
         {
-            _gestionSistema.EliminarCliente(cliente);
+            _gestionCliente.EliminarCliente(cliente);
         }
 
         public List<Cliente> BuscarCliente(string clienteBusqueda)
         {
-            return _gestionSistema.BuscarCliente(clienteBusqueda);
+            return _gestionCliente.BuscarCliente(clienteBusqueda);
         }
 
         public void ListarClientes()
         {
-            _gestionSistema.ListarClientes();
+            _gestionCliente.ListarClientes();
         }
         
         // -------------------------------------- ETIQUETAS ------------------------------------------------------------
         public void AgregarEtiqueta(Cliente cliente, Etiqueta etiqueta)
         {
-            _gestionSistema.AgregarEtiqueta(cliente, etiqueta);
+            _gestionCliente.AgregarEtiqueta(cliente, etiqueta);
         }
         
         // -------------------------------------- INFORMES Y CONSULTAS -------------------------------------------------
         public List<Cliente> ObtenerClientesInactivos()
         {
-            return _gestionSistema.ObtenerClientesInactivos();
+            return _gestionCliente.ObtenerClientesInactivos();
         }
 
         public List<Cliente> ObtenerClientesNoRespondidos()
         {
-            return _gestionSistema.ObtenerClientesNoRespondidos();
+            return _gestionCliente.ObtenerClientesNoRespondidos();
         }
 
-        public List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
+        public List<String> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
         {
-            return _gestionSistema.ObtenerVentasTotales(fechaInicio, fechaFin);
+            return _gestionCliente.ObtenerVentasTotales(fechaInicio, fechaFin);
         }
         
         // -------------------------------------- IMPORTES E INTERACCIONES ---------------------------------------------
         public void AgregarImporte(IImporte importe, Cliente cliente)
         {
-            _gestionSistema.AgregarImporte(importe, cliente);
+            _gestionCliente.AgregarImporte(importe, cliente);
         }
 
         public void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion)
         {
-            _gestionSistema.RegistrarInteraccion(cliente, interaccion);
+            _gestionCliente.RegistrarInteraccion(cliente, interaccion);
         }
 
-        public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda)
+        public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda, Cliente cliente)
         {
-            return _gestionSistema.BuscarInteracciones(fecha, busqueda);
+            return _gestionCliente.BuscarInteracciones(fecha, busqueda, cliente);
         }
 
         public void AgregarComentario(IInteraccion interaccion, string comentario)
         {
-            _gestionSistema.AgregarComentario(interaccion, comentario);
+            _gestionCliente.AgregarComentarioInteraccion(interaccion, comentario);
         }
         
         // ------------------------------------- ADMINISTRACIÓN --------------------------------------------------------

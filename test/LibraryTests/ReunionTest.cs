@@ -17,7 +17,7 @@ namespace LibraryTest
         {
             randomDate = new DateTime(2025, 1, 1, 10, 30, 0);
             clientito = new Cliente("Juana", "de Arco", "12345678", "juanitayasabes@gmail.com", "F", randomDate);
-            usuarito = new Usuario("josefina", "josefina@gmail.com", "87654321", new GestionSistema());
+            usuarito = new Usuario("josefina", "josefina@gmail.com", "87654321", new GestionCliente());
             reunioncita = new Reunion(randomDate, "holaholahola", clientito, usuarito, "1234 Calle");
         }
 

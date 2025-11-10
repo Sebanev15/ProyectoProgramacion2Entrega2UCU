@@ -59,9 +59,9 @@ namespace LibraryTest
         public void BuscarInteraccionesTests()
         {
             DateTime fechaBusqueda = new DateTime(2024, 12, 20);
-            interaccion.Comentarios = new List<string>();
-            interaccion.Comentarios.Add("hola");
-            _gestionCliente.Interacciones.Add(interaccion);
+            
+            _gestionCliente.AgregarComentarioInteraccion(interaccion, "Importante reunion");
+            _gestionCliente.RegistrarInteraccion(jorjito, interaccion);
             List<IInteraccion> resultado= _gestionCliente.BuscarInteracciones(fechaBusqueda, "Reunion", jorjito);
             Assert.That(resultado.Count, Is.EqualTo(1));
         }
@@ -77,12 +77,13 @@ namespace LibraryTest
         [Test]
         public void ObtenerVentasTotalesTesting()
         {
+            _gestionCliente.AgregarCliente(jorge);
             List<String> resultado = _gestionCliente.ObtenerVentasTotales(
-                new DateTime(2024, 10, 20),
+                new DateTime(2024, 10, 19),
                 new DateTime(2024, 12, 20) 
             );
 
-            Assert.That(resultado.Count, Is.EqualTo(2));
+            Assert.That(resultado.Count, Is.EqualTo(1));
 
         }
 

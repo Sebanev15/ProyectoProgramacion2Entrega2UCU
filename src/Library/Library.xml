@@ -4,7 +4,7 @@
         <name>Library</name>
     </assembly>
     <members>
-        <member name="M:Library.Administrador.SuspenderUsuario(Library.abstractions.Usuario)">
+        <member name="M:Library.Administrador.SuspenderUsuario(Library.Usuario)">
             <summary>
             Suspende las funciones de un usuario.
             </summary>
@@ -88,20 +88,20 @@
         </member>
         <member name="T:Library.Fachada">
              <summary>
-             La clase actúa como una interfaz unificada que guia las operaciones principales del sistema.
+             La clase actúa como una interfaz unificada que guia las operaciones principales del Cliente.
              
              Aplica Bajo Acoplamiento:
-                 Evita que otras capas dependan directamente de GestionSistema, manteniendo bajo acoplamiento.
+                 Evita que otras capas dependan directamente de GestionCliente, manteniendo bajo acoplamiento.
             
              Aplica Alta Cohesion:
-                 Centraliza las operaciones del sistema en un solo punto de acceso con una responsabilidad clara.
+                 Centraliza las operaciones del Cliente en un solo punto de acceso con una responsabilidad clara.
             
              Aplica DIP (Dependency Inversion Principle):
                  Las capas externas dependen de esta abstracción de alto nivel (la fachada),
                  no de las implementaciones concretas.
             
              Aplica el Patrón de diseño Fachada(lo es):
-                 Simplifica el uso del sistema al ofrecer una interfaz única y coherente para múltiples clases internas.
+                 Simplifica el uso del Cliente al ofrecer una interfaz única y coherente para múltiples clases internas.
              </summary>
         </member>
         <member name="T:Library.interfaces.IImporte">
@@ -155,18 +155,18 @@
             Es una interacción, por lo que depende de la interfaz IInteraccion.
             </summary>
         </member>
-        <member name="T:Library.abstractions.Usuario">
+        <member name="T:Library.Usuario">
             <summary>
-            Clase base para los usuarios del sistema.
+            Clase base para los usuarios del Cliente.
             haciendo esta clase abstracta, se cumple con OCP (Open/Closed Principle) ya que permitimos extender a nuevos tipos de usuarios y evitamos la modificacion directa de esta clase.
             </summary>
         </member>
-        <member name="F:Library.abstractions.Usuario.GestionSistema">
+        <member name="F:Library.Usuario.GestionCliente">
             <summary>
-            Referencia a la gestión del sistema
+            Referencia a la gestión del Cliente
             </summary>
             <remarks>
-            **SOLID: Dependency Inversion Principle (DIP):** Depende de la ABSTRACCIÓN (`IGestionSistema`) y no de una clase concreta.
+            **SOLID: Dependency Inversion Principle (DIP):** Depende de la ABSTRACCIÓN (`IGestionCliente`) y no de una clase concreta.
             **GRASP: Low Coupling:** El acoplamiento es bajo porque depende de una interfaz y no de una implementación concreta.
             </remarks>
         </member>
