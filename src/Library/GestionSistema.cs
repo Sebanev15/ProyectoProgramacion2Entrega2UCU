@@ -76,7 +76,7 @@ namespace Library
             }
             return listaVentasTotales;
         }
-
+        
         public void AgregarImporte(IImporte importe, Cliente cliente){
             if (!cliente.Importes.Contains(importe))
             {
