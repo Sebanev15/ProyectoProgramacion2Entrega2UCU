@@ -5,8 +5,8 @@ namespace Library
 {
     public class Administrador: Usuario
     {
-        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
-            esteTelefono, estaGestionCliente)
+        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario) : base(esteNombre, esteCorreo, 
+            esteTelefono, estaGestionUsuario)
         {
 
         }
