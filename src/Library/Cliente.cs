@@ -29,6 +29,60 @@ namespace Library
             this.Importes = new List<IImporte>();
             this.Interacciones = new List<IInteraccion>();
         }
-    }
-}
 
+        public void AgregarImporte(IImporte importe)
+        {
+            if (!Importes.Contains(importe))
+            {
+                this.Importes.Add(importe);
+            }
+        }
+        public void RegistrarInteraccion(IInteraccion interaccion)
+        {
+            if (!Interacciones.Contains(interaccion))
+            {
+                this.Interacciones.Add(interaccion);
+            }
+        }
+        
+        public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda)
+        {
+            List<IInteraccion> resultadoInteracciones = new List<IInteraccion>();
+            foreach (IInteraccion interaccion in Interacciones)
+            {
+                foreach (var informacionAtributo in interaccion.GetType().GetProperties())
+                {
+                    var valorAtributo = informacionAtributo.GetValue(interaccion);
+                    if (valorAtributo is string)
+                    {
+                        if (valorAtributo.Equals(busqueda) && !resultadoInteracciones.Contains(interaccion))
+                        {
+                            if (interaccion.Fecha==fecha)
+                            {
+                                resultadoInteracciones.Add(interaccion);
+                            }
+                        }
+                    }
+                }
+            }
+            return resultadoInteracciones;
+        }
+
+
+        public string ObtenerVentasTotales()
+        {
+            string retorno="0";
+            return retorno;
+        }
+
+        public void ModificarDatos()
+        {
+        }
+
+        public void AgregarEtiqueta()
+        {
+        }
+    }
+    }
+
+// NombreCliente las ventas totales(monto), cantidad de ventas 

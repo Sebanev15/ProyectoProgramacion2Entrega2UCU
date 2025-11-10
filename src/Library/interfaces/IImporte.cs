@@ -7,5 +7,10 @@ namespace Library.interfaces
         DateTime Fecha { get; set; }
         double Monto { get; set; }
         Cliente Cliente{ get; set; }
+
+        public void ModificarImporte(IImporte importeModificado)
+        {
+        }
+
     }
 }

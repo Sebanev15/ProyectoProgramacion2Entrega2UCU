@@ -1,34 +1,42 @@
-using Library.abstractions;
-using Library.interfaces;
+﻿using Library.interfaces;
 using System.Collections.Generic;
 using System;
 
+
 namespace Library
 {
-    /// <summary>
-    /// Esta clase representa a la gestion del sistema.
-    ///  Sigue los siguientes principios SOLID {
-    /// - DIP: Se le quita dependencia directa con otras clases al aplicar una interfaz
-    /// - SRP: Esta clase quita responsabilidades poco coherentes a Usuario
-    /// }
-    /// Sigue los siguientes patrones GRASP{
-    /// - Polimorfismo: Implemente una interfaz para la gestion para preever que haya otra gestion que ocupe los mismos metodos
-    ///   de forma distinta. 
-    /// } 
-    /// </summary>
-    public class GestionSistema: IGestionSistema
+    public class GestionCliente
     {
         public List<IInteraccion> Interacciones { get; set; }
         public List<IImporte>Importes { get; set; }
         public List<Cliente> Clientes { get; set; }
         
-        public GestionSistema()
-        {
+        public GestionCliente(){
             this.Interacciones = new List<IInteraccion>();
             this.Importes = new List<IImporte>();
             this.Clientes = new List<Cliente>();
         }
-
+        
+        public List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
+        {
+            List<IImporte> listaVentasTotales = new List<IImporte>();
+            foreach (IImporte venta in Importes)
+            {
+                if (venta.Fecha>=fechaInicio && venta.Fecha<=fechaFin)
+                {
+                    listaVentasTotales.Add(venta);
+                }
+            }
+            return listaVentasTotales;
+        }
+        
+        public void AgregarImporte(IImporte importe, Cliente cliente){
+            if (!cliente.Importes.Contains(importe))
+            {
+                cliente.Importes.Add(importe);    
+            }
+        }
+        
         public void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion)
         {
             if(!cliente.Interacciones.Contains(interaccion))
@@ -36,7 +44,7 @@ namespace Library
                 cliente.Interacciones.Add(interaccion);
             }
         }
-
+        
         public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda)
         {
             List<IInteraccion> resultadoInteracciones = new List<IInteraccion>();
@@ -64,7 +72,7 @@ namespace Library
             }
             return resultadoInteracciones;
         }
-
+        
         public void AgregarComentario(IInteraccion interaccion, string comentario)
         {
             if (!interaccion.Comentarios.Contains(comentario))
@@ -73,24 +81,7 @@ namespace Library
             }
         }
         
-       
-
-        public List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
-        {
-            List<IImporte> listaVentasTotales = new List<IImporte>();
-            foreach (IImporte venta in Importes)
-            {
-                if (venta.Fecha>=fechaInicio && venta.Fecha<=fechaFin)
-                {
-                    listaVentasTotales.Add(venta);
-                }
-            }
-            return listaVentasTotales;
-        }
-        
-      
-    
-        public void AgregarCliente (Cliente cliente){
+           public void AgregarCliente (Cliente cliente){
             if (!Clientes.Contains(cliente))
             {
                 this.Clientes.Add(cliente);    
@@ -188,5 +179,6 @@ namespace Library
             }
             return resultadoClientesNoRespondidos;
         }
+    }
     }
 }
