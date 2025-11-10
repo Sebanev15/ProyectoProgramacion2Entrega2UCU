@@ -24,7 +24,7 @@ namespace Library.interfaces
         string Tema { get; set; }
         List<string> Comentarios { get; set; }
         Cliente Cliente { get; set; }
-        UsuarioBase Usuario { get; set; }
+        Usuario Usuario { get; set; }
     }
 
 }

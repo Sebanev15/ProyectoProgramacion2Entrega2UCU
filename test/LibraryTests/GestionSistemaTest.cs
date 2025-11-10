@@ -13,7 +13,7 @@ namespace LibraryTest
     {
 
         private IInteraccion interaccion;
-        private UsuarioBase usuarero;
+        private Usuario usuarero;
         private GestionSistema _gestionSistema;
         private Cliente jorjito;
         private List<IImporte> Importes;

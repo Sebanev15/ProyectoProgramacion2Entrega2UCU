@@ -15,11 +15,11 @@ namespace Library
         public string Tema { get; set; }
         public List<string> Comentarios { get; set; }
         public Cliente Cliente { get; set; }
-        public UsuarioBase Usuario { get; set; }
+        public Usuario Usuario { get; set; }
     
         public string Direccion { get; set; }
     
-        public Reunion(DateTime fecha, string tema, Cliente cliente, UsuarioBase usuario, string direccion)
+        public Reunion(DateTime fecha, string tema, Cliente cliente, Usuario usuario, string direccion)
         {
             this.Fecha = fecha;
             this.Tema = tema;

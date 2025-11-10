@@ -15,9 +15,9 @@ namespace Library
         public string Tema { get; set; }
         public List<string> Comentarios { get; set; }
         public Cliente Cliente { get; set; }
-        public UsuarioBase Usuario { get; set; }
+        public Usuario Usuario { get; set; }
     
-        public Llamada(DateTime fecha, string tema, Cliente cliente, UsuarioBase usuario)
+        public Llamada(DateTime fecha, string tema, Cliente cliente, Usuario usuario)
         {
             this.Fecha = fecha;
             this.Tema = tema;

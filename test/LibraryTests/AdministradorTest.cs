@@ -10,7 +10,7 @@ namespace LibraryTest
     [TestFixture]
     public class AdministradorTest
 {
-    private class UsuarioGenerico : UsuarioBase
+    private class UsuarioGenerico : Usuario
     {
         public UsuarioGenerico(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
             esteTelefono, estaGestionSistema)
@@ -20,7 +20,7 @@ namespace LibraryTest
     }
     
     private Administrador administrador;
-    private Library.System sistema;
+    private Library.GestionUsuario gestionUsuario;
     private UsuarioGenerico usuarioGenerico1;
     private UsuarioGenerico usuarioGenerico2;
     
@@ -29,12 +29,12 @@ namespace LibraryTest
     { 
         IGestionSistema gestionSistemaAdmin = new GestionSistema();
         administrador = new Administrador("Sebastian","seba@gmail.com","099111222", gestionSistemaAdmin);
-        sistema = new Library.System();
+        gestionUsuario = new Library.GestionUsuario();
         IGestionSistema gestionSistemaU1 = new GestionSistema();
         IGestionSistema gestionSistemaU2 = new GestionSistema();
         usuarioGenerico1 = new UsuarioGenerico("NombreGenerico", "correo@gmail.com", "099222333", gestionSistemaU1);
         usuarioGenerico2 = new UsuarioGenerico("NombreGenerico", "correo2@gmail.com", "099333444", gestionSistemaU2);
-        sistema.usuarios.Add(usuarioGenerico1);
+        gestionUsuario.Usuarios.Add(usuarioGenerico1);
     }
     [Test]
     public void ConstructorTest()
@@ -47,9 +47,9 @@ namespace LibraryTest
     [Test]
     public void CrearUsuarioTest()
     {
-        administrador.CrearUsuario(usuarioGenerico2, sistema);
-        Assert.That(sistema.usuarios.Count, Is.EqualTo(2));
-        Assert.That(sistema.usuarios[1], Is.EqualTo(usuarioGenerico2));
+        administrador.CrearUsuario(usuarioGenerico2, gestionUsuario);
+        Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(2));
+        Assert.That(gestionUsuario.Usuarios[1], Is.EqualTo(usuarioGenerico2));
     }
 
     [Test]
@@ -58,7 +58,7 @@ namespace LibraryTest
         var consoleOutput = new StringWriter();
         Console.SetOut(consoleOutput);
         
-        administrador.CrearUsuario(usuarioGenerico1, sistema);
+        administrador.CrearUsuario(usuarioGenerico1, gestionUsuario);
         string output = consoleOutput.ToString();
         Assert.That(output.Contains("ERROR: No se pudo añadir el usuario al sistema"));
     }
@@ -74,8 +74,8 @@ namespace LibraryTest
     [Test]
     public void EliminarUsuarioTest()
     {
-        administrador.EliminarUsuario(usuarioGenerico1, sistema);
-        Assert.That(sistema.usuarios.Count, Is.EqualTo(0));
+        administrador.EliminarUsuario(usuarioGenerico1, gestionUsuario);
+        Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(0));
     }
 
     [Test]
@@ -83,7 +83,7 @@ namespace LibraryTest
     {
         var consoleOutput = new StringWriter();
         Console.SetOut(consoleOutput);
-        administrador.EliminarUsuario(usuarioGenerico2, sistema);
+        administrador.EliminarUsuario(usuarioGenerico2, gestionUsuario);
         string output = consoleOutput.ToString();
         Assert.That(output.Contains("ERROR: No se pudo eliminar el usuario porque no estaba en el sistema"));
     }

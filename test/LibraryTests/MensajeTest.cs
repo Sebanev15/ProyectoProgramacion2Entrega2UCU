@@ -11,7 +11,7 @@ namespace LibraryTest
         private Mensaje mensajito;
         private DateTime randomDate;
         private Cliente clientito;
-        private UsuarioBase usuarito;
+        private Usuario usuarito;
     
         [SetUp]
         public void Setup()
