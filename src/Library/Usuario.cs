@@ -20,15 +20,15 @@ namespace Library
         /// **SOLID: Dependency Inversion Principle (DIP):** Depende de la ABSTRACCIÓN (`IGestionCliente`) y no de una clase concreta.
         /// **GRASP: Low Coupling:** El acoplamiento es bajo porque depende de una interfaz y no de una implementación concreta.
         /// </remarks>
-        public IGestionCliente GestionCliente;
+        public IGestionUsuario GestionUsuario;
         public bool EstaSuspendido { get; set; }
 
-        public Usuario(string esteNombre, string esteCorreo, string esteTelefono, IGestionCliente estaGestionCliente )
+        public Usuario(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario )
         {
             this.Nombre = esteNombre;
             this.Correo = esteCorreo;
             this.Telefono = esteTelefono;
-            this.GestionCliente = estaGestionCliente;
+            this.GestionUsuario = estaGestionUsuario;
             this.EstaSuspendido = false;
         }
         
