@@ -25,9 +25,19 @@ namespace Library
     public class Fachada
     {
         private GestionSistema _gestionSistema;
-        public Fachada(GestionSistema gestionSistema)
+        private static Fachada _instance;
+        private Fachada()
         {
-            _gestionSistema = gestionSistema;
+            _gestionSistema = new GestionSistema();
+        }
+        
+        public static Fachada GetInstancia()
+        {
+            if (_instance == null)
+            {
+                _instance = new Fachada();
+            }
+            return _instance;
         }
         
         // -------------------------------------- CREACIÓN DE ENTIDADES ------------------------------------------------
