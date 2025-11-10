@@ -3,14 +3,14 @@ using NUnit.Framework;
 using Library;
 using System;
 using System.Collections.Generic;
-using Library.abstractions;
+
 
 
 namespace LibraryTest
 {
     public class ClienteTests
     {
-        private GestionCliente _gestionCliente;
+        private GestionUsuario gestionUsuario;
         private Cliente j;
         private Usuario usuario;
         private IImporte venta;
@@ -18,8 +18,8 @@ namespace LibraryTest
         [SetUp]
         public void Setup()
         {
-            _gestionCliente = new GestionCliente();
-            usuario = new Usuario("perez", "perez@gmail.como", "099477123", _gestionCliente);
+            gestionUsuario = new GestionUsuario();
+            usuario = new Usuario("perez", "perez@gmail.como", "099477123", gestionUsuario);
             j = new Cliente("Juan", "Sanchez", "099477123", "correo@mail.com", "Masculino", new DateTime(1997, 10, 24));
             venta = new Venta("producto1", new DateTime(2021, 10, 24), 10, j);
             mensaje = new Mensaje(new DateTime(2021, 10, 24),"alo" , j, usuario, true);
@@ -76,6 +76,18 @@ namespace LibraryTest
             Assert.That(j.Importes.Count, Is.EqualTo(1));
         }
 
-      
+        [Test]
+        public void VentasTotalesEnRangoEspecificoEncontradas()
+        {
+            venta = new Venta("producto1", new DateTime(2021, 10, 24), 10, j);
+            Venta venta1 = new Venta("producto2", new DateTime(2023, 10, 24), 10, j);
+            DateTime inicio=new DateTime(2020, 10, 24);
+            DateTime fin=new DateTime(2023, 10, 24);
+            j.AgregarImporte(venta);
+            j.AgregarImporte(venta1);
+            string ventas= j.ObtenerVentasTotales(inicio, fin);
+            Assert.That(ventas, Is.EqualTo("Juan: MontoTotal=20, cantidad de ventas=2"));
+        }
+
     }
 }
