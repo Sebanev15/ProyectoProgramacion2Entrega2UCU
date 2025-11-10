@@ -32,8 +32,6 @@ namespace Library
         {
             interaccion.AgregarComentario(comentario);
         }
-        
-       
 
         public List<String> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
         {
