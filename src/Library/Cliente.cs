@@ -37,6 +37,14 @@ namespace Library
                 this.Importes.Add(importe);
             }
         }
+        
+        public void AgregarEtiqueta(Etiqueta etiqueta)
+        {
+            if (!Etiquetas.Contains(etiqueta))
+            {
+                this.Etiquetas.Add(etiqueta);
+            }
+        }
         public void RegistrarInteraccion(IInteraccion interaccion)
         {
             if (!Interacciones.Contains(interaccion))
@@ -71,16 +79,26 @@ namespace Library
 
         public string ObtenerVentasTotales()
         {
-            string retorno="0";
-            return retorno;
+            string nombreCliente =this.Nombre;
+            double monto = 0;
+            int cantidad = 0;
+            
+            foreach (IImporte importe in Importes)
+            {
+                if (importe is Venta)
+                {
+                    monto += importe.Monto;
+                    cantidad++;
+                }
+            }
+            string montoTotal = monto.ToString("0.0");
+            string informacionVentas=$"{nombreCliente}: MontoTotal={montoTotal}, cantidad de ventas={cantidad} ";
+            return informacionVentas;
         }
 
         public void ModificarDatos()
         {
-        }
-
-        public void AgregarEtiqueta()
-        {
+            
         }
     }
     }
