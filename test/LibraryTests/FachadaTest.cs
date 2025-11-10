@@ -295,30 +295,32 @@ namespace LibraryTest
             _fachada.EliminarUsuario(administrador,usuarioGenerico1);
             Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(0));
         }
-/*
+
         [Test]
 
         public void AsignarOtroVendedorCorrectoTest()
         {
-            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333");
-            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333");
+            var gestionUsuario = _gestionUsuario;
+            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333", gestionUsuario);
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario);
 
             var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
             _fachada.AsignarOtroVendedor(vendedor1,vendedor2,cliente);
 
-            Assert.That(vendedor1.GestionSistema.Clientes.Count, Is.EqualTo(0));
-            Assert.That(vendedor2.GestionSistema.Clientes.Count, Is.EqualTo(1));
-            Assert.That(vendedor2.GestionSistema.Clientes.Contains(cliente));
+            Assert.That(vendedor1.GestionCliente.Clientes.Count, Is.EqualTo(0));
+            Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(1));
+            Assert.That(vendedor2.GestionCliente.Clientes.Contains(cliente));
         }
 
         [Test]
         public void AsignarOtroVendedorIncorrectoTest()
         {
-            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333");
-            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333");
+            var gestionUsuario = _gestionUsuario;
+            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333", gestionUsuario);
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario);
 
             var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
-            vendedor1.GestionSistema.AgregarCliente(cliente);
+            vendedor1.GestionCliente.AgregarCliente(cliente);
 
             var consoleOutput = new StringWriter();
             Console.SetOut(consoleOutput);
@@ -327,8 +329,7 @@ namespace LibraryTest
             string output = consoleOutput.ToString();
 
             Assert.That(output.Contains("ERROR: El cliente no existe"));
-            Assert.That(vendedor2.GestionSistema.Clientes.Count, Is.EqualTo(0));
+            Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(0));
         }
-        */
     }
 }
