@@ -4,6 +4,10 @@ using System;
 using System.Collections.Generic;
 namespace Library
 {
+    /// <summary>
+    /// Esta clase representa un mensaje al que se le puede asociar un cliente.
+    /// Es una interacción, por lo que depende de la interfaz IInteraccion.
+    /// </summary>
     public class Mensaje : IInteraccion
     {
         public DateTime Fecha { get; set; }
