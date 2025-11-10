@@ -1,13 +1,12 @@
-﻿using Library.abstractions;
-using System;
+﻿using System;
 using Library.interfaces;
 
 namespace Library
 {
     public class Administrador: Usuario
     {
-        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionSistema estaGestionSistema) : base(esteNombre, esteCorreo,
-            esteTelefono, estaGestionSistema)
+        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionCliente)
         {
 
         }

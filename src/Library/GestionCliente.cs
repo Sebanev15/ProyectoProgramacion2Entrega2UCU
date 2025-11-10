@@ -1,4 +1,3 @@
-using Library.abstractions;
 using Library.interfaces;
 using System.Collections.Generic;
 using System;
@@ -21,6 +20,7 @@ namespace Library
         public void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion)
         {
            cliente.RegistrarInteraccion(interaccion);
+            this.Interacciones.Add(interaccion);
         }
 
         public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda, Cliente cliente)
@@ -32,7 +32,7 @@ namespace Library
         {
             interaccion.AgregarComentario(comentario);
         }
-
+        
         public List<String> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
         {
             List<String> listaVentasTotales = new List<String>();

@@ -1,4 +1,3 @@
-using Library.abstractions;
 using System;
 using System.Collections.Generic;
 
@@ -25,8 +24,7 @@ namespace Library.interfaces
         List<string> Comentarios { get; set; }
         Cliente Cliente { get; set; }
         Usuario Usuario { get; set; }
+        void AgregarComentario(string comentario);
     }
-
-  
-
+    
 }
