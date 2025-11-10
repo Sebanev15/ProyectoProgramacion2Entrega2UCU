@@ -44,12 +44,12 @@ namespace Library
             return _instance;
         }
 
-        public GestionCliente GetGestionCliente()
+        public IGestionCliente GetGestionCliente()
         {
             return _gestionCliente;
         }
         
-        public GestionUsuario GetGestionUsuario()
+        public IGestionUsuario GetGestionUsuario()
         {
             return _gestionUsuario;
         }
@@ -78,7 +78,7 @@ namespace Library
         // -------------------------------------- ETIQUETAS ------------------------------------------------------------
         public void AgregarEtiqueta(Etiqueta etiqueta, Cliente cliente)
         {
-            _gestionCliente.AgregarEtiqueta(etiqueta, cliente);
+            _gestionCliente.AgregarEtiqueta(cliente, etiqueta);
         }
         
         // -------------------------------------- GESTIÓN DE CLIENTES --------------------------------------------------
@@ -118,7 +118,7 @@ namespace Library
             return _gestionCliente.ObtenerClientesNoRespondidos();
         }
 
-        public double ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
+        public List<string> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
         {
             return _gestionCliente.ObtenerVentasTotales(fechaInicio, fechaFin);
         }
@@ -136,7 +136,7 @@ namespace Library
 
         public void EliminarImporte(IImporte importe)
         {
-            _gestionCliente.EliminarImporte();
+            _gestionCliente.EliminarImporte(importe);
         }
 
         public void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion)
@@ -144,9 +144,9 @@ namespace Library
             _gestionCliente.RegistrarInteraccion(cliente, interaccion);
         }
 
-        public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda)
+        public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda, Cliente cliente)
         {
-            return _gestionCliente.BuscarInteracciones(fecha, busqueda);
+            return _gestionCliente.BuscarInteracciones(fecha, busqueda, cliente);
         }
 
         public void AgregarComentarioInteraccion(IInteraccion interaccion, string comentario)
@@ -155,18 +155,18 @@ namespace Library
         }
         
         // ------------------------------------- ADMINISTRACIÓN --------------------------------------------------------
-        public static void AdminReactivarUsuario(Administrador admin, Usuario usuario)
+        public void AdminReactivarUsuario(Administrador admin, Usuario usuario)
         {
-            _gestionUsuario.CrearUsuario(usuario);
+            _gestionUsuario.CrearUsuario(admin,usuario);
         }
         public void AdminCrearUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
         {
             admin.CrearUsuario(usuario,gestionUsuario);
         }
 
-        public static void AdminSuspenderUsuario(Administrador admin, Usuario usuario)
+        public void AdminSuspenderUsuario(Administrador admin, Usuario usuario)
         {
-            _gestionUsuario.ReactivarUsuario(usuario);
+            _gestionUsuario.ReactivarUsuario(admin, usuario);
         }
 
         public void AdminEliminarUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
