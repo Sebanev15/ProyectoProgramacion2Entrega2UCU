@@ -3,7 +3,7 @@ using System;
 
 namespace Library.interfaces
 {
-    public interface IGestionSistema
+    public interface IGestionCliente
     {
         List<IInteraccion> Interacciones { get; set; }
         List<IImporte>Importes { get; set; }
@@ -11,11 +11,11 @@ namespace Library.interfaces
 
         void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion);
 
-        List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda);
+        List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda, Cliente cliente);
 
-        void AgregarComentario(IInteraccion interaccion, string comentario);
+        void AgregarComentarioInteraccion(IInteraccion interaccion, string comentario);
 
-        List<IImporte> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin);
+        List<String> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin);
 
         void AgregarImporte(IImporte importe, Cliente cliente);
 
@@ -33,5 +33,8 @@ namespace Library.interfaces
         List<Cliente> ObtenerClientesInactivos();
 
         List<Cliente> ObtenerClientesNoRespondidos();
+        void ModificarImporte(IImporte importeBase, IImporte importeModificado);
+        
+        void EliminarImporte(IImporte importe);
     }
 }

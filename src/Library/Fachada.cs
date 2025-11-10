@@ -154,25 +154,24 @@ namespace Library
             _gestionCliente.AgregarComentarioInteraccion(interaccion, comentario);
         }
         
-        // ------------------------------------- GESTION DE USUARIO ----------------------------------------------------
-        public void CrearUsuario(Administrador admin, UsuarioBase usuario)
+        // ------------------------------------- ADMINISTRACIÓN --------------------------------------------------------
+        public static void AdminReactivarUsuario(Administrador admin, Usuario usuario)
         {
             _gestionUsuario.CrearUsuario(usuario);
         }
-
-        public void SuspenderUsuario(Administrador admin, UsuarioBase usuario)
+        public void AdminCrearUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
         {
-            _gestionUsuario.SuspenderUsuario(usuario);
+            admin.CrearUsuario(usuario,gestionUsuario);
         }
 
-        public void ReactivarUsuario(Administrador admin, UsuarioBase usuario)
+        public static void AdminSuspenderUsuario(Administrador admin, Usuario usuario)
         {
             _gestionUsuario.ReactivarUsuario(usuario);
         }
-        
-        public void EliminarUsuario(Administrador admin, UsuarioBase usuario)
+
+        public void AdminEliminarUsuario(Administrador admin, Usuario usuario, GestionUsuario gestionUsuario)
         {
-            _gestionUsuario.EliminarUsuario(usuario);
+            admin.EliminarUsuario(usuario, gestionUsuario);
         }
         
         public void AsignarOtroVendedor(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)

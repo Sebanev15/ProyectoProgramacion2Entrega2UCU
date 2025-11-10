@@ -4,5 +4,192 @@
         <name>Library</name>
     </assembly>
     <members>
+        <member name="M:Library.Administrador.SuspenderUsuario(Library.abstractions.Usuario)">
+            <summary>
+            Suspende las funciones de un usuario.
+            </summary>
+            <remarks> .
+            **SOLID: Liskov Substitution Principle (LSP):** El método recibe un 'UsuarioBase', permitiendo que cualquier subclase pueda ser suspendida.
+            **GRASP: Information Expert (Delegación):** El Administrador DELEGA la acción al objeto usuario, ya que el usuario es el experto en gestionar su propio estado.
+            </remarks>
+        </member>
+        <member name="P:Library.Cliente.Nombre">
+            <summary>
+            La clase representa a un cliente del sistema.
+            
+            Aplica SRP (Single Responsibility Principle):
+                Tiene una única responsabilidad (modelar los datos y relaciones de un cliente).
+            
+            Aplica alta cohesion y bajo acoplamiento:
+                Todos los atributos se relacionan directamente con el cliente (alta cohesión),
+                y depende de interfaces en lugar de clases concretas (bajo acoplamiento).
+            
+            Aplica DIP (Dependency Inversion Principle):
+                Depende de las abstracciones IInteraccion e IImporte, no de implementaciones concretas.
+            
+            Aplica Expert y Creator:
+                Es la experta en su propia información y crea internamente las listas que gestiona.
+            </summary>
+        </member>
+        <member name="M:Library.Cliente.#ctor(System.String,System.String,System.String,System.String,System.String,System.DateTime)">
+            <summary>
+            Aca aplica Creator: 
+                La clase Cliente es responsable de crear las listas que usará internamente.
+            </summary>
+        </member>
+        <member name="T:Library.Correo">
+            <summary>
+            Esta clase representa un correo al que se le puede asociar un cliente.
+            Es una interacción, por lo que depende de la interfaz IInteraccion.
+            </summary>
+        </member>
+        <member name="T:Library.Cotizacion">
+            <summary>
+            La clase representa una cotización hecha a un cliente.
+            
+            Aplica LSP (Liskov Substitution Principle):
+                Cotizacion puede reemplazar a cualquier otro objeto que implemente IImporte
+                sin afectar el funcionamiento del sistema.
+            
+            Usa el principio OCP (Open/Closed Principle) a través de IImporte:
+                Permite extender el sistema con nuevas clases de importes sin modificar código existente.
+            
+            Aplica Polimorfismo:
+                Permite tratar Cotizacion y Venta de forma uniforme a través de la interfaz IImporte.
+            
+            Aplica Expert y Alta Cohesion:
+                La clase maneja sus propios datos y se enfoca únicamente en representar una cotización.
+            </summary>
+        </member>
+        <member name="M:Library.Cotizacion.#ctor(System.DateTime,System.Double,Library.Cliente)">
+            <summary>
+            Aca aplica Expert: la clase conoce y gestiona su propia información.
+            </summary>
+        </member>
+        <member name="P:Library.Etiqueta.NombreEtiqueta">
+            <summary>
+            La clase representa una etiqueta que puede asociarse a varios clientes.
+            
+            Aplica Alta Cohesion:
+                La clase se enfoca en una sola responsabilidad, manejar el nombre de la etiqueta
+                y la lista de clientes asociados.
+            
+            Aplica Expert:
+                Es experta en su propia información (nombre y clientes), por lo que maneja esos datos directamente.
+            
+            Aplica Bajo Acoplamiento:
+                Depende solo de la clase Cliente, manteniendo bajo acoplamiento y facilitando la reutilización.
+            </summary>
+        </member>
+        <member name="M:Library.Etiqueta.#ctor(System.String)">
+            <summary>
+            Aca aplica Expert y Alta Cohesion: la clase gestiona sus propios datos.
+            </summary>
+        </member>
+        <member name="T:Library.Fachada">
+             <summary>
+             La clase actúa como una interfaz unificada que guia las operaciones principales del sistema.
+             
+             Aplica Bajo Acoplamiento:
+                 Evita que otras capas dependan directamente de GestionSistema, manteniendo bajo acoplamiento.
+            
+             Aplica Alta Cohesion:
+                 Centraliza las operaciones del sistema en un solo punto de acceso con una responsabilidad clara.
+            
+             Aplica DIP (Dependency Inversion Principle):
+                 Las capas externas dependen de esta abstracción de alto nivel (la fachada),
+                 no de las implementaciones concretas.
+            
+             Aplica el Patrón de diseño Fachada(lo es):
+                 Simplifica el uso del sistema al ofrecer una interfaz única y coherente para múltiples clases internas.
+             </summary>
+        </member>
+        <member name="T:Library.interfaces.IImporte">
+            <summary>
+            Esta interfaz define el contrato para cualquier tipo de importe del sistema.
+            
+            Aplica ISP (Interface Segregation Principle):
+                Expone solo las propiedades esenciales que todas las clases de importe deben tener.
+            
+            Aplica DIP (Dependency Inversion Principle):
+                Permite que las clases dependan de la abstracción IImporte en lugar de clases concretas (como Venta o Cotizacion).
+            
+            Aplica OCP (Open/Closed Principle):
+                Se pueden agregar nuevas clases que implementen IImporte sin modificar esta interfaz.
+            
+            Aplica bajo acoplamiento:
+                Disminuye el acoplamiento entre las clases del dominio al utilizar una interfaz común.
+            </summary>
+        </member>
+        <member name="T:Library.interfaces.IInteraccion">
+            <summary>
+            Esta interfaz define el contrato para los tipos de interacciones que puede tener un cliente
+            
+            Cumple con ISP (Interface Segregation Principle): Presenta únicamente las propiedades necesarias y que todas las
+            interacciones comparten.
+            Cumple con DIP (Dependency Inversion Principle): Permite que las clases dependan de la abstracción IInteraccion en
+            lugar de clases concretas (como Mensaje o Correo).
+            Cumple con OCP (Open/Closed Principle): Se pueden agregar nuevas clases que implementen IInteraccion sin modificar
+            esta interfaz ni alterar las clases que ya dependen de ésta.
+            Aplica Polimorfismo: Las clases que dependen de IInterfaz permiten llamar a sus métodos en común, es decir,
+            con la misma firma, de forma polimórfica (pueden ejecutarse todos con una sola instrucción).
+            Bajo acoplamiento: Disminuye las dependencias entre clases y el código repetido utilizando una abstracción.
+            
+            </summary>
+        </member>
+        <member name="T:Library.Llamada">
+            <summary>
+            Esta clase representa una llamada a la que se le puede asociar un cliente.
+            Es una interacción, por lo que depende de la interfaz IInteraccion.
+            </summary>
+        </member>
+        <member name="T:Library.Mensaje">
+            <summary>
+            Esta clase representa un mensaje al que se le puede asociar un cliente.
+            Es una interacción, por lo que depende de la interfaz IInteraccion.
+            </summary>
+        </member>
+        <member name="T:Library.Reunion">
+            <summary>
+            Esta clase representa una reunión a la que se le puede asociar un cliente.
+            Es una interacción, por lo que depende de la interfaz IInteraccion.
+            </summary>
+        </member>
+        <member name="T:Library.abstractions.Usuario">
+            <summary>
+            Clase base para los usuarios del sistema.
+            haciendo esta clase abstracta, se cumple con OCP (Open/Closed Principle) ya que permitimos extender a nuevos tipos de usuarios y evitamos la modificacion directa de esta clase.
+            </summary>
+        </member>
+        <member name="F:Library.abstractions.Usuario.GestionSistema">
+            <summary>
+            Referencia a la gestión del sistema
+            </summary>
+            <remarks>
+            **SOLID: Dependency Inversion Principle (DIP):** Depende de la ABSTRACCIÓN (`IGestionSistema`) y no de una clase concreta.
+            **GRASP: Low Coupling:** El acoplamiento es bajo porque depende de una interfaz y no de una implementación concreta.
+            </remarks>
+        </member>
+        <member name="T:Library.Venta">
+            <summary>
+            La clase representa una venta realizada a un cliente.
+            
+            Aplica LSP (Liskov Substitution Principle):
+                Puede reemplazar a cualquier objeto del tipo IImporte sin afectar el funcionamiento del sistema.
+            
+            Aplica Polimorfismo:
+                Permite usar Venta de forma polimórfica a través de la interfaz IImporte.
+            
+            Aplica alta cohesion y Expert:
+                Todos los atributos están directamente relacionados con una venta,
+                y la clase es experta en manejar su propia información.
+            </summary>
+        </member>
+        <member name="M:Library.Venta.#ctor(System.String,System.DateTime,System.Double,Library.Cliente)">
+            <summary>
+            Aca aplica Expert:
+                La clase es responsable de inicializar y conocer su propia información.
+            </summary>
+        </member>
     </members>
 </doc>
