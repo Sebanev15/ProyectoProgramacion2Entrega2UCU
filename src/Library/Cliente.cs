@@ -120,12 +120,7 @@ namespace Library
 
         public void ModificarDatos(Cliente clienteMod)
         {
-                foreach (var propiedad in clienteMod.GetType().GetProperties())
-                {
-                    var destinoProp = this.GetType().GetProperty(propiedad.Name);
-                    if (destinoProp != null && destinoProp.CanWrite)
-                        destinoProp.SetValue(this, propiedad.GetValue(clienteMod));
-                }
+                
         }
     }
     }
