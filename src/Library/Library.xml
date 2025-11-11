@@ -162,7 +162,7 @@
             haciendo esta clase abstracta, se cumple con OCP (Open/Closed Principle) ya que permitimos extender a nuevos tipos de usuarios y evitamos la modificacion directa de esta clase.
             </summary>
         </member>
-        <member name="F:Library.Usuario.GestionCliente">
+        <member name="F:Library.Usuario.GestionUsuario">
             <summary>
             Referencia a la gestión del Cliente
             </summary>
