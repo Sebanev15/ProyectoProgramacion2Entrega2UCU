@@ -66,6 +66,16 @@ namespace LibraryTest
         }
         
         [Test]
+        public void DeberiaPermitirAgregarEtiquetaSinDuplicar()
+        {
+            Etiqueta etiqueta = new Etiqueta("empresa");
+            j.AgregarEtiqueta(etiqueta);
+            Assert.That(j.Etiquetas.Count, Is.EqualTo(1));
+            j.AgregarEtiqueta(etiqueta);
+            Assert.That(j.Etiquetas.Count, Is.EqualTo(1));
+        }
+        
+        [Test]
         public void DeberiaPermitirAgregarInteraccionesSinDuplicar()
         {
             
@@ -89,5 +99,22 @@ namespace LibraryTest
             Assert.That(ventas, Is.EqualTo("Juan: MontoTotal=20, cantidad de ventas=2"));
         }
 
+        [Test]
+        public void BuscarInteraccionesEnRangoEspecifico()
+        {
+            IInteraccion interaccion = new Mensaje(new DateTime(2023, 10, 24), "hola", j, usuario, true );
+            j.RegistrarInteraccion(interaccion);
+            List<IInteraccion> resultado= j.BuscarInteracciones(new DateTime(2023, 10, 24), "hola");
+            Assert.That(resultado.Count, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void ModificarClienteRetornaDatosCorrectos()
+        {
+           Cliente jorge = new Cliente("Jorge", "Sanchez", "099477123", "correo@mail.com", "Masculino", new DateTime(1997, 10, 24));
+            j.ModificarDatos(jorge);
+            Assert.That(j.Nombre, Is.EqualTo("Jorge"));
+        }
+        
     }
 }
