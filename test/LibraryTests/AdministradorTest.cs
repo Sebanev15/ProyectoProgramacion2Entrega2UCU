@@ -8,7 +8,7 @@ namespace LibraryTest
 {
     [TestFixture]
     public class AdministradorTest
-{/*
+{
     private class UsuarioGenerico : Usuario
     {
         public UsuarioGenerico(string esteNombre, string esteCorreo, string esteTelefono, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
@@ -22,7 +22,7 @@ namespace LibraryTest
     private Library.GestionUsuario gestionUsuario;
     private UsuarioGenerico usuarioGenerico1;
     private UsuarioGenerico usuarioGenerico2;
-    /*
+    
     [SetUp]
     public void Setup()
     { 
@@ -85,6 +85,6 @@ namespace LibraryTest
         administrador.EliminarUsuario(usuarioGenerico2, gestionUsuario);
         string output = consoleOutput.ToString();
         Assert.That(output.Contains("ERROR: No se pudo eliminar el usuario porque no estaba en el Cliente"));
-    }*/
+    }
 }
 }
