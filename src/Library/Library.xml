@@ -88,21 +88,22 @@
         </member>
         <member name="T:Library.Fachada">
              <summary>
-             La clase actúa como una interfaz unificada que guia las operaciones principales del Cliente.
-             
+             La clase actúa como una interfaz unificada que guia las operaciones principales del sistema.
+             </summary>
+             <remarks>
              Aplica Bajo Acoplamiento:
-                 Evita que otras capas dependan directamente de GestionCliente, manteniendo bajo acoplamiento.
+                 Evita que otras capas dependan directamente de GestionSistema, manteniendo bajo acoplamiento.
             
              Aplica Alta Cohesion:
-                 Centraliza las operaciones del Cliente en un solo punto de acceso con una responsabilidad clara.
+                 Centraliza las operaciones del sistema en un solo punto de acceso con una responsabilidad clara.
             
              Aplica DIP (Dependency Inversion Principle):
                  Las capas externas dependen de esta abstracción de alto nivel (la fachada),
                  no de las implementaciones concretas.
             
              Aplica el Patrón de diseño Fachada(lo es):
-                 Simplifica el uso del Cliente al ofrecer una interfaz única y coherente para múltiples clases internas.
-             </summary>
+                 Simplifica el uso del sistema al ofrecer una interfaz única y coherente para múltiples clases internas.
+             </remarks>
         </member>
         <member name="T:Library.interfaces.IImporte">
             <summary>
@@ -161,7 +162,7 @@
             haciendo esta clase abstracta, se cumple con OCP (Open/Closed Principle) ya que permitimos extender a nuevos tipos de usuarios y evitamos la modificacion directa de esta clase.
             </summary>
         </member>
-        <member name="F:Library.Usuario.GestionCliente">
+        <member name="F:Library.Usuario.GestionUsuario">
             <summary>
             Referencia a la gestión del Cliente
             </summary>

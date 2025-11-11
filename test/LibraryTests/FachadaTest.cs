@@ -27,9 +27,9 @@ namespace LibraryTest
             _fachada = Fachada.GetInstancia();
             _gestionCliente = _fachada.GetGestionCliente();
             _gestionUsuario = _fachada.GetGestionUsuario();
-            _usuario = new Usuario("Usuariooo", "usuario@mail.com", "23423423",_gestionUsuario);
+            _usuario = new Usuario("Usuariooo", "usuario@mail.com", "23423423",_gestionUsuario,new GestionCliente());
             _interaccion = new Correo(_fecha, "importante", _cliente, _usuario, true);
-            _admin = new Administrador("Mauro", "mauroeladmin@gmail.com", "12341234",_gestionUsuario);
+            _admin = new Administrador("Mauro", "mauroeladmin@gmail.com", "12341234",_gestionUsuario,new GestionCliente());
             _etiqueta = new Etiqueta("Importante");
         }
 
@@ -264,8 +264,8 @@ namespace LibraryTest
         {
             var gestionUsuario = _gestionUsuario;
             var administrador = _admin;
-            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",gestionUsuario);
-            var usuarioGenerico2 = new Usuario("NombreGenerico", "correo2@gmail.com", "099333444",gestionUsuario);
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",gestionUsuario,new GestionCliente());
+            var usuarioGenerico2 = new Usuario("NombreGenerico", "correo2@gmail.com", "099333444",gestionUsuario,new GestionCliente());
             gestionUsuario.Usuarios.Add(usuarioGenerico1);
             _fachada.CrearUsuario(administrador, usuarioGenerico2);
             Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(2));
@@ -278,7 +278,7 @@ namespace LibraryTest
             var consoleOutput = new StringWriter();
             Console.SetOut(consoleOutput);
             var administrador = _admin;
-            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",_gestionUsuario);
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",_gestionUsuario,new GestionCliente());
             
             _fachada.CrearUsuario(administrador, usuarioGenerico1);
             string output = consoleOutput.ToString();
@@ -290,7 +290,7 @@ namespace LibraryTest
         {
             var administrador = _admin;
             var gestionUsuario = _gestionUsuario;
-            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333", _gestionUsuario);
+            var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333", _gestionUsuario,new GestionCliente());
             
             _fachada.EliminarUsuario(administrador,usuarioGenerico1);
             Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(0));

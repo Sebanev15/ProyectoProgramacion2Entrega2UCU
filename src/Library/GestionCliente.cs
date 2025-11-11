@@ -60,10 +60,7 @@ namespace Library
 
         public void EliminarCliente(Cliente cliente)
         {
-            if (Clientes.Contains(cliente))
-            {
-                this.Clientes.Remove(cliente);    
-            }
+            this.Clientes.Remove(cliente);
         }
 
         public List<Cliente> BuscarCliente(string clienteBusqueda)

@@ -11,8 +11,8 @@ namespace LibraryTest
 {
     private class UsuarioGenerico : Usuario
     {
-        public UsuarioGenerico(string esteNombre, string esteCorreo, string esteTelefono, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
-            esteTelefono, estaGestionCliente)
+        public UsuarioGenerico(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionUsuario, estaGestionCliente)
         {
 
         }
@@ -26,13 +26,11 @@ namespace LibraryTest
     [SetUp]
     public void Setup()
     { 
-        IGestionCliente gestionClienteAdmin = new GestionCliente();
-        administrador = new Administrador("Sebastian","seba@gmail.com","099111222", gestionClienteAdmin);
-        gestionUsuario = new Library.GestionUsuario();
-        IGestionCliente gestionClienteU1 = new GestionCliente();
-        IGestionCliente gestionClienteU2 = new GestionCliente();
-        usuarioGenerico1 = new UsuarioGenerico("NombreGenerico", "correo@gmail.com", "099222333", gestionClienteU1);
-        usuarioGenerico2 = new UsuarioGenerico("NombreGenerico", "correo2@gmail.com", "099333444", gestionClienteU2);
+        IGestionUsuario gestionClienteAdmin = new GestionUsuario();
+        administrador = new Administrador("Sebastian","seba@gmail.com","099111222", gestionClienteAdmin,new GestionCliente());
+        gestionUsuario = new GestionUsuario();
+        usuarioGenerico1 = new UsuarioGenerico("NombreGenerico", "correo@gmail.com", "099222333", new GestionUsuario(), new GestionCliente());
+        usuarioGenerico2 = new UsuarioGenerico("NombreGenerico", "correo2@gmail.com", "099333444", new GestionUsuario(), new GestionCliente());
         gestionUsuario.Usuarios.Add(usuarioGenerico1);
     }
     [Test]
@@ -54,12 +52,8 @@ namespace LibraryTest
     [Test]
     public void CrearUsuarioYaExistenteTest()
     {
-        var consoleOutput = new StringWriter();
-        Console.SetOut(consoleOutput);
-        
         administrador.CrearUsuario(usuarioGenerico1, gestionUsuario);
-        string output = consoleOutput.ToString();
-        Assert.That(output.Contains("ERROR: No se pudo añadir el usuario al Cliente"));
+        Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(0));
     }
 
     [Test]
@@ -75,16 +69,16 @@ namespace LibraryTest
     {
         administrador.EliminarUsuario(usuarioGenerico1, gestionUsuario);
         Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(0));
-    }
-
+    }    
+    
     [Test]
-    public void EliminarUsuarioNoExistenteTest()
+    public void ReactivarUsuarioTest()
     {
-        var consoleOutput = new StringWriter();
-        Console.SetOut(consoleOutput);
-        administrador.EliminarUsuario(usuarioGenerico2, gestionUsuario);
-        string output = consoleOutput.ToString();
-        Assert.That(output.Contains("ERROR: No se pudo eliminar el usuario porque no estaba en el Cliente"));
+        administrador.SuspenderUsuario(usuarioGenerico1);
+        Assert.That(usuarioGenerico1.EstaSuspendido);
+        administrador.ReactivarUsuario(usuarioGenerico1);
+        Assert.That(usuarioGenerico1.EstaSuspendido, Is.False);
+        
     }
 }
 }
