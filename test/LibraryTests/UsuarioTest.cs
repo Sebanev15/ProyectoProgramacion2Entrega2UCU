@@ -10,7 +10,7 @@ namespace LibraryTest
         [SetUp]
         public void Setup()
         { 
-            usuario = new Usuario("Sebastian","seba@gmail.com","099111222", new GestionCliente());
+            usuario = new Usuario("Sebastian","seba@gmail.com","099111222", new GestionUsuario());
         }
         [Test]
         public void ConstructorTest()
