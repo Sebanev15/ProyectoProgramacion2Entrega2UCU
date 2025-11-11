@@ -294,6 +294,7 @@ namespace LibraryTest
             var usuario = _usuario;
             var admin = _admin;
             var fachada = _fachada;
+            fachada.CrearUsuario(admin,usuario);
             fachada.SuspenderUsuario(admin,usuario);
             Assert.That(usuario.EstaSuspendido, Is.True);
             fachada.ReactivarUsuario(admin,usuario);
@@ -342,8 +343,9 @@ namespace LibraryTest
         public void AsignarOtroVendedorCorrectoTest()
         {
             var gestionUsuario = _gestionUsuario;
-            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333", gestionUsuario);
-            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario);
+            var gestionCliente = _gestionCliente;
+            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333", gestionUsuario, gestionCliente);
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario, gestionCliente);
 
             var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
             _fachada.AsignarOtroVendedor(vendedor1,vendedor2,cliente);
