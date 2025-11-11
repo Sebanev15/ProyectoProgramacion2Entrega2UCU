@@ -6,8 +6,8 @@ namespace Library
     public class Vendedor: Usuario
     {
 
-        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario) : base(esteNombre, esteCorreo,
-            esteTelefono, estaGestionUsuario)
+        public Vendedor(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario,  IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo,
+            esteTelefono, estaGestionUsuario,estaGestionCliente)
         {
 
         }
@@ -18,10 +18,6 @@ namespace Library
             {
                 this.GestionCliente.EliminarCliente(cliente);
                 vendedor.GestionCliente.AgregarCliente(cliente);    
-            }
-            else
-            {
-                Console.WriteLine("ERROR: El cliente no existe");
             }
         
         }

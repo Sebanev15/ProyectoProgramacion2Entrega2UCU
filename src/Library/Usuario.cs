@@ -26,13 +26,14 @@ namespace Library
         public IGestionCliente GestionCliente;
         public bool EstaSuspendido { get; set; }
 
-        public Usuario(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario )
+        public Usuario(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario, IGestionCliente estaGestionCliente )
         {
             this.Nombre = esteNombre;
             this.Correo = esteCorreo;
             this.Telefono = esteTelefono;
             this.GestionUsuario = estaGestionUsuario;
             this.EstaSuspendido = false;
+            this.GestionCliente = estaGestionCliente;
         }
         
         public void Suspender()

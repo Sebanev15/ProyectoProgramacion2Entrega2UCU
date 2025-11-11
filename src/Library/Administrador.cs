@@ -5,23 +5,18 @@ namespace Library
 {
     public class Administrador: Usuario
     {
-        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario) : base(esteNombre, esteCorreo, 
-            esteTelefono, estaGestionUsuario)
+        public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo, 
+            esteTelefono, estaGestionUsuario, estaGestionCliente)
         {
 
         }
     
         public void CrearUsuario(Usuario usuario,IGestionUsuario gestionUsuario)
         {
-            if (gestionUsuario.Usuarios.Contains(usuario))
-            {
-                
-            }
-            else
+            if (!gestionUsuario.Usuarios.Contains(usuario))
             {
                 gestionUsuario.Usuarios.Add(usuario);   
             }
-        
         }
 
         /// <summary>

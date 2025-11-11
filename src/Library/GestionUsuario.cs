@@ -7,6 +7,10 @@ namespace Library
     public class GestionUsuario: IGestionUsuario
     {
         public List<Usuario> Usuarios { get; set; }
+        public GestionUsuario()
+        {
+            this.Usuarios = new List<Usuario>();
+        }
         
         public void CrearUsuario(Administrador administrador, Usuario usuario)
         {
