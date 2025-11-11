@@ -12,6 +12,7 @@ namespace LibraryTest
     private Cliente cliente;
     private Vendedor vendedor1;
     private Vendedor vendedor2;
+    
     [SetUp]
     public void Setup()
     { 

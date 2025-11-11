@@ -28,7 +28,9 @@ namespace LibraryTest
             _gestionCliente = new GestionCliente();
             DateTime fechaN = new DateTime(2024, 10, 20);
             DateTime fechaReunion = new DateTime(2024, 12, 20);
+
             usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionUsuario(), new GestionCliente());
+
             jorjito = new Cliente("jorjito", "perez", "00", "monson@gmail.com", "M", fechaN);
             jorjito.Interacciones = new List<IInteraccion>();
             interaccion = new Reunion( fechaReunion, "Reunion", jorjito, usuarero, "Montevideo");
@@ -38,7 +40,9 @@ namespace LibraryTest
             DateTime fecha1 = new DateTime(2024, 11, 20);
             venta = new Venta("caja", fecha, 12, jorge);
             cotizacion = new Cotizacion(fecha1, 12, jorge);
+
             usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionUsuario(),new GestionCliente());
+
 
             Importes.Add(venta);
             Importes.Add(cotizacion);
@@ -187,6 +191,31 @@ namespace LibraryTest
              reunion.Comentarios.Add(comentario);
              resultado = _gestionCliente.ObtenerClientesNoRespondidos();
              Assert.That(resultado.Count, Is.EqualTo(0));
+         }
+
+         [Test]
+         public void EliminarImporteCorrectoTest()
+         {
+                _gestionCliente.EliminarImporte(venta);
+                Assert.That(_gestionCliente.Importes.Contains(venta), Is.False);
+         }
+         [Test]
+         public void EliminarImporteNoExistenteTest()
+         {
+             IImporte importeNoExistente = new Venta("noExiste", DateTime.Now, 50, jorge);
+             Assert.That(this.Importes.Contains(importeNoExistente), Is.False);
+             _gestionCliente.EliminarImporte(importeNoExistente);
+             Assert.That(this.Importes.Contains(importeNoExistente), Is.False);
+         }
+         
+         [Test]
+         public void ModificarImporteTest()
+         {
+             IImporte importeModificado = new Venta("cajaModificada", venta.Fecha, 20, jorge);
+             _gestionCliente.ModificarImporte(venta, importeModificado);
+             Assert.That(venta.Producto, Is.EqualTo("cajaModificada"));
+             Assert.That(venta.Monto, Is.EqualTo(20));
+             Assert.That(_gestionCliente.Importes.Contains(venta), Is.True);
          }
     }
 }

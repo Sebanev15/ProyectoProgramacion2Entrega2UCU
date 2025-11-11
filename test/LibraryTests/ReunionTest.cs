@@ -17,7 +17,9 @@ namespace LibraryTest
         {
             randomDate = new DateTime(2025, 1, 1, 10, 30, 0);
             clientito = new Cliente("Juana", "de Arco", "12345678", "juanitayasabes@gmail.com", "F", randomDate);
+
             usuarito = new Usuario("josefina", "josefina@gmail.com", "87654321", new GestionUsuario(),new GestionCliente());
+
             reunioncita = new Reunion(randomDate, "holaholahola", clientito, usuarito, "1234 Calle");
         }
 
@@ -29,6 +31,18 @@ namespace LibraryTest
             Assert.That(reunioncita.Cliente, Is.EqualTo(clientito));
             Assert.That(reunioncita.Usuario, Is.EqualTo(usuarito));
             Assert.That(reunioncita.Direccion, Is.EqualTo("1234 Calle"));
+        }
+        
+        [Test]
+        public void AgregarComentarioTest()
+        {
+            Assert.That(reunioncita.Comentarios.Count, Is.EqualTo(0));
+            reunioncita.AgregarComentario("Primer comentario");
+            Assert.That(reunioncita.Comentarios.Count, Is.EqualTo(1));
+            Assert.That(reunioncita.Comentarios[0], Is.EqualTo("Primer comentario"));
+            reunioncita.AgregarComentario("Segundo comentario");
+            Assert.That(reunioncita.Comentarios.Count, Is.EqualTo(2));
+            Assert.That(reunioncita.Comentarios[1], Is.EqualTo("Segundo comentario"));
         }
     }
 }
