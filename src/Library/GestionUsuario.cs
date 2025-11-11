@@ -11,6 +11,7 @@ namespace Library
         public void CrearUsuario(Administrador administrador, Usuario usuario)
         {
             administrador.CrearUsuario(usuario,this);
+            Usuarios = new List<Usuario>();
         }
 
         public void SuspenderUsuario(Administrador administrador, Usuario usuario)

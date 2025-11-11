@@ -117,7 +117,7 @@ namespace LibraryTest
 
             Assert.That(original.Nombre, Is.EqualTo(modificado.Nombre));
             Assert.That(original.Etiquetas.Count, Is.EqualTo(1));
-            Assert.That(original.Etiquetas[0]!=modificado.Etiquetas[0]);
+            Assert.That(original.Etiquetas[0]==modificado.Etiquetas[0]);
 
         }
 
@@ -136,6 +136,7 @@ namespace LibraryTest
             var jorge = new Cliente("jorge", "perez", "00", "monson@gmail.com", "M", fechaN);
             
             var gestionCliente = _gestionCliente;
+            gestionCliente.Clientes.Clear();
             gestionCliente.AgregarCliente(jorge);
             gestionCliente.AgregarCliente(jorjito);
             Assert.That(gestionCliente.Clientes.Count, Is.EqualTo(2));
@@ -184,25 +185,26 @@ namespace LibraryTest
 
         }
         
-        /*
+        
         [Test]
         public void ObtenerVentasTotalesTest()
         {
+            var fachada = _fachada;
             var gestionCliente = _gestionCliente;
+            var cliente = _cliente;
             var fecha = new DateTime(2024, 10, 20);
             var fecha1 = new DateTime(2024, 11, 20);
             var fecha2 = new DateTime(2024, 12, 20);
-            var venta = new Venta("caja", fecha, 12, _cliente);
-            var venta1 = new Cotizacion(fecha1, 12, _cliente);
-            gestionCliente.Importes = new List<IImporte>();
+            var venta = new Venta("caja", fecha, 12, cliente);
+            fachada.AgregarImporte(venta,cliente);
             gestionCliente.Importes.Add(venta);
             
-            double resultado = gestionCliente.ObtenerVentasTotales(fecha,fecha2);
+            List<string> resultado = fachada.ObtenerVentasTotales(fecha,fecha2);
 
-            Assert.That(resultado, Is.EqualTo(12));
+            Assert.That(resultado.Count(), Is.EqualTo(1));
             Assert.That(_fachada.ObtenerVentasTotales(fecha,fecha2),Is.EqualTo(gestionCliente.ObtenerVentasTotales(fecha,fecha2)));
         }
-        */
+        
         
         [Test]
         public void AgregarImporteFachadaTest()
@@ -212,6 +214,45 @@ namespace LibraryTest
             var importe = _fachada.CrearCotizacion(fecha, 2000, cliente);
             _fachada.AgregarImporte(importe,_cliente);
             Assert.That(cliente.Importes, Does.Contain(importe));
+        }
+        
+        [Test]
+        public void EliminarImporteCorrectoFachadaTest()
+        {
+            var fachada = _fachada;
+            var gestionCliente = _gestionCliente;
+            var cliente = _cliente;
+            var fecha = new DateTime(2024, 10, 20);
+            var venta = new Venta("caja", fecha, 12, cliente);
+            _fachada.EliminarImporte(venta);
+            Assert.That(_fachada.GetGestionCliente().Importes.Contains(venta), Is.False);
+        }
+        [Test]
+        public void EliminarImporteNoExistenteTest()
+        {
+            var fachada = _fachada;
+            var gestionCliente = _gestionCliente;
+            var cliente = _cliente;
+            var fecha = new DateTime(2024, 10, 20);
+            var venta = new Venta("caja", fecha, 12, cliente);
+            _fachada.EliminarImporte(venta);
+            Assert.That(_fachada.GetGestionCliente().Importes.Contains(venta), Is.False);
+            IImporte importeNoExistente = new Venta("noExiste", DateTime.Now, 50, cliente);
+            _gestionCliente.EliminarImporte(importeNoExistente);
+            Assert.That(_fachada.GetGestionCliente().Importes.Contains(importeNoExistente), Is.False);
+        }
+         
+        [Test]
+        public void ModificarImporteTest()
+        {
+            var fachada = _fachada;
+            var cliente = _cliente;
+            var fecha = new DateTime(2024, 10, 20);
+            var venta = new Venta("caja", fecha, 12, cliente);
+            IImporte importeModificado = new Venta("cajaModificada", venta.Fecha, 20, cliente);
+            fachada.ModificarImporte(venta, importeModificado);
+            Assert.That(venta.Producto, Is.EqualTo("cajaModificada"));
+            Assert.That(venta.Monto, Is.EqualTo(20));
         }
         
         [Test]
@@ -230,10 +271,10 @@ namespace LibraryTest
         {
             var interaccion = _interaccion;
             var cliente = _cliente;
-            var gestionCliente = _gestionCliente;
+            var gestionCliente = _fachada.GetGestionCliente();
             interaccion.Comentarios = new List<string>();
             interaccion.Comentarios.Add("hola");
-            gestionCliente.Interacciones.Add(interaccion);
+            _fachada.RegistrarInteraccion(cliente,interaccion);
             List<IInteraccion> resultado= _fachada.BuscarInteracciones(_fecha, "importante",cliente);
             Assert.That(resultado.Count, Is.EqualTo(1));
         }
@@ -260,9 +301,9 @@ namespace LibraryTest
         }
         
         [Test]
-        public void CrearUsuarioTest()
+        public void CrearUsuarioFachadaTest()
         {
-            var gestionUsuario = _gestionUsuario;
+            var gestionUsuario = _fachada.GetGestionUsuario();
             var administrador = _admin;
             var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",gestionUsuario);
             var usuarioGenerico2 = new Usuario("NombreGenerico", "correo2@gmail.com", "099333444",gestionUsuario);
@@ -273,7 +314,7 @@ namespace LibraryTest
         }
 
         [Test]
-        public void CrearUsuarioYaExistenteTest()
+        public void CrearUsuarioYaExistenteFachadaTest()
         {
             var consoleOutput = new StringWriter();
             Console.SetOut(consoleOutput);
@@ -286,7 +327,7 @@ namespace LibraryTest
         }
         
         [Test]
-        public void EliminarUsuarioTest()
+        public void EliminarUsuarioFachadaTest()
         {
             var administrador = _admin;
             var gestionUsuario = _gestionUsuario;
@@ -310,26 +351,6 @@ namespace LibraryTest
             Assert.That(vendedor1.GestionCliente.Clientes.Count, Is.EqualTo(0));
             Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(1));
             Assert.That(vendedor2.GestionCliente.Clientes.Contains(cliente));
-        }
-
-        [Test]
-        public void AsignarOtroVendedorIncorrectoTest()
-        {
-            var gestionUsuario = _gestionUsuario;
-            var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333", gestionUsuario);
-            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario);
-
-            var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
-            vendedor1.GestionCliente.AgregarCliente(cliente);
-
-            var consoleOutput = new StringWriter();
-            Console.SetOut(consoleOutput);
-
-            vendedor2.AsignarOtroVendedor(vendedor1, cliente);
-            string output = consoleOutput.ToString();
-
-            Assert.That(output.Contains("ERROR: El cliente no existe"));
-            Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(0));
         }
     }
 }

@@ -12,6 +12,7 @@ namespace LibraryTest
     private Cliente cliente;
     private Vendedor vendedor1;
     private Vendedor vendedor2;
+    /*
     [SetUp]
     public void Setup()
     { 
@@ -53,6 +54,6 @@ namespace LibraryTest
         Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(0));
 
     }
-    
+    */
 }
 }

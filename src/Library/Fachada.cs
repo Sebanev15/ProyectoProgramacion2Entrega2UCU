@@ -20,6 +20,10 @@ namespace Library
     ///
     /// Aplica el Patrón de diseño Fachada(lo es):
     ///     Simplifica el uso del sistema al ofrecer una interfaz única y coherente para múltiples clases internas.
+    ///
+    /// Aplica el Patrón de diseño Singleton:
+    ///     Se asegura que solo haya una instancia de Fachada haciendo el constructor privado y creando un método
+    ///     público de creación que chequee si ya hay una instancia [GetInstancia()].
     /// </remarks>
     
     public class Fachada
