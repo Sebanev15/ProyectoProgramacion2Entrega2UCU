@@ -114,20 +114,21 @@ namespace Library
                 }
             }
             string montoTotal = monto.ToString("0.0");
-            string informacionVentas=$"{nombreCliente}: MontoTotal={montoTotal}, cantidad de ventas={cantidad} ";
+            string informacionVentas=$"{nombreCliente}: MontoTotal={montoTotal}, cantidad de ventas={cantidad}";
             return informacionVentas;
         }
 
         public void ModificarDatos(Cliente clienteMod)
-        {
-                foreach (var propiedad in clienteMod.GetType().GetProperties())
+        { 
+            foreach (var propiedad in clienteMod.GetType().GetProperties())
                 {
                     var destinoProp = this.GetType().GetProperty(propiedad.Name);
                     if (destinoProp != null && destinoProp.CanWrite)
                         destinoProp.SetValue(this, propiedad.GetValue(clienteMod));
                 }
+            }   
         }
     }
-    }
+    
 
 // NombreCliente las ventas totales(monto), cantidad de ventas 

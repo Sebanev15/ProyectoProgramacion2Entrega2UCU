@@ -1,21 +1,31 @@
-using Library.interfaces;
+  using Library.interfaces;
 using NUnit.Framework;
 using Library;
 using System;
 using System.Collections.Generic;
 
 
+
 namespace LibraryTest
 {
     public class ClienteTests
     {
+        private GestionUsuario gestionUsuario;
         private Cliente j;
+        private Usuario usuario;
+        private IImporte venta;
+        private IInteraccion mensaje;
         [SetUp]
         public void Setup()
         {
+            gestionUsuario = new GestionUsuario();
+            usuario = new Usuario("perez", "perez@gmail.como", "099477123", gestionUsuario);
             j = new Cliente("Juan", "Sanchez", "099477123", "correo@mail.com", "Masculino", new DateTime(1997, 10, 24));
-        }
+            venta = new Venta("producto1", new DateTime(2021, 10, 24), 10, j);
+            mensaje = new Mensaje(new DateTime(2021, 10, 24),"alo" , j, usuario, true);
 
+        }
+        
         [Test]
         public void ConstructorTest()
         {
@@ -43,5 +53,68 @@ namespace LibraryTest
             Assert.That(j.Interacciones, Is.EqualTo(interacciones));
             Assert.That(j.Importes, Is.EqualTo(importes));
         }
+
+        [Test]
+        public void DeberiaPermitirAgregarImporteSinDuplicar()
+        {
+            
+            j.AgregarImporte(venta);
+            Assert.That(j.Importes.Count, Is.EqualTo(1));
+            Assert.That(j.Importes[0], Is.EqualTo(venta));
+            j.AgregarImporte(venta);
+            Assert.That(j.Importes.Count, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void DeberiaPermitirAgregarEtiquetaSinDuplicar()
+        {
+            Etiqueta etiqueta = new Etiqueta("empresa");
+            j.AgregarEtiqueta(etiqueta);
+            Assert.That(j.Etiquetas.Count, Is.EqualTo(1));
+            j.AgregarEtiqueta(etiqueta);
+            Assert.That(j.Etiquetas.Count, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void DeberiaPermitirAgregarInteraccionesSinDuplicar()
+        {
+            
+            j.RegistrarInteraccion(mensaje);
+            Assert.That(j.Importes.Count, Is.EqualTo(1));
+            Assert.That(j.Importes[0], Is.EqualTo(venta));
+            j.AgregarImporte(venta);
+            Assert.That(j.Importes.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void VentasTotalesEnRangoEspecificoEncontradas()
+        {
+            venta = new Venta("producto1", new DateTime(2021, 10, 24), 10, j);
+            Venta venta1 = new Venta("producto2", new DateTime(2023, 10, 24), 10, j);
+            DateTime inicio=new DateTime(2020, 10, 24);
+            DateTime fin=new DateTime(2023, 10, 24);
+            j.AgregarImporte(venta);
+            j.AgregarImporte(venta1);
+            string ventas= j.ObtenerVentasTotales(inicio, fin);
+            Assert.That(ventas, Is.EqualTo("Juan: MontoTotal=20, cantidad de ventas=2"));
+        }
+
+        [Test]
+        public void BuscarInteraccionesEnRangoEspecifico()
+        {
+            IInteraccion interaccion = new Mensaje(new DateTime(2023, 10, 24), "hola", j, usuario, true );
+            j.RegistrarInteraccion(interaccion);
+            List<IInteraccion> resultado= j.BuscarInteracciones(new DateTime(2023, 10, 24), "hola");
+            Assert.That(resultado.Count, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void ModificarClienteRetornaDatosCorrectos()
+        {
+           Cliente jorge = new Cliente("Jorge", "Sanchez", "099477123", "correo@mail.com", "Masculino", new DateTime(1997, 10, 24));
+            j.ModificarDatos(jorge);
+            Assert.That(j.Nombre, Is.EqualTo("Jorge"));
+        }
+        
     }
 }
