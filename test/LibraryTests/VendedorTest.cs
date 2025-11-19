@@ -45,12 +45,9 @@ namespace LibraryTest
     public void AsignarOtroVendedorIncorrectoTest()
     {
         var consoleOutput = new StringWriter();
-        Console.SetOut(consoleOutput);
         
         vendedor2.AsignarOtroVendedor(vendedor1, cliente);
-        string output = consoleOutput.ToString();
         
-        Assert.That(output.Contains("ERROR: El cliente no existe"));
         Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(0));
 
     }

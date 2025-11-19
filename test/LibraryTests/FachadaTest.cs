@@ -343,9 +343,11 @@ namespace LibraryTest
         public void AsignarOtroVendedorCorrectoTest()
         {
             var gestionUsuario = _gestionUsuario;
+            var gestionUsuario2 = new GestionUsuario();
             var gestionCliente = _gestionCliente;
+            var gestionCliente2 = new GestionCliente();
             var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333", gestionUsuario, gestionCliente);
-            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario, gestionCliente);
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario2, gestionCliente2);
 
             var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
             _fachada.AsignarOtroVendedor(vendedor1,vendedor2,cliente);
