@@ -1,0 +1,3 @@
+[submodule "bot/botProject"]
+	path = bot/botProject
+	url = https://github.com/ucudal/PII_DiscordBot_Demo
