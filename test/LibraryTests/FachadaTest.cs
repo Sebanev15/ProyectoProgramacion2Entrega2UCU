@@ -201,7 +201,7 @@ namespace LibraryTest
             
             List<string> resultado = fachada.ObtenerVentasTotales(fecha,fecha2);
 
-            Assert.That(resultado.Count(), Is.EqualTo(1));
+            Assert.That(resultado.Count, Is.EqualTo(1));
             Assert.That(_fachada.ObtenerVentasTotales(fecha,fecha2),Is.EqualTo(gestionCliente.ObtenerVentasTotales(fecha,fecha2)));
         }
         
