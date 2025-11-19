@@ -1,9 +1,8 @@
+using System;
 using Library;
 using NUnit.Framework;
-using Library.interfaces;
-using System;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     public class CotizacionTests
     {

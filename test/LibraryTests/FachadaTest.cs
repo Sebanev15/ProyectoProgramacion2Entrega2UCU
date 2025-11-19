@@ -1,11 +1,11 @@
-using Library;
-using NUnit.Framework;
-using Library.interfaces;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using Library;
+using Library.interfaces;
+using NUnit.Framework;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     [TestFixture]
     public class FachadaTest
