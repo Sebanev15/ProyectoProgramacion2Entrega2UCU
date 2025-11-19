@@ -1,11 +1,9 @@
-using Library.interfaces;
-using Library;
-using System.Collections.Generic;
 using System;
 using System.IO;
+using Library;
 using NUnit.Framework;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     public class VendedorTest
 {

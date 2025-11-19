@@ -1,7 +1,7 @@
 using Library;
 using NUnit.Framework;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     [TestFixture]
     public class UsuarioTest

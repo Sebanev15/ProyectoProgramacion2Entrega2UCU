@@ -1,8 +1,8 @@
+using System;
 using Library;
 using NUnit.Framework;
-using System;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     [TestFixture]
     public class MensajeTest

@@ -1,12 +1,10 @@
-using Library.interfaces;
-using NUnit.Framework;
-using Library;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Library;
+using Library.interfaces;
+using NUnit.Framework;
 
-
-namespace LibraryTest
+namespace LibraryTests
 {
     public class ClienteTests
     {

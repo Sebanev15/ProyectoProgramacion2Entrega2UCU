@@ -1,9 +1,8 @@
-using Library.interfaces;
-using Library;
 using System;
+using Library;
 using NUnit.Framework;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     public class VentaTests
     {

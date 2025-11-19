@@ -1,10 +1,9 @@
-using Library;
-using NUnit.Framework;
-using Library.interfaces;
 using System;
 using System.Collections.Generic;
+using Library;
+using NUnit.Framework;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     public class EtiquetaTests
     {
