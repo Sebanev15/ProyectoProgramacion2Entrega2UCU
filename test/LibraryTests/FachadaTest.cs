@@ -163,6 +163,7 @@ namespace LibraryTests
         {
             var usuario = _usuario;
             var gestionCliente = _gestionCliente;
+            gestionCliente.Clientes = new List<Cliente>();
             DateTime fechaN = new DateTime(2024, 10, 20);
             var jorjito = new Cliente("jorjito", "perez", "00", "monson@gmail.com", "M", fechaN);
             var jorge = new Cliente("jorge", "perez", "00", "monson@gmail.com", "M", fechaN);
@@ -191,7 +192,9 @@ namespace LibraryTests
         {
             var fachada = _fachada;
             var gestionCliente = _gestionCliente;
+            gestionCliente.Clientes = new List<Cliente>();
             var cliente = _cliente;
+            gestionCliente.Clientes.Add(cliente);
             var fecha = new DateTime(2024, 10, 20);
             var fecha1 = new DateTime(2024, 11, 20);
             var fecha2 = new DateTime(2024, 12, 20);
@@ -295,6 +298,7 @@ namespace LibraryTests
             var admin = _admin;
             var fachada = _fachada;
             fachada.CrearUsuario(admin,usuario);
+            Assert.That(usuario.EstaSuspendido, Is.False);
             fachada.SuspenderUsuario(admin,usuario);
             Assert.That(usuario.EstaSuspendido, Is.True);
             fachada.ReactivarUsuario(admin,usuario);
@@ -321,10 +325,11 @@ namespace LibraryTests
             Console.SetOut(consoleOutput);
             var administrador = _admin;
             var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",_gestionUsuario,new GestionCliente());
-            
+            administrador.GestionUsuario.Usuarios = new List<Usuario>();
             _fachada.CrearUsuario(administrador, usuarioGenerico1);
-            string output = consoleOutput.ToString();
-            Assert.That(output.Contains("ERROR: No se pudo añadir el usuario al sistema"));
+            _fachada.CrearUsuario(administrador, usuarioGenerico1);
+            Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(1));
+            
         }
         
         [Test]
@@ -332,8 +337,10 @@ namespace LibraryTests
         {
             var administrador = _admin;
             var gestionUsuario = _gestionUsuario;
+            administrador.GestionUsuario.Usuarios = new List<Usuario>();
             var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333", _gestionUsuario,new GestionCliente());
-            
+            _fachada.CrearUsuario(administrador, usuarioGenerico1);
+            Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(1));
             _fachada.EliminarUsuario(administrador,usuarioGenerico1);
             Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(0));
         }
@@ -343,11 +350,16 @@ namespace LibraryTests
         public void AsignarOtroVendedorCorrectoTest()
         {
             var gestionUsuario = _gestionUsuario;
+            var gestionUsuario2 = new GestionUsuario();
             var gestionCliente = _gestionCliente;
+            var gestionCliente2 = new GestionCliente();
             var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333", gestionUsuario, gestionCliente);
-            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario, gestionCliente);
-
+            var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario2, gestionCliente2);
+            
             var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
+            gestionCliente.AgregarCliente(cliente);
+            
+            Assert.That(vendedor1.GestionCliente.Clientes.Count, Is.EqualTo(1));
             _fachada.AsignarOtroVendedor(vendedor1,vendedor2,cliente);
 
             Assert.That(vendedor1.GestionCliente.Clientes.Count, Is.EqualTo(0));

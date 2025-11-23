@@ -95,7 +95,7 @@ namespace LibraryTests
         {
             j.AgregarImporte(importe);
             Assert.That(j.ObtenerVentasTotales(new DateTime(2024, 10, 19),new DateTime(2025, 10, 20)),
-                Is.EqualTo("Juan: MontoTotal=500,0, cantidad de ventas=1 "));
+                Is.EqualTo("Juan: MontoTotal=500,0, cantidad de ventas=1"));
         }
 
         [Test]
