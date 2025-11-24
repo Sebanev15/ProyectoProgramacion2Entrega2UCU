@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>PII_DiscordBot_Demo</UserSecretsId>
     <RootNamespace>Ucu.Poo.DiscordBot</RootNamespace>
-    <LangVersion>6</LangVersion>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -17,6 +17,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.10" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.10" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.10" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Library\Library.csproj" />
   </ItemGroup>
   
 </Project>
