@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace Library.interfaces
 {
+    /// <summary>
+    /// Interfaz que define las operaciones para la gestión de usuarios en el sistema.
+    /// </summary>
     public interface IGestionUsuario
     {
         List<Usuario> Usuarios { get; set; }
