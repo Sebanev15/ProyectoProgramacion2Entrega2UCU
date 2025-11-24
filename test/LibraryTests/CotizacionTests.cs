@@ -25,7 +25,7 @@ namespace LibraryTests
             Assert.That(c.Monto, Is.EqualTo(2000.0));
             Assert.That(c.Cliente, Is.EqualTo(j));
         }
-        
+        [Test]
         public void ModificarVentaRetornaDatosCorrectos()
         {
             c.ModificarImporte(c2);

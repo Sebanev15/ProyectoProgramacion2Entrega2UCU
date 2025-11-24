@@ -4,6 +4,30 @@
         <name>Library</name>
     </assembly>
     <members>
+        <member name="T:Library.Administrador">
+            <summary>
+            Esta clase representa a un Usuario de tipo Administrador, este tipo de Usuario tiene permisos para realizar operaciones sobre otras clases.
+            </summary>
+        </member>
+        <member name="M:Library.Administrador.#ctor(System.String,System.String,System.String,Library.interfaces.IGestionUsuario,Library.interfaces.IGestionCliente)">
+            <summary>
+            Constructor de la clase, Se pide el nombre, correo, telefono, gestionUsuario, GestionCliente
+            </summary>
+            <param name="esteNombre"></param> Nombre del Usuario Administrador.
+            <param name="esteCorreo"></param> Correo del Usuario Administrador.
+            <param name="esteTelefono"></param>Telefono del Usuario Administrador.
+            <param name="estaGestionUsuario"></param> Atributo GestionUsuario perteneciente al Usuario Administrador,
+            se usa para realizar operaciones especiales sobre los Usuarios.
+            <param name="estaGestionCliente"></param> Atributo GestionUsuario perteneciente al Usuario Administrador,
+            se usa para realizar operaciones especiales sobre los Clientes.
+        </member>
+        <member name="M:Library.Administrador.CrearUsuario(Library.Usuario,Library.interfaces.IGestionUsuario)">
+            <summary>
+            Añade un usuario a la lista de usuarios que contiene gestionUsuario.
+            </summary>
+            <param name="usuario"></param>
+            <param name="gestionUsuario"></param>
+        </member>
         <member name="M:Library.Administrador.SuspenderUsuario(Library.Usuario)">
             <summary>
             Suspende las funciones de un usuario.

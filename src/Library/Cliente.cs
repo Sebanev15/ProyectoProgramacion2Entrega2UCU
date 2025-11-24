@@ -51,7 +51,10 @@ namespace Library
             this.Importes = new List<IImporte>();
             this.Interacciones = new List<IInteraccion>();
         }
-
+        /// <summary>
+        /// Agrega un IImporte a la lista de importes del Cliente 
+        /// </summary>
+        /// <param name="importe"></param> Importe a agregar.
         public void AgregarImporte(IImporte importe)
         {
             if (!Importes.Contains(importe))
@@ -59,7 +62,10 @@ namespace Library
                 this.Importes.Add(importe);
             }
         }
-        
+        /// <summary>
+        /// Agrega una Etiqueta a la lista de etiquetas del Cliente.
+        /// </summary>
+        /// <param name="etiqueta"></param> Etiqueta a agregar.
         public void AgregarEtiqueta(Etiqueta etiqueta)
         {
             if (!Etiquetas.Contains(etiqueta))
@@ -67,6 +73,10 @@ namespace Library
                 this.Etiquetas.Add(etiqueta);
             }
         }
+        /// <summary>
+        /// Registra una interaccion a la lista de Interacciones del Cliente.
+        /// </summary>
+        /// <param name="interaccion"></param>La interaccion a registrar.
         public void RegistrarInteraccion(IInteraccion interaccion)
         {
             if (!Interacciones.Contains(interaccion))
@@ -74,7 +84,12 @@ namespace Library
                 this.Interacciones.Add(interaccion);
             }
         }
-        
+        /// <summary>
+        /// Retorna una lista de interacciones, con los parametros dados.
+        /// </summary>
+        /// <param name="fecha"></param>Fecha en cual se buscan las interacciones.
+        /// <param name="busqueda"></param>Mensaje especifico que se busca.
+        /// <returns></returns>
         public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda)
         {
             List<IInteraccion> resultadoInteracciones = new List<IInteraccion>();
