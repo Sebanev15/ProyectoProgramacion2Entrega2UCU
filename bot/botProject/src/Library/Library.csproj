@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>PII_DiscordBot_Demo</UserSecretsId>
     <RootNamespace>Ucu.Poo.DiscordBot</RootNamespace>
+    <AssemblyName>Ucu.Poo.DiscordBot</AssemblyName>
     <LangVersion>6</LangVersion>
   </PropertyGroup>
   
