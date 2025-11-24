@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace LibraryTests
 {
+    [TestFixture]
     public class VentaTests
     {
         private Venta v;

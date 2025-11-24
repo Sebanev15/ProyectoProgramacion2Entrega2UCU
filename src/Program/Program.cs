@@ -15,6 +15,6 @@ namespace ConsoleApplication
     /// </summary>
     public static class Program
     {
-        
+
     }
 }
