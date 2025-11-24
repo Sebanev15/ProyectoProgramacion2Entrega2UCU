@@ -4,6 +4,9 @@ using System;
 
 namespace Library
 {
+    /// <summary>
+    /// Clase que representa la gestion.
+    /// </summary>
     public class GestionCliente: IGestionCliente
     {
         public List<IInteraccion> Interacciones { get; set; }

@@ -4,33 +4,60 @@ using System;
 
 namespace Library
 {
+    /// <summary>
+    /// La clase representa a un cliente del sistema.
+    /// 
+    /// Aplica SRP (Single Responsibility Principle):
+    ///     Tiene una única responsabilidad (modelar los datos y relaciones de un cliente).
+    /// 
+    /// Aplica alta cohesion y bajo acoplamiento:
+    ///     Todos los atributos se relacionan directamente con el cliente (alta cohesión),
+    ///     y depende de interfaces en lugar de clases concretas (bajo acoplamiento).
+    /// 
+    /// Aplica DIP (Dependency Inversion Principle):
+    ///     Depende de las abstracciones IInteraccion e IImporte, no de implementaciones concretas.
+    /// 
+    /// Aplica Expert y Creator:
+    ///     Es la experta en su propia información y crea internamente las listas que gestiona.
+    /// </summary>
+    ///
     public class Cliente
     {    
-        /// <summary>
-        /// La clase representa a un cliente del sistema.
-        /// 
-        /// Aplica SRP (Single Responsibility Principle):
-        ///     Tiene una única responsabilidad (modelar los datos y relaciones de un cliente).
-        /// 
-        /// Aplica alta cohesion y bajo acoplamiento:
-        ///     Todos los atributos se relacionan directamente con el cliente (alta cohesión),
-        ///     y depende de interfaces en lugar de clases concretas (bajo acoplamiento).
-        /// 
-        /// Aplica DIP (Dependency Inversion Principle):
-        ///     Depende de las abstracciones IInteraccion e IImporte, no de implementaciones concretas.
-        /// 
-        /// Aplica Expert y Creator:
-        ///     Es la experta en su propia información y crea internamente las listas que gestiona.
+        ///<summary>
+        /// Nombre del Cliente
         /// </summary>
-        
         public string Nombre { get; set; }
+        /// <summary>
+        /// Apellido del Cliente.
+        /// </summary>
         public string Apellido { get; set; }
+        /// <summary>
+        /// Telefono del Cliente.
+        /// </summary>
         public string Telefono { get; set; }
+        /// <summary>
+        /// Correo del Cliente.
+        /// </summary>
         public string Correo { get; set; }
+        /// <summary>
+        /// Genero del Cliente.
+        /// </summary>
         public string Genero { get; set; }
+        /// <summary>
+        /// Fecha de Nacimiento del Cliente.
+        /// </summary>
         public DateTime FechaDeNacimiento { get; set; }
+        /// <summary>
+        /// Etiqueta/Categorizacion del Cliente.
+        /// </summary>
         public List<Etiqueta> Etiquetas { get; set; }
+        /// <summary>
+        /// Interacciones del Cliente.
+        /// </summary>
         public List<IInteraccion> Interacciones { get; set; }
+        /// <summary>
+        /// Importes del Cliente.
+        /// </summary>
         public List<IImporte> Importes { get; set; }
         
         /// <summary>
@@ -113,7 +140,12 @@ namespace Library
             return resultadoInteracciones;
         }
 
-
+        /// <summary>
+        /// Obtiene las ventas generadas en cierto rango de tiempo.
+        /// </summary>
+        /// <param name="inicio"></param> Fecha inicial de ventas
+        /// <param name="fin"></param> Fecha final de ventas.
+        /// <returns></returns>
         public string ObtenerVentasTotales(DateTime inicio, DateTime fin)
         {
             string nombreCliente =this.Nombre;
@@ -132,7 +164,10 @@ namespace Library
             string informacionVentas=$"{nombreCliente}: MontoTotal={montoTotal}, cantidad de ventas={cantidad}";
             return informacionVentas;
         }
-
+        /// <summary>
+        /// Modifica los datos del Cliente, cambia por los datos de 
+        /// </summary>
+        /// <param name="clienteMod"></param>
         public void ModificarDatos(Cliente clienteMod)
         { 
             foreach (var propiedad in clienteMod.GetType().GetProperties())
