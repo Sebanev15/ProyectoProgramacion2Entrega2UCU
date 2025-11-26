@@ -35,7 +35,8 @@ namespace LibraryTests
 
         [Test]
         public void CrearUsuario()
-        {            
+        {
+            _gestionUsuario.Usuarios = new List<Usuario>();
             Assert.That(_gestionUsuario.Usuarios.Count, Is.EqualTo(0));
             _gestionUsuario.CrearUsuario(_administrador, usuario);
             Assert.That(_gestionUsuario.Usuarios.Count, Is.EqualTo(1));

@@ -160,16 +160,16 @@ namespace Library
         // ------------------------------------- ADMINISTRACIÓN --------------------------------------------------------
         public void ReactivarUsuario(Administrador admin, Usuario usuario)
         {
-            _gestionUsuario.CrearUsuario(admin,usuario);
+            _gestionUsuario.ReactivarUsuario(admin,usuario);
         }
         public void CrearUsuario(Administrador admin, Usuario usuario)
         {
-            admin.CrearUsuario(usuario,_gestionUsuario);
+            admin.CrearUsuario(usuario,admin.GestionUsuario);
         }
 
         public void SuspenderUsuario(Administrador admin, Usuario usuario)
         {
-            _gestionUsuario.ReactivarUsuario(admin, usuario);
+            _gestionUsuario.SuspenderUsuario(admin, usuario);
         }
 
         public void EliminarUsuario(Administrador admin, Usuario usuario)

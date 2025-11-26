@@ -1,10 +1,10 @@
-using Library.interfaces;
-using Library;
 using System;
+using Library;
 using NUnit.Framework;
 
-namespace LibraryTest
+namespace LibraryTests
 {
+    [TestFixture]
     public class VentaTests
     {
         private Venta v;

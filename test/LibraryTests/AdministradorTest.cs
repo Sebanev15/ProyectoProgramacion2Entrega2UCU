@@ -1,10 +1,8 @@
-using NUnit.Framework;
 using Library;
-using System;
-using System.IO;
 using Library.interfaces;
+using NUnit.Framework;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     [TestFixture]
     public class AdministradorTest

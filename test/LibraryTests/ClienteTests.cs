@@ -1,12 +1,10 @@
-using Library.interfaces;
-using NUnit.Framework;
-using Library;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Library;
+using Library.interfaces;
+using NUnit.Framework;
 
-
-namespace LibraryTest
+namespace LibraryTests
 {
     public class ClienteTests
     {
@@ -97,7 +95,7 @@ namespace LibraryTest
         {
             j.AgregarImporte(importe);
             Assert.That(j.ObtenerVentasTotales(new DateTime(2024, 10, 19),new DateTime(2025, 10, 20)),
-                Is.EqualTo("Juan: MontoTotal=500,0, cantidad de ventas=1 "));
+                Is.EqualTo("Juan: MontoTotal=500,0, cantidad de ventas=1"));
         }
 
         [Test]

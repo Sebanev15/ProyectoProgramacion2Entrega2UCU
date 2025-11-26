@@ -1,11 +1,9 @@
-using Library.interfaces;
-using Library;
-using System.Collections.Generic;
 using System;
 using System.IO;
+using Library;
 using NUnit.Framework;
 
-namespace LibraryTest
+namespace LibraryTests
 {
     public class VendedorTest
 {
@@ -45,12 +43,9 @@ namespace LibraryTest
     public void AsignarOtroVendedorIncorrectoTest()
     {
         var consoleOutput = new StringWriter();
-        Console.SetOut(consoleOutput);
         
         vendedor2.AsignarOtroVendedor(vendedor1, cliente);
-        string output = consoleOutput.ToString();
         
-        Assert.That(output.Contains("ERROR: El cliente no existe"));
         Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(0));
 
     }

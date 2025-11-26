@@ -17,6 +17,7 @@ namespace ConsoleApplication
     /// </summary>
     internal static class Program
     {
+      botImplementation
         /// <summary>
         /// Punto de entrada al programa.
         /// </summary>
@@ -44,5 +45,6 @@ namespace ConsoleApplication
         {
             BotLoader.LoadAsync().GetAwaiter().GetResult();
         }
+
     }
 }
