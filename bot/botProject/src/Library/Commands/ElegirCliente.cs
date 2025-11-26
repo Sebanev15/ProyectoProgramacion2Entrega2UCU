@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Discord.Commands;
+using Library;
 
 namespace Ucu.Poo.DiscordBot.Commands
 {
@@ -10,7 +11,7 @@ namespace Ucu.Poo.DiscordBot.Commands
         {
             if (!SeleccionesUsuarios.OpcionesClientes.TryGetValue(Context.User.Id, out var lista))
             {
-                await ReplyAsync("No tenés ninguna selección activa. Usá `!crearCotizacion` primero.");
+                await ReplyAsync("No tenés ninguna selección activa.");
                 return;
             }
 
@@ -20,11 +21,11 @@ namespace Ucu.Poo.DiscordBot.Commands
                 return;
             }
 
-            var cliente = lista[numero - 1];
+            Cliente cliente = lista[numero - 1];
 
             await ReplyAsync(
-                $"✅ Seleccionaste: **{cliente.Nombre}**.\n" +
-                $"Ahora podés volver a ejecutar `!crearCotizacion` usando exactamente ese nombre.");
+                $" Seleccionaste: {cliente.Nombre}.\n" +
+                $"Ahora podés volver a ejecutar usando exactamente ese nombre.");
             
             SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
         }
