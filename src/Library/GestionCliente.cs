@@ -1,6 +1,7 @@
 using Library.interfaces;
 using System.Collections.Generic;
 using System;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
 {
@@ -39,6 +40,10 @@ namespace Library
             foreach (Cliente cliente in Clientes)
             {
                 listaVentasTotales.Add(cliente.ObtenerVentasTotales(fechaInicio, fechaFin));
+            }
+            if (listaVentasTotales.Count == 0)
+            {
+                throw new ListaVaciaExcepcion("Todavia no tenes ninguna venta");
             }
             return listaVentasTotales;
         }
@@ -113,6 +118,10 @@ namespace Library
                     }
                 }
             }
+            if (totalClientesInactivos.Count == 0)
+            {
+                throw new ListaVaciaExcepcion("No hay clientes inactivos");
+            }
             return totalClientesInactivos;
         }
 
@@ -128,6 +137,11 @@ namespace Library
                         resultadoClientesNoRespondidos.Add(cliente);
                     }
                 }
+            }            
+            if (resultadoClientesNoRespondidos.Count == 0)
+            {
+                throw new ListaVaciaExcepcion("No hay clientes sin responder");
+
             }
             return resultadoClientesNoRespondidos;
         }
