@@ -6,6 +6,6 @@ namespace Ucu.Poo.DiscordBot.Commands
 {
     public static class SeleccionesUsuarios
     {
-        public static Dictionary<ulong, List<Cliente>> OpcionesClientes = new();
+        public static Dictionary<ulong, List<Cliente>> OpcionesClientes = new Dictionary<ulong, List<Cliente>>();
     }
 }

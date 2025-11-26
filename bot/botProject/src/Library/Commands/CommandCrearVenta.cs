@@ -17,8 +17,7 @@ namespace Ucu.Poo.DiscordBot.Commands
         }
 
         [Command("crearVenta")]
-        
-        public async Task ExecuteAsync([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
+        public async Task ExecuteAsync(string producto, double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
             var clientes = _fachada.BuscarCliente(nombreCliente);
             
@@ -32,7 +31,7 @@ namespace Ucu.Poo.DiscordBot.Commands
             {
                 var cliente = clientes.First();
 
-                _fachada.CrearVenta(producto,fecha, monto, cliente);
+                _fachada.CrearVenta(producto, fecha, monto, cliente);
 
                 await ReplyAsync(
                     $"Venta creada para {cliente.Nombre}\n" +

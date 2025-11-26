@@ -22,20 +22,13 @@ namespace Ucu.Poo.DiscordBot.Services
         private readonly DiscordSocketClient client;
         private readonly CommandService commands;
 
-        public Bot(ILogger<Bot> logger, IConfiguration configuration)
+        // Constructor modificado: ahora recibe el cliente por inyección de dependencias
+        public Bot(ILogger<Bot> logger, IConfiguration configuration, DiscordSocketClient client)
         {
             this.logger = logger;
             this.configuration = configuration;
+            this.client = client; // Usar el cliente inyectado en lugar de crear uno nuevo
 
-            DiscordSocketConfig config = new DiscordSocketConfig()
-            {
-                AlwaysDownloadUsers = true,
-                GatewayIntents =
-                    GatewayIntents.AllUnprivileged
-                    | GatewayIntents.MessageContent
-            };
-
-            client = new DiscordSocketClient(config);
             commands = new CommandService();
         }
 

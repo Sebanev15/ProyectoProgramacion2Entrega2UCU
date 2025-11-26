@@ -8,8 +8,6 @@ using System;
 using Ucu.Poo.DiscordBot.Domain;
 using Ucu.Poo.DiscordBot.Services;
 
-
-
 namespace ConsoleApplication
 {
     /// <summary>
@@ -17,11 +15,10 @@ namespace ConsoleApplication
     /// </summary>
     internal static class Program
     {
-      botImplementation
         /// <summary>
         /// Punto de entrada al programa.
         /// </summary>
-        private static void Main(string [] args)
+        private static void Main(string[] args)
         {
             if (args.Length != 0)
             {
@@ -33,7 +30,7 @@ namespace ConsoleApplication
             }
         }
 
-        private static void DemoFacade(string [] args)
+        private static void DemoFacade(string[] args)
         {
             if (args.Length > 0)
             {
@@ -43,8 +40,8 @@ namespace ConsoleApplication
 
         private static void DemoBot()
         {
+            // Volvemos a la llamada bloqueante para evitar el error de versión de C#
             BotLoader.LoadAsync().GetAwaiter().GetResult();
         }
-
     }
 }

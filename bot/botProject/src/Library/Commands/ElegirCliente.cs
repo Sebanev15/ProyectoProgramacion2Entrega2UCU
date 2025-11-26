@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Library;
@@ -9,7 +10,8 @@ namespace Ucu.Poo.DiscordBot.Commands
         [Command("elegirCliente")]
         public async Task ElegirClienteAsync(int numero)
         {
-            if (!SeleccionesUsuarios.OpcionesClientes.TryGetValue(Context.User.Id, out var lista))
+            List<Cliente> lista;
+            if (!SeleccionesUsuarios.OpcionesClientes.TryGetValue(Context.User.Id, out lista))
             {
                 await ReplyAsync("No tenés ninguna selección activa.");
                 return;
