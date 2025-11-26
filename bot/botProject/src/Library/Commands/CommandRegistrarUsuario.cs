@@ -6,21 +6,21 @@ using Discord.Commands;
 using Library;
 using Ucu.Poo.DiscordBot.Domain;
 
-public class CommandCrearEtiqueta : ModuleBase<SocketCommandContext>
+public class CommandReistrarUsuario : ModuleBase<SocketCommandContext>
 {
     private readonly Fachada _fachada;
 
-    CommandCrearEtiqueta(Fachada fachada)
+    CommandReistrarUsuario(Fachada fachada)
     {
         _fachada = fachada;
     }
-    [Command("crearEtiqueta")]
-    public async Task ExecuteAsync(string nombre)
+    [Command("registrarUsuario")]
+    public async Task ExecuteAsync(Administrador administrador, Usuario usuario)
     {
         try
         {
-            _fachada.CrearEtiqueta(nombre);
-            await ReplyAsync($"Se creó la etiqueta {nombre}");
+            _fachada.RegistrarUsuario(administrador, usuario);
+            await ReplyAsync($"Se registro al usuario {usuario.Nombre}");
         }
         catch (CampoInvalidoExepcion e)
         {
