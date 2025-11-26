@@ -42,7 +42,7 @@ namespace LibraryTests
     [Test]
     public void CrearUsuarioTest()
     {
-        administrador.CrearUsuario(usuarioGenerico2, gestionUsuario);
+        administrador.RegistrarUsuario(usuarioGenerico2, gestionUsuario);
         Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(2));
         Assert.That(gestionUsuario.Usuarios[1], Is.EqualTo(usuarioGenerico2));
     }
@@ -50,7 +50,7 @@ namespace LibraryTests
     [Test]
     public void CrearUsuarioYaExistenteTest()
     {
-        administrador.CrearUsuario(usuarioGenerico1, gestionUsuario);
+        administrador.RegistrarUsuario(usuarioGenerico1, gestionUsuario);
         Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(0));
     }
 

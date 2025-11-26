@@ -1,5 +1,6 @@
 using Library.interfaces;
 using System.Collections.Generic;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
 {
@@ -28,7 +29,14 @@ namespace Library
         
         public Etiqueta(string nombreEtiqueta)
         {
-            NombreEtiqueta = nombreEtiqueta;
+            if (nombreEtiqueta == null)
+            {
+                throw new CampoInvalidoExepcion("El nombre de la etiqueta no puede estar vacío.");
+            }
+            else
+            {
+                NombreEtiqueta = nombreEtiqueta;
+            }
         }
     }
 }

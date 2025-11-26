@@ -1,6 +1,7 @@
 using Library.interfaces;
 using System;
 using System.Collections.Generic;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
 {    
@@ -66,7 +67,7 @@ namespace Library
         {
             return new Venta(producto,fecha, monto, cliente);
         }
-        
+
         public Cliente CrearCliente(string nombre, string apellido, string telefono, string correo, string genero,
             DateTime fechaDeNacimiento)
         {
@@ -75,7 +76,7 @@ namespace Library
         
         public Etiqueta CrearEtiqueta(string nombreEtiqueta)
         {
-            return new Etiqueta(nombreEtiqueta);
+                return new Etiqueta(nombreEtiqueta);
         }
         
         // -------------------------------------- ETIQUETAS ------------------------------------------------------------
@@ -162,9 +163,9 @@ namespace Library
         {
             _gestionUsuario.ReactivarUsuario(admin,usuario);
         }
-        public void CrearUsuario(Administrador admin, Usuario usuario)
+        public void RegistrarUsuario(Administrador admin, Usuario usuario)
         {
-            admin.CrearUsuario(usuario,admin.GestionUsuario);
+            admin.RegistrarUsuario(usuario,admin.GestionUsuario);
         }
 
         public void SuspenderUsuario(Administrador admin, Usuario usuario)

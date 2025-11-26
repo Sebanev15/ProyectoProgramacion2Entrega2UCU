@@ -297,7 +297,7 @@ namespace LibraryTests
             var usuario = _usuario;
             var admin = _admin;
             var fachada = _fachada;
-            fachada.CrearUsuario(admin,usuario);
+            fachada.RegistrarUsuario(admin,usuario);
             Assert.That(usuario.EstaSuspendido, Is.False);
             fachada.SuspenderUsuario(admin,usuario);
             Assert.That(usuario.EstaSuspendido, Is.True);
@@ -313,7 +313,7 @@ namespace LibraryTests
             var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",gestionUsuario,new GestionCliente());
             var usuarioGenerico2 = new Usuario("NombreGenerico", "correo2@gmail.com", "099333444",gestionUsuario,new GestionCliente());
             gestionUsuario.Usuarios.Add(usuarioGenerico1);
-            _fachada.CrearUsuario(administrador, usuarioGenerico2);
+            _fachada.RegistrarUsuario(administrador, usuarioGenerico2);
             Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(2));
             Assert.That(gestionUsuario.Usuarios[1], Is.EqualTo(usuarioGenerico2));
         }
@@ -326,8 +326,8 @@ namespace LibraryTests
             var administrador = _admin;
             var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",_gestionUsuario,new GestionCliente());
             administrador.GestionUsuario.Usuarios = new List<Usuario>();
-            _fachada.CrearUsuario(administrador, usuarioGenerico1);
-            _fachada.CrearUsuario(administrador, usuarioGenerico1);
+            _fachada.RegistrarUsuario(administrador, usuarioGenerico1);
+            _fachada.RegistrarUsuario(administrador, usuarioGenerico1);
             Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(1));
             
         }
@@ -339,7 +339,7 @@ namespace LibraryTests
             var gestionUsuario = _gestionUsuario;
             administrador.GestionUsuario.Usuarios = new List<Usuario>();
             var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333", _gestionUsuario,new GestionCliente());
-            _fachada.CrearUsuario(administrador, usuarioGenerico1);
+            _fachada.RegistrarUsuario(administrador, usuarioGenerico1);
             Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(1));
             _fachada.EliminarUsuario(administrador,usuarioGenerico1);
             Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(0));
