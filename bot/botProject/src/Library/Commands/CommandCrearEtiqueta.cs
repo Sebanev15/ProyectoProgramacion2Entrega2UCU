@@ -1,4 +1,4 @@
-namespace Ucu.Poo.DiscordBot.Commands;
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,27 +6,31 @@ using Discord.Commands;
 using Library;
 using Ucu.Poo.DiscordBot.Domain;
 
-public class CommandCrearEtiqueta : ModuleBase<SocketCommandContext>
+namespace Ucu.Poo.DiscordBot.Commands
 {
-    private readonly Fachada _fachada;
 
-    CommandCrearEtiqueta(Fachada fachada)
+    public class CommandCrearEtiqueta : ModuleBase<SocketCommandContext>
     {
-        _fachada = fachada;
-    }
+        private readonly Fachada _fachada;
 
-    [Command("crearEtiqueta")]
-    public async Task ExecuteAsync(string nombre)
-    {
-        if (nombre != null)
+        CommandCrearEtiqueta(Fachada fachada)
         {
-            _fachada.CrearEtiqueta(nombre);
-
-            await ReplyAsync($"Se creo la etiqueta {nombre}");
+            _fachada = fachada;
         }
-        else
+
+        [Command("crearEtiqueta")]
+        public async Task ExecuteAsync(string nombre)
         {
-            await ReplyAsync($"La etiqueta debe tener nombre");
+            if (nombre != null)
+            {
+                _fachada.CrearEtiqueta(nombre);
+
+                await ReplyAsync($"Se creo la etiqueta {nombre}");
+            }
+            else
+            {
+                await ReplyAsync($"La etiqueta debe tener nombre");
+            }
         }
     }
 }

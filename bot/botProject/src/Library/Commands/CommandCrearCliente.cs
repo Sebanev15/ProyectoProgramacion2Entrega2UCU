@@ -1,40 +1,32 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord.Commands;
+using Discord;
+using Discord.Interactions;
 using Library;
-using Ucu.Poo.DiscordBot.Domain;
+using System.Threading.Tasks;
 
-public class CommandCrearCliente: ModuleBase<SocketCommandContext>
+namespace Ucu.Poo.DiscordBot.Commands
 {
-    private readonly Fachada _fachada;
-
-    CommandCrearCliente(Fachada fachada)
+    public class CommandCrearCliente : InteractionModuleBase<SocketInteractionContext>
     {
-        _fachada = fachada;
-    }
+        private readonly Fachada _fachada;
 
-    [Command("crearCliente")]
-    public async Task ExecuteAsync([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
-    {
-        if (nombre != null && apellido != null && telefono != null && correo != null && genero != null &&
-            fechaDeNacimiento != null)
+        public CommandCrearCliente(Fachada fachada)
         {
-            if (genero.ToUpper() == "M" || genero.ToUpper() == "H")
-            {
-                genero = genero.ToUpper();
-                _fachada.CrearCliente(nombre, apellido, telefono, correo, genero, fechaDeNacimiento);
-                await ReplyAsync($"Se creo el cliente {nombre}");
-            }
-            else
-            {
-                await ReplyAsync($"Genero invalido");
-            }
+            _fachada = fachada;
         }
-        else
+
+        [SlashCommand("crearcliente", "Crear un cliente con formulario")]
+        public async Task AbrirModalAsync()
         {
-            await ReplyAsync($"No pueden haver campos vacios");
+            var modal = new ModalBuilder()
+                .WithTitle("Crear nuevo cliente")
+                .WithCustomId("modal_crear_cliente")
+                .AddTextInput("Nombre completo", "nombre_completo", placeholder: "Juan Pérez", required: true)
+                .AddTextInput("Teléfono", "telefono", placeholder: "099123456", required: true)
+                .AddTextInput("Correo", "correo", placeholder: "correo@example.com", required: true)
+                .AddTextInput("Género (M/H)", "genero", placeholder: "M o H", maxLength: 1, required: true)
+                .AddTextInput("Fecha nacimiento (YYYY-MM-DD)", "fecha_nac", placeholder: "2000-05-01", required: true);
+
+            await RespondWithModalAsync(modal.Build());
         }
-        
     }
 }
