@@ -16,6 +16,7 @@
     <AdditionalFiles Include="../../.analyzers/stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\bot\botProject\src\Library\Library.csproj" />
     <ProjectReference Include="..\Library\Library.csproj" />
   </ItemGroup>
 </Project>
