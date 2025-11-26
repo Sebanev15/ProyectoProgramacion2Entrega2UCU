@@ -1,5 +1,6 @@
 ﻿using System;
 using Library.interfaces;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
 {
@@ -11,11 +12,15 @@ namespace Library
 
         }
     
-        public void CrearUsuario(Usuario usuario,IGestionUsuario gestionUsuario)
+        public void RegistrarUsuario(Usuario usuario,IGestionUsuario gestionUsuario)
         {
             if (!gestionUsuario.Usuarios.Contains(usuario))
             {
                 gestionUsuario.Usuarios.Add(usuario);   
+            }
+            else
+            {
+                throw new ItemDuplicadoExcepcion($"El usuario {usuario.Nombre} ya esta registrado");
             }
         }
 
@@ -28,16 +33,33 @@ namespace Library
         /// </remarks>
         public void SuspenderUsuario(Usuario usuario)
         {
+            if (usuario != null)
+            {
+                throw new CampoInvalidoExepcion("Falta ingresar el usuario.");
+            }
             usuario.Suspender();
         }
     
         public void ReactivarUsuario(Usuario usuario)
         {
+            if (usuario != null)
+            {
+                throw new CampoInvalidoExepcion("Falta ingresar el usuario.");
+            }
             usuario.Reactivar();
         }
 
         public void EliminarUsuario(Usuario usuario, IGestionUsuario gestionUsuario)
-        {
+        {         
+            if (usuario != null)
+            {
+                throw new CampoInvalidoExepcion("Falta ingresar el usuario.");
+            }
+
+            if (!gestionUsuario.Usuarios.Contains(usuario))
+            {
+                throw new CampoInvalidoExepcion("El usuario no esta registrado.");
+            }
             gestionUsuario.Usuarios.Remove(usuario);
         }
     }

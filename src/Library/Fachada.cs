@@ -163,9 +163,9 @@ namespace Library
         {
             _gestionUsuario.ReactivarUsuario(admin,usuario);
         }
-        public void CrearUsuario(Administrador admin, Usuario usuario)
+        public void RegistrarUsuario(Administrador admin, Usuario usuario)
         {
-            admin.CrearUsuario(usuario,admin.GestionUsuario);
+            admin.RegistrarUsuario(usuario,admin.GestionUsuario);
         }
 
         public void SuspenderUsuario(Administrador admin, Usuario usuario)

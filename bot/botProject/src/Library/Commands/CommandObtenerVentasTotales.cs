@@ -17,7 +17,7 @@ namespace Ucu.Poo.DiscordBot.Commands
             _fachada = fachada;
         }
 
-        [Command("obtenerClientesInactivos")]
+        [Command("obtenerVentasTotales")]
         public async Task ExecuteAsync(DateTime fechaInicio, DateTime fechaFin)
         {
             try
