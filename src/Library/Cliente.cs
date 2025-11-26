@@ -1,6 +1,7 @@
 using Library.interfaces;
 using System.Collections.Generic;
 using System;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
 {
@@ -40,16 +41,32 @@ namespace Library
         
         public Cliente(string nombre, string apellido, string telefono, string correo, string genero,
             DateTime fechaDeNacimiento)
-        {
-            Nombre = nombre;
-            Apellido = apellido;
-            Telefono = telefono;
-            Correo = correo;
-            Genero = genero;
-            FechaDeNacimiento = fechaDeNacimiento;
-            this.Etiquetas = new List<Etiqueta>();
-            this.Importes = new List<IImporte>();
-            this.Interacciones = new List<IInteraccion>();
+        {            
+            if (nombre != null && apellido != null && telefono != null && correo != null && genero != null &&
+                         fechaDeNacimiento != null)
+            {
+                if (genero.ToUpper() == "M" || genero.ToUpper() == "H")
+                {
+                    Nombre = nombre;
+                    Apellido = apellido;
+                    Telefono = telefono;
+                    Correo = correo;
+                    Genero = genero;
+                    FechaDeNacimiento = fechaDeNacimiento;
+                    this.Etiquetas = new List<Etiqueta>();
+                    this.Importes = new List<IImporte>();
+                    this.Interacciones = new List<IInteraccion>();
+                }
+                else
+                {
+                    throw new CampoInvalidoExepcion("El genero debe ser M para mujer o H para hombre.");
+                }
+            }
+            else
+            {
+                throw new CampoInvalidoExepcion("No pueden haber campos vacios");
+            } 
+
         }
 
         public void AgregarImporte(IImporte importe)

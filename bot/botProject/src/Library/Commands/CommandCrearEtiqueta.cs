@@ -14,19 +14,18 @@ public class CommandCrearEtiqueta : ModuleBase<SocketCommandContext>
     {
         _fachada = fachada;
     }
-
     [Command("crearEtiqueta")]
     public async Task ExecuteAsync(string nombre)
     {
-        if (nombre != null)
+        try
         {
             _fachada.CrearEtiqueta(nombre);
-
-            await ReplyAsync($"Se creo la etiqueta {nombre}");
+            await ReplyAsync($"Se creó la etiqueta **{nombre}**");
         }
-        else
+        catch (CampoInvalidoExepcion e)
         {
-            await ReplyAsync($"La etiqueta debe tener nombre");
+            await ReplyAsync(e.Message);
         }
     }
+
 }

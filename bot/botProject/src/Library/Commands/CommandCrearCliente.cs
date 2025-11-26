@@ -17,24 +17,15 @@ public class CommandCrearCliente: ModuleBase<SocketCommandContext>
     [Command("crearCliente")]
     public async Task ExecuteAsync([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
     {
-        if (nombre != null && apellido != null && telefono != null && correo != null && genero != null &&
-            fechaDeNacimiento != null)
+        try
         {
-            if (genero.ToUpper() == "M" || genero.ToUpper() == "H")
-            {
-                genero = genero.ToUpper();
-                _fachada.CrearCliente(nombre, apellido, telefono, correo, genero, fechaDeNacimiento);
-                await ReplyAsync($"Se creo el cliente {nombre}");
-            }
-            else
-            {
-                await ReplyAsync($"Genero invalido");
-            }
+            genero = genero.ToUpper();
+            _fachada.CrearCliente(nombre, apellido, telefono, correo, genero, fechaDeNacimiento);
+            await ReplyAsync($"Se creo el cliente {nombre}");
         }
-        else
+        catch (CampoInvalidoExepcion e)
         {
-            await ReplyAsync($"No pueden haver campos vacios");
+            await ReplyAsync(e.Message);
         }
-        
     }
 }
