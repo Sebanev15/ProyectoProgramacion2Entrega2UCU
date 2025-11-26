@@ -5,16 +5,46 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using Library;
+using Ucu.Poo.DiscordBot.Domain;
+using Ucu.Poo.DiscordBot.Services;
+
 
 
 namespace ConsoleApplication
 {
     /// <summary>
-    /// Programa de consola de demostración.
+    /// Un programa que implementa un bot de Discord.
     /// </summary>
-    public static class Program
+    internal static class Program
     {
+      botImplementation
+        /// <summary>
+        /// Punto de entrada al programa.
+        /// </summary>
+        private static void Main(string [] args)
+        {
+            if (args.Length != 0)
+            {
+                DemoFacade(args);
+            }
+            else
+            {
+                DemoBot();
+            }
+        }
+
+        private static void DemoFacade(string [] args)
+        {
+            if (args.Length > 0)
+            {
+                Console.WriteLine(Facade.Instance.GetUserInfo(args[0]));
+            }
+        }
+
+        private static void DemoBot()
+        {
+            BotLoader.LoadAsync().GetAwaiter().GetResult();
+        }
 
     }
 }
