@@ -5,7 +5,7 @@
     <UserSecretsId>PII_DiscordBot_Demo</UserSecretsId>
     <RootNamespace>Ucu.Poo.DiscordBot</RootNamespace>
     <AssemblyName>Ucu.Poo.DiscordBot</AssemblyName>
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
   
