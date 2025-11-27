@@ -27,6 +27,8 @@ namespace Library.interfaces
         List<Cliente> BuscarCliente(string clienteBusqueda);
 
         void ListarClientes();
+        
+        List<Cliente> ListarClientesConReturn();
 
         void AgregarEtiqueta(Cliente cliente, Etiqueta etiqueta);
         
