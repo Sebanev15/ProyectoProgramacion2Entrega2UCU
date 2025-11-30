@@ -8,6 +8,7 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands;
 
+
 public class CommandsInformesYConsultas
 {
     public class CommandObtenerClientesInactivos : ModuleBase<SocketCommandContext>
