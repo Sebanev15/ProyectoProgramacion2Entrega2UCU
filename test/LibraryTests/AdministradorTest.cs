@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
@@ -50,8 +51,10 @@ namespace LibraryTests
     [Test]
     public void CrearUsuarioYaExistenteTest()
     {
-        administrador.RegistrarUsuario(usuarioGenerico1, gestionUsuario);
-        Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(0));
+        administrador.GestionUsuario.Usuarios = new List<Usuario>();
+        administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
+        administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
+        Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(1));
     }
 
     [Test]

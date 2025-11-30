@@ -6,26 +6,26 @@ using Discord.Commands;
 using Library;
 using Ucu.Poo.DiscordBot.Domain;
 
-public class CommandRegistrarUsuario : ModuleBase<SocketCommandContext>
+public class CommandEliminarCliente: ModuleBase<SocketCommandContext>
 {
     private readonly Fachada _fachada;
 
-    CommandRegistrarUsuario(Fachada fachada)
+    CommandEliminarCliente(Fachada fachada)
     {
         _fachada = fachada;
     }
-    [Command("registrarUsuario")]
-    public async Task ExecuteAsync(Administrador administrador, Usuario usuario)
+
+    [Command("eliminarCliente")]
+    public async Task ExecuteAsync(Cliente cliente)
     {
         try
         {
-            _fachada.RegistrarUsuario(administrador, usuario);
-            await ReplyAsync($"Se registro al usuario {usuario.Nombre}");
+            _fachada.EliminarCliente(cliente);
+            await ReplyAsync($"Se eliminó el cliente {cliente.Nombre} del sistema");
         }
         catch (CampoInvalidoExepcion e)
         {
             await ReplyAsync(e.Message);
         }
     }
-
 }
