@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
-using Ucu.Poo.DiscordBot.Domain;
 
 namespace LibraryTests
 {
