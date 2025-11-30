@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
+using Discord.Interactions;
 using Library;
 using Ucu.Poo.DiscordBot.Domain;
 
@@ -20,7 +21,7 @@ public class CommandsInformesYConsultas
             _fachada = fachada;
         }
 
-        [Command("obtenerClientesInactivos")]
+        [SlashCommand("obtenerclientesinactivos", "Devuelve una lista de los clientes inactivos")]
         public async Task ExecuteAsync()
         {
             try
@@ -47,7 +48,7 @@ public class CommandsInformesYConsultas
             _fachada = fachada;
         }
 
-        [Command("obtenerClientesNoRespondidos")]
+        [SlashCommand("obtenerclientesnorespondidos", "Devuelve una lista de los clientes sin responder")]
         public async Task ExecuteAsync()
         {
             try
@@ -74,7 +75,7 @@ public class CommandsInformesYConsultas
             _fachada = fachada;
         }
 
-        [Command("obtenerVentasTotales")]
+        [SlashCommand("obtenerventastotales", "Devuelve todas las ventas en un periodo de tiempo")]
         public async Task ExecuteAsync(DateTime fechaInicio, DateTime fechaFin)
         {
             try
