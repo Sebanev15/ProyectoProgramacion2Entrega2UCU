@@ -122,7 +122,6 @@ public class CommandsAdministracion
                     await ReplyAsync(e.Message);
                 }
             }
-
         }
     }
 }
