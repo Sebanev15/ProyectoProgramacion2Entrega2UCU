@@ -2,6 +2,8 @@ using Discord;
 using Discord.Interactions;
 using Library;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Ucu.Poo.DiscordBot.Commands
 {
@@ -27,6 +29,27 @@ namespace Ucu.Poo.DiscordBot.Commands
                 .AddTextInput("Fecha nacimiento (YYYY-MM-DD)", "fecha_nac", placeholder: "2000-05-01", required: true);
 
             await RespondWithModalAsync(modal.Build());
+        }
+
+        [SlashCommand("mostrarclientes", "Muestra los clientes creados en formato de tabla")]
+        public async Task MostrarClientesAsync()
+        {
+            var clientes = _fachada.ListarClientesConReturn();
+            if (clientes.Count == 0)
+            {
+                await RespondAsync("No hay clientes registrados.");
+                return;
+            }
+
+            var listaClientes = new StringBuilder();
+            int i = 1;
+            foreach (var cliente in clientes)
+            {
+                listaClientes.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
+            }
+
+            await RespondAsync(listaClientes.ToString());
         }
     }
 }

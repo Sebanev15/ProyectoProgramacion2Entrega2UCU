@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
 using Library;
 using System;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace Ucu.Poo.DiscordBot.Modals
 
         public async Task HandleAsync(SocketModal modal)
         {
+            await modal.DeferAsync(ephemeral: true);
+
             var components = modal.Data.Components.ToList();
             var nombreCompleto = components.First(x => x.CustomId == "nombre_completo").Value;
             var telefono = components.First(x => x.CustomId == "telefono").Value;
@@ -43,7 +46,7 @@ namespace Ucu.Poo.DiscordBot.Modals
             var partes = nombre_completo.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
             if (partes.Length < 2)
             {
-                await modal.RespondAsync("❌ Nombre completo inválido. Ingresa nombre y apellido separados por espacio.", ephemeral: true);
+                await modal.FollowupAsync("❌ Nombre completo inválido. Ingresa nombre y apellido separados por espacio.", ephemeral: true);
                 return;
             }
 
@@ -53,18 +56,20 @@ namespace Ucu.Poo.DiscordBot.Modals
             genero = genero.ToUpper();
             if (genero != "M" && genero != "H")
             {
-                await modal.RespondAsync("❌ Género inválido. Debe ser M o H.", ephemeral: true);
+                await modal.FollowupAsync("❌ Género inválido. Debe ser M o H.", ephemeral: true);
                 return;
             }
 
             if (!DateTime.TryParse(fecha_nac, out DateTime fechaNacimiento))
             {
-                await modal.RespondAsync("❌ Fecha inválida. Usa formato AAAA-MM-DD (ejemplo: 2000-05-01).", ephemeral: true);
+                await modal.FollowupAsync("❌ Fecha inválida. Usa formato AAAA-MM-DD (ejemplo: 2000-05-01).", ephemeral: true);
                 return;
             }
 
-            _fachada.CrearCliente(nombre, apellido, telefono, correo, genero, fechaNacimiento);
-            await modal.RespondAsync($"✅ Cliente **{nombre} {apellido}** creado correctamente.", ephemeral: true);
+            Cliente cliente  = _fachada.CrearCliente(nombre, apellido, telefono, correo, genero, fechaNacimiento);
+            _fachada.AgregarCliente(cliente);
+            
+            await modal.FollowupAsync($"✅ Cliente **{nombre} {apellido}** creado correctamente.", ephemeral: true);
         }
     }
 }

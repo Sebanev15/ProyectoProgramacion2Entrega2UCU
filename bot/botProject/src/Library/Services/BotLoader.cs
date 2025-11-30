@@ -21,7 +21,7 @@ namespace Ucu.Poo.DiscordBot.Services
         public static async Task LoadAsync()
         {
             var configuration = new ConfigurationBuilder()
-                .AddUserSecrets(Assembly.GetExecutingAssembly())
+                .AddUserSecrets<IBot>()
                 .Build();
 
             var services = new ServiceCollection();
@@ -42,8 +42,8 @@ namespace Ucu.Poo.DiscordBot.Services
                     LogLevel = LogSeverity.Info,
                     DefaultRunMode = RunMode.Async
                 }))
-                .AddTransient<CommandCrearCliente>()
-                .AddTransient<IModalHandler, ClienteModals>()
+                .AddSingleton<CommandCrearCliente>()
+                .AddSingleton<IModalHandler, ClienteModals>()
                 .AddScoped<IBot, Bot>();
 
             var serviceProvider = services.BuildServiceProvider();
