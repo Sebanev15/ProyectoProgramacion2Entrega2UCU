@@ -34,60 +34,22 @@ namespace Ucu.Poo.DiscordBot.Commands
         [SlashCommand("mostrarclientes", "Muestra los clientes creados en formato de tabla")]
         public async Task MostrarClientesAsync()
         {
-            await DeferAsync();
-
-            List<Cliente> clientes = _fachada.ListarClientesConReturn();
+            var clientes = _fachada.ListarClientesConReturn();
             if (clientes.Count == 0)
             {
-                await FollowupAsync("No hay clientes creados.");
+                await RespondAsync("No hay clientes registrados.");
                 return;
             }
 
-            // Encabezado de la tabla
-            string header = "```md\n# Lista de Clientes\n" +
-                            "---------------------------------------------------------------------------------\n" +
-                            $"| {"Nombre Completo",-20} | {"Teléfono",-12} | {"Correo",-25} | {"Nacimiento",-12} |\n" +
-                            "---------------------------------------------------------------------------------\n";
-            string footer = "---------------------------------------------------------------------------------\n```";
-
-            var tabla = new StringBuilder(header);
-            bool firstMessageSent = false;
-
+            var listaClientes = new StringBuilder();
+            int i = 1;
             foreach (var cliente in clientes)
             {
-                string nombreCompleto = $"{cliente.Nombre} {cliente.Apellido}";
-                nombreCompleto = nombreCompleto.Length > 20 ? nombreCompleto.Substring(0, 17) + "..." : nombreCompleto;
-                string correo = cliente.Correo.Length > 25 ? cliente.Correo.Substring(0, 22) + "..." : cliente.Correo;
-                string fila = $"| {nombreCompleto,-20} | {cliente.Telefono,-12} | {correo,-25} | {cliente.FechaDeNacimiento.ToShortDateString(),-12} |\n";
-                
-                if (tabla.Length + fila.Length + footer.Length > 2000)
-                {
-                    tabla.AppendLine(footer);
-                    if (!firstMessageSent)
-                    {
-                        await FollowupAsync(tabla.ToString());
-                        firstMessageSent = true;
-                    }
-                    else
-                    {
-                        await ReplyAsync(tabla.ToString());
-                    }
-                    
-                    tabla.Clear();
-                    tabla.Append(header);
-                }
-                tabla.Append(fila);
+                listaClientes.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
             }
 
-            tabla.AppendLine(footer);
-            if (!firstMessageSent)
-            {
-                await FollowupAsync(tabla.ToString());
-            }
-            else
-            {
-                await ReplyAsync(tabla.ToString());
-            }
+            await RespondAsync(listaClientes.ToString());
         }
     }
 }

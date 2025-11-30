@@ -21,7 +21,7 @@ namespace Ucu.Poo.DiscordBot.Services
         public static async Task LoadAsync()
         {
             var configuration = new ConfigurationBuilder()
-                .AddUserSecrets(Assembly.GetExecutingAssembly())
+                .AddUserSecrets<IBot>()
                 .Build();
 
             var services = new ServiceCollection();
