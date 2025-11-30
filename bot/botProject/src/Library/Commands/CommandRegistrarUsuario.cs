@@ -6,11 +6,11 @@ using Discord.Commands;
 using Library;
 using Ucu.Poo.DiscordBot.Domain;
 
-public class CommandReistrarUsuario : ModuleBase<SocketCommandContext>
+public class CommandRegistrarUsuario : ModuleBase<SocketCommandContext>
 {
     private readonly Fachada _fachada;
 
-    CommandReistrarUsuario(Fachada fachada)
+    CommandRegistrarUsuario(Fachada fachada)
     {
         _fachada = fachada;
     }
