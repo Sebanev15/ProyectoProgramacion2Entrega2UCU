@@ -98,6 +98,11 @@ namespace Library
                 Console.WriteLine(cliente.Nombre);
             }
         }
+        
+        public List<Cliente> ListarClientesConReturn()
+        {
+            return this.Clientes;
+        }
 
         public void AgregarEtiqueta(Cliente cliente, Etiqueta etiqueta)
         {

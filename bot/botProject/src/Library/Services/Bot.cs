@@ -1,90 +1,40 @@
 using System;
-using System.Reflection;
 using System.Threading.Tasks;
+using Discord;
+using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Services
 {
-    /// <summary>
-    /// Esta clase implementa el bot de Discord.
-    /// </summary>
     public class Bot : IBot
     {
-        private ServiceProvider serviceProvider;
-        private readonly ILogger<Bot> logger;
-        private readonly IConfiguration configuration;
-        private readonly DiscordSocketClient client;
-        private readonly CommandService commands;
+        private readonly DiscordSocketClient _client;
+        private readonly IConfiguration _configuration;
 
-        public Bot(ILogger<Bot> logger, IConfiguration configuration)
+        public Bot(DiscordSocketClient client, IConfiguration configuration)
         {
-            this.logger = logger;
-            this.configuration = configuration;
-
-            DiscordSocketConfig config = new DiscordSocketConfig()
-            {
-                AlwaysDownloadUsers = true,
-                GatewayIntents =
-                    GatewayIntents.AllUnprivileged
-                    | GatewayIntents.MessageContent
-            };
-
-            client = new DiscordSocketClient(config);
-            commands = new CommandService();
+            _client = client;
+            _configuration = configuration;
         }
 
         public async Task StartAsync(ServiceProvider services)
         {
-            string discordToken = configuration["DiscordToken"];
-            if (discordToken == null)
+            string token = _configuration["DiscordToken"];
+            if (string.IsNullOrEmpty(token))
             {
-                throw new Exception("Falta el token");
+                Console.WriteLine("Error: El token del bot no está configurado en los user secrets.");
+                return;
             }
 
-            logger.LogInformation($"Iniciando el con token {discordToken}");
-
-            serviceProvider = services;
-
-            await commands.AddModulesAsync(Assembly.GetExecutingAssembly(),
-                serviceProvider);
-
-            await client.LoginAsync(TokenType.Bot, discordToken);
-            await client.StartAsync();
-
-            client.MessageReceived += HandleCommandAsync;
+            await _client.LoginAsync(TokenType.Bot, token);
+            await _client.StartAsync();
         }
 
         public async Task StopAsync()
         {
-            logger.LogInformation("Finalizando");
-            await client.LogoutAsync();
-            await client.StopAsync();
-        }
-
-        private async Task HandleCommandAsync(SocketMessage arg)
-        {
-            var message = arg as SocketUserMessage;
-            if (message == null || message.Author.IsBot)
-            {
-                return;
-            }
-
-            int position = 0;
-            bool messageIsCommand = message.HasCharPrefix('!', ref position);
-
-            if (messageIsCommand)
-            {
-                await commands.ExecuteAsync(
-                    new SocketCommandContext(client, message),
-                    position,
-                    serviceProvider);
-            }
+            await _client.LogoutAsync();
+            await _client.StopAsync();
         }
     }
 }

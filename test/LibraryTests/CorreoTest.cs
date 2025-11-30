@@ -16,7 +16,7 @@ namespace LibraryTests
         public void Setup()
         {
             randomDate = new DateTime(2025, 1, 1, 10, 30, 0);
-            clientito = new Cliente("Juana", "de Arco", "12345678", "juanitayasabes@gmail.com", "F", randomDate);
+            clientito = new Cliente("Juana", "de Arco", "12345678", "juanitayasabes@gmail.com", "M", randomDate);
             usuarito = new Usuario("josefina", "josefina@gmail.com", "87654321", new GestionUsuario(),new GestionCliente());
 
             correito = new Correo(randomDate, "holaholahola", clientito, usuarito, true);

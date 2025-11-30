@@ -109,7 +109,11 @@ namespace Library
         {
             _gestionCliente.ListarClientes();
         }
-        
+
+        public List<Cliente> ListarClientesConReturn()
+        {
+           return _gestionCliente.ListarClientesConReturn();
+        }
         
         // -------------------------------------- INFORMES Y CONSULTAS -------------------------------------------------
         public List<Cliente> ObtenerClientesInactivos()
