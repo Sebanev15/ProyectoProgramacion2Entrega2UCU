@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Discord.Commands;
+using Discord.Interactions;
 using Library;
 using Ucu.Poo.DiscordBot.Domain;
 
@@ -16,7 +17,7 @@ public class CommandsAdministracion
             _fachada = fachada;
         }
 
-        [Command("reactivarUsuario")]
+        [SlashCommand("reactivarusuario", "Reactiva al usuario")]
         public async Task ExecuteAsync(Administrador admin, Usuario usuario)
         {
             try
@@ -31,15 +32,15 @@ public class CommandsAdministracion
         }
     }
     
-    public class CommandReistrarUsuario : ModuleBase<SocketCommandContext>
+    public class CommandRegistrarUsuario : ModuleBase<SocketCommandContext>
     {
         private readonly Fachada _fachada;
 
-        CommandReistrarUsuario(Fachada fachada)
+        CommandRegistrarUsuario(Fachada fachada)
         {
             _fachada = fachada;
         }
-        [Command("registrarUsuario")]
+        [SlashCommand("registrarusuario","Registra al usuario")]
         public async Task ExecuteAsync(Administrador administrador, Usuario usuario)
         {
             try
@@ -62,7 +63,7 @@ public class CommandsAdministracion
                 _fachada = fachada;
             }
 
-            [Command("suspenderUsuario")]
+            [SlashCommand("suspenderusuario","Suspende al usuario")]
             public async Task ExecuteAsync(Administrador admin, Usuario usuario)
             {
                 try
@@ -85,7 +86,7 @@ public class CommandsAdministracion
             {
                 _fachada = fachada;
             }
-            [Command("registrarUsuario")]
+            [SlashCommand("eliminarusuario", "Elimina el usuario")]
             public async Task ExecuteAsync(Administrador administrador, Usuario usuario)
             {
                 try
@@ -109,7 +110,7 @@ public class CommandsAdministracion
             {
                 _fachada = fachada;
             }
-            [Command("registrarUsuario")]
+            [SlashCommand("asignaraotrovendedor", "Asigna un cliente a otro vendedor")]
             public async Task ExecuteAsync(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
             {
                 try

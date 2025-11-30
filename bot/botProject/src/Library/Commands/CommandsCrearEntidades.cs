@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
+using Discord.Interactions;
 using Library;
 using Ucu.Poo.DiscordBot.Domain;
 
@@ -17,7 +18,7 @@ public class CommandsCrearEntidades
         {
             _fachada = fachada;
         }
-        [Command("crearEtiqueta")]
+        [SlashCommand("crearetiqueta", "Crea una etiqueta")]
         public async Task ExecuteAsync(string nombre)
         {
             try
@@ -42,7 +43,7 @@ public class CommandsCrearEntidades
             _fachada = fachada;
         }
 
-        [Command("crearCotizacion")]
+        [SlashCommand("crearcotizacion", "Crea una cotización")]
         
         public async Task ExecuteAsync(double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
@@ -87,7 +88,7 @@ public class CommandsCrearEntidades
             _fachada = fachada;
         }
 
-        [Command("crearCliente")]
+        [SlashCommand("crearcliente", "Crea un cliente")]
         public async Task ExecuteAsync([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
         {
             try
@@ -112,7 +113,7 @@ public class CommandsCrearEntidades
             _fachada = fachada;
         }
 
-        [Command("crearVenta")]
+        [SlashCommand("crearventa", "Crea una venta")]
         
         public async Task ExecuteAsync([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
