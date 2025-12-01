@@ -8,12 +8,12 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands;
 
-public class CommandsAdministracion : InteractionModuleBase<SocketInteractionContext>
+public class CommandsUsuario : InteractionModuleBase<SocketInteractionContext>
 {
 
     private readonly Fachada _fachada;
 
-    public CommandsAdministracion(Fachada fachada)
+    public CommandsUsuario(Fachada fachada)
     {
         _fachada = fachada;
     }

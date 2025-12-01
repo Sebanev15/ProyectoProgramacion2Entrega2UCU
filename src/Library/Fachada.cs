@@ -74,9 +74,9 @@ namespace Library
             return new Cliente(nombre, apellido, telefono, correo, genero, fechaDeNacimiento);
         }
         
-        public Etiqueta CrearEtiqueta(string nombreEtiqueta)
+        public void CrearEtiqueta(Cliente cliente, string nombreEtiqueta)
         {
-                return new Etiqueta(nombreEtiqueta);
+             _gestionCliente.AgregarEtiqueta(cliente, new Etiqueta(nombreEtiqueta));    
         }
 
         public IInteraccion CrearMensaje(DateTime fecha, string tema, Cliente cliente, Usuario usuario, bool esEnviado)
@@ -99,11 +99,6 @@ namespace Library
             return new Correo(fecha, tema, cliente, usuario, esEnviado);
         }
         
-        // -------------------------------------- ETIQUETAS ------------------------------------------------------------
-        public void AgregarEtiqueta(Etiqueta etiqueta, Cliente cliente)
-        {
-            _gestionCliente.AgregarEtiqueta(cliente, etiqueta);
-        }
         
         // -------------------------------------- GESTIÓN DE CLIENTES --------------------------------------------------
         public void AgregarCliente(Cliente cliente){

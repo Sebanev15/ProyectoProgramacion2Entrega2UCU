@@ -9,29 +9,15 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands;
 
-public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionContext>
+public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
 {
         private readonly Fachada _fachada;
 
-        public CommandsCrearEntidades(Fachada fachada)
+        public CommandsImporte(Fachada fachada)
         {
             _fachada = fachada;
         }
         
-        
-        [SlashCommand("crearetiqueta", "Crea una etiqueta.")]
-        public async Task ExecuteCrearEtiquetaAsync( string nombre)
-        {
-            try
-            {
-                _fachada.CrearEtiqueta(nombre);
-                await ReplyAsync($"Se creó la etiqueta {nombre}");
-            }
-            catch (CampoInvalidoExepcion e)
-            {
-                await ReplyAsync(e.Message);
-            }
-        }
 
         [SlashCommand("crearcotizacion", "Crea una cotización")]
         public async Task ExecuteCrearCotizacionAsync(double monto, DateTime fecha, [Remainder] string parametrosCliente)
@@ -101,6 +87,23 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
             await ReplyAsync(
                 $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
+        }
+        
+        [SlashCommand("obtenerventastotales", "Devuelve todas las ventas en un periodo de tiempo")]
+        public async Task ExecuteObtenerVentasTotalesAsync(DateTime fechaInicio, DateTime fechaFin)
+        {
+            try
+            {
+                List<String> resultado = _fachada.ObtenerVentasTotales(fechaInicio,fechaFin);
+
+                string mensaje = "Total de ventas:\n" + string.Join("\n", resultado.Select(venta => $"- {venta}"));
+
+                await ReplyAsync(mensaje);
+            }
+            catch (ListaVaciaExcepcion e)
+            {
+                await ReplyAsync(e.Message);
+            }
         }
     
 }
