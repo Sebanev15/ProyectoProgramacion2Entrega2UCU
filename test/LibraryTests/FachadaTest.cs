@@ -124,8 +124,10 @@ namespace LibraryTests
         [Test]
         public void BuscarClienteFachadaTest()
         {
-            var resultado = _fachada.BuscarCliente("Pedro");
-            Assert.That(resultado, Is.EqualTo(_gestionCliente.BuscarCliente("Pedro")));
+            List<string> datos = new List<string>();
+            datos.Add("Pedro");
+            var resultado = _fachada.BuscarCliente(datos);
+            Assert.That(resultado, Is.EqualTo(_gestionCliente.BuscarCliente(datos)));
         }
 
         [Test]

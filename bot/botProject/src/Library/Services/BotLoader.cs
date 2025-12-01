@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Discord;
+using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Library;
@@ -40,9 +41,11 @@ namespace Ucu.Poo.DiscordBot.Services
                 .AddSingleton(sp => new InteractionService(client.Rest, new InteractionServiceConfig
                 {
                     LogLevel = LogSeverity.Info,
-                    DefaultRunMode = RunMode.Async
+                    DefaultRunMode = Discord.Interactions.RunMode.Async
                 }))
-                .AddSingleton<CommandsCrearEntidades>()
+                .AddSingleton<CommandService>() // Re-añadido para comandos de texto
+                .AddSingleton<CommandsClientes>()
+                .AddSingleton<PingCommand>() // Registra el comando Ping
                 .AddSingleton<IModalHandler, ClienteModals>()
                 .AddScoped<IBot, Bot>();
 
@@ -51,23 +54,31 @@ namespace Ucu.Poo.DiscordBot.Services
             try
             {
                 var interactions = serviceProvider.GetRequiredService<InteractionService>();
+                var commands = serviceProvider.GetRequiredService<CommandService>(); // Re-añadido
 
                 client.Log += msg => { Console.WriteLine($"[Client Log] {msg}"); return Task.CompletedTask; };
                 interactions.Log += msg => { Console.WriteLine($"[Interaction Log] {msg}"); return Task.CompletedTask; };
+                commands.Log += msg => { Console.WriteLine($"[Command Log] {msg}"); return Task.CompletedTask; }; // Re-añadido
 
-                var assembly = typeof(CommandsCrearEntidades).Assembly;
+                var assembly = typeof(CommandsClientes).Assembly;
                 Console.WriteLine($"Cargando módulos desde ensamblado: {assembly.FullName}");
 
-                var modulesAdded = await interactions.AddModulesAsync(assembly, serviceProvider).ConfigureAwait(false);
-                Console.WriteLine($"Módulos cargados: {modulesAdded.Count()}");
-                foreach (var module in modulesAdded)
+                await interactions.AddModulesAsync(assembly, serviceProvider).ConfigureAwait(false);
+                await commands.AddModulesAsync(assembly, serviceProvider).ConfigureAwait(false); // Re-añadido
+
+                // Re-añadido: Handler para mensajes de texto con '!'
+                client.MessageReceived += async (message) =>
                 {
-                    Console.WriteLine($"  - Módulo: {module.Name}");
-                    foreach (var cmd in module.SlashCommands)
-                        Console.WriteLine($"    Slash Command: /{cmd.Name}");
-                    foreach (var modal in module.ModalCommands)
-                        Console.WriteLine($"    Modal Command: {modal.Name}");
-                }
+                    if (message is not SocketUserMessage userMessage || message.Author.IsBot)
+                        return;
+
+                    int argPos = 0;
+                    if (userMessage.HasCharPrefix('!', ref argPos))
+                    {
+                        var context = new SocketCommandContext(client, userMessage);
+                        await commands.ExecuteAsync(context, argPos, serviceProvider);
+                    }
+                };
 
                 interactions.InteractionExecuted += async (command, context, result) =>
                 {
@@ -93,21 +104,38 @@ namespace Ucu.Poo.DiscordBot.Services
                     }
                 };
 
-                // Auto-detectar todos los handlers registrados
-                var modalHandlers = serviceProvider.GetServices<IModalHandler>()
-                    .ToDictionary(h => h.CustomId, h => h);
+                var modalHandlers = serviceProvider.GetServices<IModalHandler>().ToList();
 
                 Console.WriteLine($"Handlers de modals registrados: {modalHandlers.Count}");
                 foreach (var handler in modalHandlers)
                 {
-                    Console.WriteLine($"  - Handler para: {handler.Key}");
+                    Console.WriteLine($"  - Handler para: {handler.CustomId}");
                 }
 
                 client.ModalSubmitted += async modal =>
                 {
                     Console.WriteLine($"Modal recibido: {modal.Data.CustomId}");
 
-                    if (modalHandlers.TryGetValue(modal.Data.CustomId, out var handler))
+                    IModalHandler handler = null;
+                    foreach (var h in modalHandlers)
+                    {
+                        if (h.CustomId.EndsWith("*"))
+                        {
+                            string prefix = h.CustomId.TrimEnd('*');
+                            if (modal.Data.CustomId.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                            {
+                                handler = h;
+                                break;
+                            }
+                        }
+                        else if (h.CustomId == modal.Data.CustomId)
+                        {
+                            handler = h;
+                            break;
+                        }
+                    }
+
+                    if (handler != null)
                     {
                         await handler.HandleAsync(modal);
                     }
@@ -116,6 +144,7 @@ namespace Ucu.Poo.DiscordBot.Services
                         Console.WriteLine($"⚠️ No hay handler registrado para: {modal.Data.CustomId}");
                     }
                 };
+
 
                 var readyTaskSource = new TaskCompletionSource<bool>();
 
@@ -128,9 +157,9 @@ namespace Ucu.Poo.DiscordBot.Services
                         Console.WriteLine($"Registrando comandos en el guild de prueba {testGuildId}...");
                         await interactions.RegisterCommandsToGuildAsync(testGuildId).ConfigureAwait(false);
 
-                        var commands = interactions.SlashCommands;
-                        Console.WriteLine($"Comandos registrados: {commands.Count}");
-                        foreach (var cmd in commands)
+                        var slashCommands = interactions.SlashCommands;
+                        Console.WriteLine($"Comandos de barra registrados: {slashCommands.Count}");
+                        foreach (var cmd in slashCommands)
                         {
                             Console.WriteLine($"  - Comando: /{cmd.Name}");
                         }
