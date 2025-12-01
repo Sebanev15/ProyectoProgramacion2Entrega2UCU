@@ -20,7 +20,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         
         
         [SlashCommand("crearetiqueta", "Crea una etiqueta")]
-        public async Task ExecuteAsync(string nombre)
+        public async Task ExecuteCrearEtiquetaAsync(string nombre)
         {
             try
             {
@@ -34,7 +34,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         }
 
         [SlashCommand("crearcotizacion", "Crea una cotización")]
-        public async Task ExecuteAsync2(double monto, DateTime fecha, [Remainder] string parametrosCliente)
+        public async Task ExecuteCrearCotizacionAsync(double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
             List<string> parametros = parametrosCliente.Split(' ').ToList();
             List<Cliente> clientes = _fachada.BuscarCliente(parametros);
@@ -64,12 +64,12 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
                 clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
-                $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
+                $"Se encontraron varios clientes con el nombre {nombreCliente}.\n" +
+                $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
 
         [SlashCommand("crearcliente", "Crea un cliente")]
-        public async Task ExecuteAsync3([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
+        public async Task ExecuteCrearClienteAsync([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
         {
             try
             {
@@ -84,7 +84,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         }
 
         [SlashCommand("crearventa", "Crea una venta")]
-        public async Task ExecuteAsync4([Remainder] string producto,double monto, DateTime fecha, [Remainder] string parametrosCliente)
+        public async Task ExecuteCrearVentaAsync([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
             List<string> parametros = parametrosCliente.Split(' ').ToList();
             List<Cliente> clientes = _fachada.BuscarCliente(parametros);
@@ -114,8 +114,8 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
                 clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
-                $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
+                $"Se encontraron varios clientes con el nombre {nombreCliente}.\n" +
+                $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
     
 }
