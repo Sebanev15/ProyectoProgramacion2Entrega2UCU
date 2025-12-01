@@ -1,3 +1,4 @@
+/*
 namespace Ucu.Poo.DiscordBot.Commands;
 using System;
 using System.Linq;
@@ -8,24 +9,26 @@ using Ucu.Poo.DiscordBot.Domain;
 
 public class CommandAsignarAOtroVendedor : ModuleBase<SocketCommandContext>
 {
-    private readonly Fachada _fachada;
+private readonly Fachada _fachada;
 
-    CommandAsignarAOtroVendedor(Fachada fachada)
+CommandAsignarAOtroVendedor(Fachada fachada)
+{
+    _fachada = fachada;
+}
+
+[Command("registrarUsuario")]
+public async Task ExecuteAsync(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
+{
+    try
     {
-        _fachada = fachada;
+        _fachada.AsignarOtroVendedor(vendedorInicial, vendedorAsignado, cliente);
+        await ReplyAsync($"Se asigno el cliente {cliente.Nombre} al vendedor {vendedorAsignado.Nombre} desde el vendedor {vendedorInicial.Nombre}");
     }
-    [Command("registrarUsuario")]
-    public async Task ExecuteAsync(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
+    catch (CampoInvalidoExepcion e)
     {
-        try
-        {
-            _fachada.AsignarOtroVendedor(vendedorInicial, vendedorAsignado, cliente);
-            await ReplyAsync($"Se asigno el cliente {cliente.Nombre} al vendedor {vendedorAsignado.Nombre} desde el vendedor {vendedorInicial.Nombre}");
-        }
-        catch (CampoInvalidoExepcion e)
-        {
-            await ReplyAsync(e.Message);
-        }
+        await ReplyAsync(e.Message);
     }
+}
 
 }
+*/

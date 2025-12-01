@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Ucu.Poo.DiscordBot.Commands
 {
-    public class CommandCrearCliente : InteractionModuleBase<SocketInteractionContext>
+    public class CommandsClientes : InteractionModuleBase<SocketInteractionContext>
     {
         private readonly Fachada _fachada;
 
-        public CommandCrearCliente(Fachada fachada)
+        public CommandsClientes(Fachada fachada)
         {
             _fachada = fachada;
         }

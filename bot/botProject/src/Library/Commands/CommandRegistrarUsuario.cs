@@ -1,3 +1,4 @@
+/*
 namespace Ucu.Poo.DiscordBot.Commands;
 using System;
 using System.Linq;
@@ -8,24 +9,27 @@ using Ucu.Poo.DiscordBot.Domain;
 
 public class CommandRegistrarUsuario : ModuleBase<SocketCommandContext>
 {
-    private readonly Fachada _fachada;
+private readonly Fachada _fachada;
 
-    CommandRegistrarUsuario(Fachada fachada)
+CommandRegistrarUsuario(Fachada fachada)
+{
+    _fachada = fachada;
+}
+
+[Command("registrarUsuario")]
+public async Task ExecuteAsync(Administrador administrador, Usuario usuario)
+{
+    try
     {
-        _fachada = fachada;
+        _fachada.RegistrarUsuario(administrador, usuario);
+        await ReplyAsync($"Se registro al usuario {usuario.Nombre}");
     }
-    [Command("registrarUsuario")]
-    public async Task ExecuteAsync(Administrador administrador, Usuario usuario)
+    catch (CampoInvalidoExepcion e)
     {
-        try
-        {
-            _fachada.RegistrarUsuario(administrador, usuario);
-            await ReplyAsync($"Se registro al usuario {usuario.Nombre}");
-        }
-        catch (CampoInvalidoExepcion e)
-        {
-            await ReplyAsync(e.Message);
-        }
+        await ReplyAsync(e.Message);
     }
+}
+
 
 }
+*/

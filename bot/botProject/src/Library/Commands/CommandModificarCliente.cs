@@ -1,3 +1,4 @@
+/*
 namespace Ucu.Poo.DiscordBot.Commands;
 using System;
 using System.Linq;
@@ -28,3 +29,4 @@ public class CommandModificarCliente: ModuleBase<SocketCommandContext>
         }
     }
 }
+*/
