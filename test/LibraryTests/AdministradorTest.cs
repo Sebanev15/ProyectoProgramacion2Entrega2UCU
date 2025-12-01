@@ -74,8 +74,16 @@ namespace LibraryTests
         Assert.That(gestionUsuario.Usuarios.Contains(usuarioGenerico1));
         administrador.EliminarUsuario(usuarioGenerico1, gestionUsuario);
         Assert.That(!gestionUsuario.Usuarios.Contains(usuarioGenerico1));
-    }    
-    
+    }
+
+    [Test]
+    public void EliminarUsuarioNoExistenteTest()
+    {
+        Assert.That(!gestionUsuario.Usuarios.Contains(usuarioGenerico2));
+        CampoInvalidoExepcion excepcion =
+            Assert.Throws<CampoInvalidoExepcion>(() => administrador.EliminarUsuario(usuarioGenerico2, gestionUsuario));
+        Assert.That(excepcion.Message, Is.EqualTo("El usuario no esta registrado."));
+    }
     [Test]
     public void ReactivarUsuarioTest()
     {
@@ -83,7 +91,15 @@ namespace LibraryTests
         Assert.That(usuarioGenerico1.EstaSuspendido);
         administrador.ReactivarUsuario(usuarioGenerico1);
         Assert.That(usuarioGenerico1.EstaSuspendido, Is.False);
-        
+    }
+
+    [Test]
+    public void ReactivarUsuarioNoExistenteTest()
+    {
+        CampoInvalidoExepcion excepcion =
+            Assert.Throws<CampoInvalidoExepcion>(() => administrador.ReactivarUsuario(null));
+
+        Assert.That(excepcion.Message, Is.EqualTo("Falta ingresar el usuario."));
     }
 }
 }

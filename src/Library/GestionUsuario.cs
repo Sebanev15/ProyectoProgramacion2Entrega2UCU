@@ -20,29 +20,6 @@ namespace Library
         {
             administrador.RegistrarUsuario(usuario,this);
         }        
-        
-        public List<Usuario> BuscarUsuario(string usuarioBusqueda)
-        {
-            List<Usuario> resultados = new List<Usuario>();
-            
-            foreach (Usuario usuario in Usuarios)
-            {
-                foreach (var informacionAtributo in usuario.GetType().GetProperties())
-                {
-                    var valorAtributo = informacionAtributo.GetValue(usuario);
-                    if (valorAtributo is string)
-                    {
-                      
-                        if (valorAtributo.Equals(usuarioBusqueda) && !resultados.Contains(usuario))
-                        {
-                            resultados.Add(usuario);
-                        }
-                      
-                    }
-                }
-            }
-            return resultados;
-        }
 
         public void SuspenderUsuario(Administrador administrador, Usuario usuario)
         {
