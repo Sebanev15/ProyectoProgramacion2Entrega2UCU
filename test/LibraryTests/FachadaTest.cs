@@ -75,8 +75,9 @@ namespace LibraryTests
         [Test]
         public void CrearEtiquetaFachadaTest()
         {
-            var etiqueta = _fachada.CrearEtiqueta("rimbombante");
-            Assert.That(etiqueta.NombreEtiqueta, Is.EqualTo("rimbombante"));
+            
+            _fachada.CrearEtiqueta(_cliente, "rimbombante");
+            Assert.That(_cliente.Etiquetas[0].NombreEtiqueta, Is.EqualTo("rimbombante"));
 
         }
         
