@@ -36,11 +36,12 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         [SlashCommand("crearcotizacion", "Crea una cotización")]
         public async Task ExecuteCrearCotizacionAsync(double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
-            List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
+            List<string> parametros = parametrosCliente.Split(' ').ToList();
+            List<Cliente> clientes = _fachada.BuscarCliente(parametros);
             
             if (clientes.Count == 0)
             {
-                await ReplyAsync($"No se encontró ningún cliente llamado {nombreCliente}.");
+                await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
                 return;
             }
             
@@ -85,11 +86,12 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         [SlashCommand("crearventa", "Crea una venta")]
         public async Task ExecuteCrearVentaAsync([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
-            List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
+            List<string> parametros = parametrosCliente.Split(' ').ToList();
+            List<Cliente> clientes = _fachada.BuscarCliente(parametros);
             
             if (clientes.Count == 0)
             {
-                await ReplyAsync($"No se encontró ningún cliente llamado {nombreCliente}.");
+                await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
                 return;
             }
             

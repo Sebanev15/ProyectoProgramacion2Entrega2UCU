@@ -68,7 +68,7 @@ namespace Library
             this.Clientes.Remove(cliente);
         }
 
-        public List<Cliente> BuscarCliente(string clienteBusqueda)
+        public List<Cliente> BuscarCliente(List<string> datosBusqueda)
         {
             List<Cliente> resultados = new List<Cliente>();
             
@@ -79,12 +79,13 @@ namespace Library
                     var valorAtributo = informacionAtributo.GetValue(cliente);
                     if (valorAtributo is string)
                     {
-                      
-                        if (valorAtributo.Equals(clienteBusqueda) && !resultados.Contains(cliente))
+                        foreach (string datosBuscados in datosBusqueda)
                         {
-                            resultados.Add(cliente);
+                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(cliente))
+                            {
+                                resultados.Add(cliente);
+                            }    
                         }
-                      
                     }
                 }
             }
