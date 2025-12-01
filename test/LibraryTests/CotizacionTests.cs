@@ -15,8 +15,8 @@ namespace LibraryTests
         [SetUp]
         public void Setup()
         {
-            j = new Cliente("Juan", "Sanchez", "099477123", "correo@mail.com", "Masculino", new DateTime(1997, 10, 24));
-            j2 = new Cliente("Juan2", "Sanchez", "099477123", "correo@mail.com", "Masculino", new DateTime(1997, 10, 24));
+            j = new Cliente("Juan", "Sanchez", "099477123", "correo@mail.com", "M", new DateTime(1997, 10, 24));
+            j2 = new Cliente("Juan2", "Sanchez", "099477123", "correo@mail.com", "H", new DateTime(1997, 10, 24));
 
             c = new Cotizacion(new DateTime(2025, 10, 20), 2000.0, j);
             c2 = new Cotizacion(new DateTime(2022, 10, 21), 1000.0, j2);

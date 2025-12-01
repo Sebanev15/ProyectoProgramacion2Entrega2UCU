@@ -13,7 +13,7 @@ namespace LibraryTests
         [SetUp]
         public void Setup()
         {
-            j = new Cliente("Juan", "Sanchez", "099477123", "correo@mail.com", "Masculino", new DateTime(1997, 10, 24));
+            j = new Cliente("Juan", "Sanchez", "099477123", "correo@mail.com", "H", new DateTime(1997, 10, 24));
             e = new Etiqueta("Etiqueta");
         }
 
