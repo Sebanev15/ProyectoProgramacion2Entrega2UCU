@@ -100,9 +100,9 @@ namespace Library
             _gestionCliente.EliminarCliente(cliente);
         }
 
-        public List<Cliente> BuscarCliente(string clienteBusqueda)
+        public List<Cliente> BuscarCliente(List<string> datosBusqueda)
         {
-            return _gestionCliente.BuscarCliente(clienteBusqueda);
+            return _gestionCliente.BuscarCliente(datosBusqueda);
         }
 
         public void ListarClientes()
