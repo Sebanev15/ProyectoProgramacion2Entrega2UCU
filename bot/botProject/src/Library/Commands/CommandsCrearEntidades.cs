@@ -34,13 +34,14 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         }
 
         [SlashCommand("crearcotizacion", "Crea una cotización")]
-        public async Task ExecuteAsync2(double monto, DateTime fecha, [Remainder] string nombreCliente)
+        public async Task ExecuteAsync2(double monto, DateTime fecha, [Remainder] string parametrosCliente)
         {
-            List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
+            List<string> parametros = parametrosCliente.Split(' ').ToList();
+            List<Cliente> clientes = _fachada.BuscarCliente(parametros);
             
             if (clientes.Count == 0)
             {
-                await ReplyAsync($"No se encontró ningún cliente llamado {nombreCliente}.");
+                await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
                 return;
             }
             
@@ -63,7 +64,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
                 clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios clientes con el nombre {nombreCliente}.\n" +
+                $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
                 $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
         }
 
@@ -83,13 +84,14 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         }
 
         [SlashCommand("crearventa", "Crea una venta")]
-        public async Task ExecuteAsync4([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
+        public async Task ExecuteAsync4([Remainder] string producto,double monto, DateTime fecha, [Remainder] string parametrosCliente)
         {
-            List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
+            List<string> parametros = parametrosCliente.Split(' ').ToList();
+            List<Cliente> clientes = _fachada.BuscarCliente(parametros);
             
             if (clientes.Count == 0)
             {
-                await ReplyAsync($"No se encontró ningún cliente llamado {nombreCliente}.");
+                await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
                 return;
             }
             
@@ -112,7 +114,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
                 clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios clientes con el nombre {nombreCliente}.\n" +
+                $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
                 $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
         }
     
