@@ -20,7 +20,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         
         
         [SlashCommand("crearetiqueta", "Crea una etiqueta")]
-        public async Task ExecuteAsync(string nombre)
+        public async Task ExecuteCrearEtiquetaAsync(string nombre)
         {
             try
             {
@@ -34,7 +34,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         }
 
         [SlashCommand("crearcotizacion", "Crea una cotización")]
-        public async Task ExecuteAsync2(double monto, DateTime fecha, [Remainder] string nombreCliente)
+        public async Task ExecuteCrearCotizacionAsync(double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
             List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
             
@@ -64,11 +64,11 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
 
             await ReplyAsync(
                 $"Se encontraron varios clientes con el nombre {nombreCliente}.\n" +
-                $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
+                $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
 
         [SlashCommand("crearcliente", "Crea un cliente")]
-        public async Task ExecuteAsync3([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
+        public async Task ExecuteCrearClienteAsync([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
         {
             try
             {
@@ -83,7 +83,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         }
 
         [SlashCommand("crearventa", "Crea una venta")]
-        public async Task ExecuteAsync4([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
+        public async Task ExecuteCrearVentaAsync([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
             List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
             
@@ -113,7 +113,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
 
             await ReplyAsync(
                 $"Se encontraron varios clientes con el nombre {nombreCliente}.\n" +
-                $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
+                $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
     
 }

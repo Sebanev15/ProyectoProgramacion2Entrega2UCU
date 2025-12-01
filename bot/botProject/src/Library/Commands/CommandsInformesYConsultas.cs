@@ -21,7 +21,7 @@ public class CommandsInformesYConsultas: InteractionModuleBase<SocketInteraction
 
     
     [SlashCommand("obtenerclientesinactivos", "Devuelve una lista de los clientes inactivos")]
-    public async Task ExecuteAsync()
+    public async Task ExecuteObtenerClientesInactivosAsync()
     {
         try
         {
@@ -38,7 +38,7 @@ public class CommandsInformesYConsultas: InteractionModuleBase<SocketInteraction
     }
 
     [SlashCommand("obtenerclientesnorespondidos", "Devuelve una lista de los clientes sin responder")]
-    public async Task ExecuteAsync2()
+    public async Task ExecuteObtenerClientesNoRespondidosAsync()
     {
         try
         {
@@ -55,7 +55,7 @@ public class CommandsInformesYConsultas: InteractionModuleBase<SocketInteraction
     }
 
     [SlashCommand("obtenerventastotales", "Devuelve todas las ventas en un periodo de tiempo")]
-    public async Task ExecuteAsync3(DateTime fechaInicio, DateTime fechaFin)
+    public async Task ExecuteObtenerVentasTotalesAsync(DateTime fechaInicio, DateTime fechaFin)
     {
         try
         {
