@@ -13,7 +13,7 @@ namespace Ucu.Poo.DiscordBot.Commands
         public async Task ElegirCotizacionAsync(int numero)
         {
             List<Cotizacion> lista;
-            if (!SeleccionesUsuarios.OpcionesCotizacion.TryGetValue(Context.User.Id, out lista))
+            if (!Selecciones.OpcionesCotizacion.TryGetValue(Context.User.Id, out lista))
             {
                 await ReplyAsync("No tenés ninguna selección activa.");
                 return;
@@ -26,11 +26,12 @@ namespace Ucu.Poo.DiscordBot.Commands
             }
 
             Cotizacion cotizacion = lista[numero - 1];
+            
+            Selecciones.CotizacionSeleccionada[Context.User.Id] = cotizacion;
 
             await ReplyAsync(
                 $" Seleccionaste la cotizacion número: {numero}.\n" +
                 $"Ahora podés volver a ejecutar usando exactamente ese nombre.");
-            
         }
     }
 }
