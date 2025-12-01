@@ -1,6 +1,7 @@
 using Library.interfaces;
 using System.Collections.Generic;
 using System;
+using System.Threading;
 using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
@@ -73,9 +74,22 @@ namespace Library
         {
             if (!Importes.Contains(importe))
             {
-                this.Importes.Add(importe);
+                if (importe is Venta)
+                {
+                    Venta v = (Venta)importe;
+                    Venta importeNuevo = new Venta(v.Producto, v.Fecha, v.Monto, this);
+                    Importes.Add(importeNuevo);
+                }
+                else if (importe is Cotizacion)
+                {
+                    Cotizacion c = (Cotizacion)importe;
+                    Cotizacion importeNuevo = new Cotizacion(c.Fecha, c.Monto, this);
+                    Importes.Add(importeNuevo);
+                }
             }
         }
+
+
         
         public void AgregarEtiqueta(Etiqueta etiqueta)
         {
