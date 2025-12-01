@@ -6,13 +6,13 @@ using Library;
 
 namespace Ucu.Poo.DiscordBot.Commands
 {
-    public class CommandElegirCliente : InteractionModuleBase<SocketInteractionContext>
+    public class CommandElegirUsuario : InteractionModuleBase<SocketInteractionContext>
     {
-        [SlashCommand("elegirCliente", "Elige un cliente de una lista de nombres repetidos")]
-        public async Task ElegirClienteAsync(int numero)
+        [SlashCommand("elegirUsuario", "Elige un usuario de un lista de nombres repetidos")]
+        public async Task ElegirUsuarioAsync(int numero)
         {
-            List<Cliente> lista;
-            if (!SeleccionesUsuarios.OpcionesClientes.TryGetValue(Context.User.Id, out lista))
+            List<Usuario> lista;
+            if (!SeleccionesUsuarios.OpcionesUsuarios.TryGetValue(Context.User.Id, out lista))
             {
                 await ReplyAsync("No tenés ninguna selección activa.");
                 return;
@@ -24,13 +24,13 @@ namespace Ucu.Poo.DiscordBot.Commands
                 return;
             }
 
-            Cliente cliente = lista[numero - 1];
+            Usuario usuario = lista[numero - 1];
 
             await ReplyAsync(
-                $" Seleccionaste: {cliente.Nombre}.\n" +
+                $" Seleccionaste: {usuario.Nombre}.\n" +
                 $"Ahora podés volver a ejecutar usando exactamente ese nombre.");
             
-            SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
+            SeleccionesUsuarios.OpcionesUsuarios.Remove(Context.User.Id);
         }
     }
 }

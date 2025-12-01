@@ -29,7 +29,7 @@ namespace Library
                     if (valorAtributo is string)
                     {
                       
-                        if (valorAtributo.Equals(usuario) && !resultados.Contains(usuario))
+                        if (valorAtributo.Equals(usuarioBusqueda) && !resultados.Contains(usuario))
                         {
                             resultados.Add(usuario);
                         }
