@@ -10,7 +10,7 @@ using Ucu.Poo.DiscordBot.Domain;
 namespace Ucu.Poo.DiscordBot.Commands;
 
 
-public class CommandsInformesYConsultas: ModuleBase<SocketCommandContext>
+public class CommandsInformesYConsultas: InteractionModuleBase<SocketInteractionContext>
 {
     private readonly Fachada _fachada;
 

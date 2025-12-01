@@ -8,11 +8,11 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands;
 
-public class CommandsCrearEntidades: ModuleBase<SocketCommandContext>
+public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionContext>
 {
         private readonly Fachada _fachada;
 
-        CommandsCrearEntidades(Fachada fachada)
+        public CommandsCrearEntidades(Fachada fachada)
         {
             _fachada = fachada;
         }
