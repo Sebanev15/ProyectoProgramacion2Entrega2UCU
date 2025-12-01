@@ -15,5 +15,7 @@ namespace Library.interfaces
         void EliminarUsuario(Administrador administrador, Usuario usuario);
 
         void AsignarOtroVendedor(Vendedor vendedor1,Vendedor vendedor2, Cliente cliente);
+        
+        List<Usuario> BuscarUsuario(string usuarioBusqueda);
     }
 }

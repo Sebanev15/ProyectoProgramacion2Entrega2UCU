@@ -185,6 +185,11 @@ namespace Library
         public void AsignarOtroVendedor(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
         {
             _gestionUsuario.AsignarOtroVendedor(vendedorInicial, vendedorAsignado, cliente);
+        }        
+        
+        public List<Usuario> BuscarUsuario(string usuarioBusqueda)
+        {
+            return _gestionUsuario.BuscarUsuario(usuarioBusqueda);
         }
     }
 }
