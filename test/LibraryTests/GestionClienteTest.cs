@@ -237,5 +237,52 @@ namespace LibraryTests
              Assert.That(venta.Monto, Is.EqualTo(20));
              Assert.That(_gestionCliente.Importes.Contains(venta), Is.True);
          }
+         
+         [Test]
+         public void BuscarCotizacionesSinFechaTest_ProductoNoAplica()
+         {
+             List<string> datosBusqueda = new List<string> { "caja" };
+             List<Cotizacion> resultado = _gestionCliente.BuscarCotizacionesSinFecha(datosBusqueda);
+             Assert.That(resultado.Count, Is.EqualTo(0)); 
+         }
+         
+         [Test]
+         public void BuscarCotizacionesSinFechaTest()
+         {
+             List<string> datosBusqueda = new List<string> { "12" };
+             List<Cotizacion> resultado = _gestionCliente.BuscarCotizacionesSinFecha(datosBusqueda);
+             Assert.That(resultado.Count, Is.EqualTo(1));
+             Assert.That(resultado[0], Is.EqualTo(cotizacion));
+         }
+        
+         [Test]
+         public void BuscarCotizacionesSinFecha_SinResultados()
+         {
+             List<string> datosBusqueda = new List<string> { "noExiste", "999" };
+             List<Cotizacion> resultado = _gestionCliente.BuscarCotizacionesSinFecha(datosBusqueda);
+             Assert.That(resultado.Count, Is.EqualTo(0));
+         }
+         
+[Test]
+         public void BuscarVentasSinFecha_SinResultados()
+         {
+             List<string> datosBusqueda = new List<string> { "productoInexistente" };
+             List<Venta> resultado = _gestionCliente.BuscarVentasSinFecha(datosBusqueda);
+             Assert.That(resultado.Count, Is.EqualTo(0));
+         }
+         
+         [Test]
+         public void BuscarVentasSinFecha_VariosResultados()
+         {
+             DateTime fecha2 = new DateTime(2024, 12, 15);
+             Venta venta2 = new Venta("caja", fecha2, 25, jorjito);
+             _gestionCliente.Importes.Add(venta2);
+             
+             List<string> datosBusqueda = new List<string> { "caja" };
+             List<Venta> resultado = _gestionCliente.BuscarVentasSinFecha(datosBusqueda);
+             Assert.That(resultado.Count, Is.EqualTo(2));
+         }
+         
+
     }
 }

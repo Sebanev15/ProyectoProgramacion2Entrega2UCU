@@ -62,7 +62,8 @@ namespace LibraryTests
         {
             Assert.That(abril.Importes.Contains(importe), Is.False);
             abril.AgregarImporte(importe);
-            Assert.That(abril.Importes.Contains(importe), Is.True);
+            Assert.That(abril.Importes[0].Monto, Is.EqualTo(importe.Monto));
+            Assert.That(abril.Importes[0], Is.TypeOf<Venta>());
         }
         
         [Test]
@@ -117,6 +118,17 @@ namespace LibraryTests
             Assert.That(j.Correo, Is.EqualTo("correo@mail.com"));
             Assert.That(j.Genero, Is.EqualTo("M"));
             Assert.That(j.FechaDeNacimiento, Is.EqualTo(new DateTime(1997, 10, 24)));
+        }
+
+        [Test]
+        public void AgregarImporteCotizacion()
+        {
+            Cotizacion cotizacion = new Cotizacion(new DateTime(2024, 11, 15),  200, null);
+            Assert.That(abril.Importes.Count, Is.EqualTo(0));
+            abril.AgregarImporte(cotizacion);
+            IImporte importeAgregado = abril.Importes[0];
+            Assert.That(importeAgregado, Is.TypeOf<Cotizacion>());
+            Assert.That(abril.Importes.Count, Is.EqualTo(1));
         }
     }
 }
