@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.Interactions;
@@ -18,45 +20,105 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
 
     
     [SlashCommand("reactivarusuario", "Reactiva al usuario")]
-    public async Task ExecuteAsync(Administrador admin, Usuario usuario)
+    public async Task ExecuteReactivarUsuarioAsync(string nombreAdmin, string nombreUsuario)
     {
-        try
+        List<Usuario> usuarios = _fachada.BuscarUsuario(nombreUsuario);
+        List<Usuario> admins = _fachada.BuscarUsuario(nombreAdmin);
+        
+        if (usuarios.Count == 0 )
         {
+            await ReplyAsync($"No se encontró ningún usuario llamado {nombreUsuario}.");
+            return;
+        }
+        if (admins.Count == 0 )
+        {
+            await ReplyAsync($"No se encontró ningún admin llamado {nombreAdmin}.");
+            return;
+        }
+        if (usuarios.Count == 1 && admins.Count == 1)
+        {
+            Usuario usuario = usuarios.First();
+            Administrador admin = (Administrador)admins.First();
+            
             _fachada.ReactivarUsuario(admin,usuario);
             await ReplyAsync($"Se reactivo el usuario {usuario.Nombre}");
+            return;
         }
-        catch (CampoInvalidoExepcion e)
+
+        if (admins.Count > 1)
         {
-            await ReplyAsync(e.Message);
+            SeleccionesUsuarios.OpcionesUsuarios[Context.User.Id] = admins;
+            
+            var listado = string.Join("\n",
+                admins.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+
+            await ReplyAsync(
+                $"Se encontraron varios admins con el nombre {nombreAdmin}.\n" +
+                $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
+        }
+        
+        if (usuarios.Count > 1)
+        {
+            SeleccionesUsuarios.OpcionesUsuarios[Context.User.Id] = usuarios;
+            
+            var listado = string.Join("\n",
+                usuarios.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+
+            await ReplyAsync(
+                $"Se encontraron varios admins con el nombre {nombreUsuario}.\n" +
+                $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
         }
     }
+    
 
     [SlashCommand("registrarusuario","Registra al usuario")]
-    public async Task ExecuteAsync1(Administrador administrador, Usuario usuario)
+    public async Task ExecuteRegistrarUsuarioAsync(string nombreAdmin, string nombreUsuario)
     {
-        try
+        List<Usuario> usuarios = _fachada.BuscarUsuario(nombreUsuario);
+        List<Usuario> admins = _fachada.BuscarUsuario(nombreAdmin);
+        
+        if (usuarios.Count == 0 )
         {
-            _fachada.RegistrarUsuario(administrador, usuario);
-            await ReplyAsync($"Se registro al usuario {usuario.Nombre}");
+            await ReplyAsync($"No se encontró ningún usuario llamado {nombreUsuario}.");
+            return;
         }
-        catch (CampoInvalidoExepcion e)
+        if (admins.Count == 0 )
         {
-            await ReplyAsync(e.Message);
+            await ReplyAsync($"No se encontró ningún admin llamado {nombreAdmin}.");
+            return;
         }
-    }
+        if (usuarios.Count == 1 && admins.Count == 1)
+        {
+            Usuario usuario = usuarios.First();
+            Administrador admin = (Administrador)admins.First();
+            
+            _fachada.ReactivarUsuario(admin,usuario);
+            await ReplyAsync($"Se reactivo el usuario {usuario.Nombre}");
+            return;
+        }
 
+        if (admins.Count > 1)
+        {
+            SeleccionesUsuarios.OpcionesUsuarios[Context.User.Id] = admins;
+            
+            var listado = string.Join("\n",
+                admins.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
-    [SlashCommand("suspenderusuario","Suspende al usuario")]
-    public async Task ExecuteAsync2(Administrador admin, Usuario usuario)
-    {
-        try
-        {
-            _fachada.SuspenderUsuario(admin,usuario);
-            await ReplyAsync($"Se suspendió al usuario {usuario.Nombre}");
+            await ReplyAsync(
+                $"Se encontraron varios admins con el nombre {nombreAdmin}.\n" +
+                $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
         }
-        catch (CampoInvalidoExepcion e)
+        
+        if (usuarios.Count > 1)
         {
-            await ReplyAsync(e.Message);
+            SeleccionesUsuarios.OpcionesUsuarios[Context.User.Id] = usuarios;
+            
+            var listado = string.Join("\n",
+                usuarios.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+
+            await ReplyAsync(
+                $"Se encontraron varios admins con el nombre {nombreUsuario}.\n" +
+                $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
         }
     }
     

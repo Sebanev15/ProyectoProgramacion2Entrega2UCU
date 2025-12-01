@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
@@ -35,7 +36,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         [SlashCommand("crearcotizacion", "Crea una cotización")]
         public async Task ExecuteAsync2(double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
-            var clientes = _fachada.BuscarCliente(nombreCliente);
+            List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
             
             if (clientes.Count == 0)
             {
@@ -84,7 +85,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         [SlashCommand("crearventa", "Crea una venta")]
         public async Task ExecuteAsync4([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
-            var clientes = _fachada.BuscarCliente(nombreCliente);
+            List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
             
             if (clientes.Count == 0)
             {
