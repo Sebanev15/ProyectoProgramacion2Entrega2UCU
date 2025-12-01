@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Library;
 using NUnit.Framework;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace LibraryTests
 {
@@ -34,6 +35,13 @@ namespace LibraryTests
             e.Clientes = new List<Cliente> { j };
         
             Assert.That(e.Clientes.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void CrearEtiquetaVacia()
+        {
+            CampoInvalidoExepcion excepcion = Assert.Throws<CampoInvalidoExepcion>(() => new Etiqueta(null));
+            Assert.That(excepcion.Message, Is.EqualTo("El nombre de la etiqueta no puede estar vacío."));
         }
 
     }

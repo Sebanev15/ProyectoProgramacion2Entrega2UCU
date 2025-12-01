@@ -4,6 +4,7 @@ using System.IO;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace LibraryTests
 {
@@ -163,6 +164,16 @@ namespace LibraryTests
          }
          
          [Test]
+         public void ListarClientesConReturnTesting()
+         {
+             _gestionCliente.AgregarCliente(jorge);
+             _gestionCliente.AgregarCliente(jorjito);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(2));
+             List<Cliente> resultado= _gestionCliente.ListarClientesConReturn();
+             Assert.That(resultado.Count, Is.EqualTo(2));
+         }
+         
+         [Test]
          public void AgregarEtiqueta()
          {
              _gestionCliente.AgregarCliente(jorge);
@@ -198,8 +209,8 @@ namespace LibraryTests
              
              string comentario = "Esta reunion fue respondida";
              reunion.Comentarios.Add(comentario);
-             resultado = _gestionCliente.ObtenerClientesNoRespondidos();
-             Assert.That(resultado.Count, Is.EqualTo(0));
+             ListaVaciaExcepcion excepcion = Assert.Throws<ListaVaciaExcepcion>(() => _gestionCliente.ObtenerClientesNoRespondidos());
+             Assert.That(excepcion.Message, Is.EqualTo("No hay clientes sin responder"));
          }
 
          [Test]
