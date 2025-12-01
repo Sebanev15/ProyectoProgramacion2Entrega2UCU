@@ -9,6 +9,7 @@ namespace LibraryTests
     public class EtiquetaTests
     {
         private Etiqueta e;
+        private Etiqueta erroneo;
         private Cliente j;
 
         [SetUp]
@@ -22,6 +23,10 @@ namespace LibraryTests
         public void ConstructorTest()
         {
             Assert.That(e.NombreEtiqueta, Is.EqualTo("Etiqueta"));
+            Assert.Throws<CampoInvalidoExepcion>(() =>
+            {
+                erroneo=new Etiqueta(null);
+            });
         }
 
         [Test]

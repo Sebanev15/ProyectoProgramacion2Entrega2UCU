@@ -53,7 +53,13 @@ namespace LibraryTests
     public void CrearUsuarioYaExistenteTest()
     {
         administrador.GestionUsuario.Usuarios = new List<Usuario>();
-        administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
+        administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);    
+        
+        Assert.Throws<ItemDuplicadoExcepcion>(() =>
+        {
+            administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
+        });
+       
         ItemDuplicadoExcepcion excepcion = Assert.Throws<ItemDuplicadoExcepcion>(() => administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario));
         
         Assert.That(excepcion.Message, Is.EqualTo($"El usuario {usuarioGenerico1.Nombre} ya esta registrado"));
