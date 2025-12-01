@@ -179,9 +179,7 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
         }
     }
 
-    [SlashCommand("asignaraotrovendedor", "Asigna un cliente a otro vendedor. Primero se pasan los" +
-                                          " parametros del vendedor al que se le va a quitar el cliente, despues al " +
-                                          "que se le va a asignar y por ultimo el cliente")]
+    [SlashCommand("asignaraotrovendedor", "Asigna un cliente a otro vendedor.")]
     public async Task ExecuteAsignarAOtroVendedorAsync([Remainder] string parametrosVendedorInicial, [Remainder] string parametrosVendedorAsignado, [Remainder] string parametrosCliente)
     {
         {

@@ -207,7 +207,7 @@ namespace Library
             _gestionUsuario.AsignarOtroVendedor(vendedorInicial, vendedorAsignado, cliente);
         }        
         
-        public List<Usuario> BuscarUsuario(string usuarioBusqueda)
+        public List<Usuario> BuscarUsuario(List<string> usuarioBusqueda)
         {
             return _gestionUsuario.BuscarUsuario(usuarioBusqueda);
         }

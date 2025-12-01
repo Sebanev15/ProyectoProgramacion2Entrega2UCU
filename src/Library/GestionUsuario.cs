@@ -78,7 +78,7 @@ namespace Library
                     {
                         foreach (string datosBuscados in datosBusqueda)
                         {
-                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(usuario) )
+                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(usuario))
                             {
                                 contador++;
                             }

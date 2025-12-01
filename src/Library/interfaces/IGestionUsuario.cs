@@ -16,6 +16,6 @@ namespace Library.interfaces
 
         void AsignarOtroVendedor(Vendedor vendedor1,Vendedor vendedor2, Cliente cliente);
         
-        List<Usuario> BuscarUsuario(string usuarioBusqueda);
+        List<Usuario> BuscarUsuario(List<string> usuarioBusqueda);
     }
 }

@@ -19,7 +19,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
         }
         
         
-        [SlashCommand("crearetiqueta", "Crea una etiqueta, Se debe pasar el nombre de la etiqueta")]
+        [SlashCommand("crearetiqueta", "Crea una etiqueta.")]
         public async Task ExecuteCrearEtiquetaAsync( string nombre)
         {
             try
@@ -33,7 +33,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
             }
         }
 
-        [SlashCommand("crearcotizacion", "Crea una cotización. Primero se pasa el monto luego la fecha y al final los parametros del cliente")]
+        [SlashCommand("crearcotizacion", "Crea una cotización")]
         public async Task ExecuteCrearCotizacionAsync(double monto, DateTime fecha, [Remainder] string parametrosCliente)
         {
             List<string> parametros = parametrosCliente.Split(' ').ToList();
@@ -68,22 +68,7 @@ public class CommandsCrearEntidades: InteractionModuleBase<SocketInteractionCont
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
 
-        [SlashCommand("crearcliente", "Crea un cliente. Formato nombre, apellido, telefono, correo ,genero(M o H) , fecha de nacimiento")]
-        public async Task ExecuteCrearClienteAsync([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
-        {
-            try
-            {
-                genero = genero.ToUpper();
-                _fachada.CrearCliente(nombre, apellido, telefono, correo, genero, fechaDeNacimiento);
-                await ReplyAsync($"Se creo el cliente {nombre}");
-            }
-            catch (CampoInvalidoExepcion e)
-            {
-                await ReplyAsync(e.Message);
-            }
-        }
-
-        [SlashCommand("crearventa", "Crea una venta. Se debe pasar nombre del producto, monto , fecha y los parametros del cliente en ese orden")]
+        [SlashCommand("crearventa", "Crea una venta")]
         public async Task ExecuteCrearVentaAsync([Remainder] string producto,double monto, DateTime fecha, [Remainder] string parametrosCliente)
         {
             List<string> parametros = parametrosCliente.Split(' ').ToList();
