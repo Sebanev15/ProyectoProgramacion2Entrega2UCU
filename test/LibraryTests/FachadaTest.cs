@@ -4,6 +4,7 @@ using System.IO;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace LibraryTests
 {
@@ -61,13 +62,13 @@ namespace LibraryTests
         [Test]
         public void CrearClienteFachadaTest()
         {
-            var cliente2 = _fachada.CrearCliente("Ana", "García", "12345678", "ana@mail.com", "F", new DateTime(1995, 5, 10));
+            var cliente2 = _fachada.CrearCliente("Ana", "García", "12345678", "ana@mail.com", "M", new DateTime(1995, 5, 10));
 
             Assert.That(cliente2.Nombre, Is.EqualTo("Ana"));
             Assert.That(cliente2.Apellido, Is.EqualTo("García"));
             Assert.That(cliente2.Telefono, Is.EqualTo("12345678"));
             Assert.That(cliente2.Correo, Is.EqualTo("ana@mail.com"));
-            Assert.That(cliente2.Genero, Is.EqualTo("F"));
+            Assert.That(cliente2.Genero, Is.EqualTo("M"));
             Assert.That(cliente2.FechaDeNacimiento, Is.EqualTo(new DateTime(1995, 5, 10)));
         }
 
@@ -155,6 +156,7 @@ namespace LibraryTests
         {
             var gestionCliente = _gestionCliente;
             var cliente = _cliente;
+            gestionCliente.AgregarCliente(cliente);
             DateTime fechaNueva = new DateTime(2024, 10, 20);
             cliente.Interacciones.Add(new Reunion(fechaNueva, "Reunion1", cliente, _usuario, "Eiffel" ));
             Assert.That(_fachada.ObtenerClientesInactivos(),Is.EqualTo(gestionCliente.ObtenerClientesInactivos()));
@@ -182,9 +184,15 @@ namespace LibraryTests
              
             string comentario = "Esta reunion fue respondida";
             reunion.Comentarios.Add(comentario);
-            resultado = gestionCliente.ObtenerClientesNoRespondidos();
-            Assert.That(resultado.Count, Is.EqualTo(0));
-            Assert.That(_fachada.ObtenerClientesNoRespondidos(),Is.EqualTo(gestionCliente.ObtenerClientesNoRespondidos()));
+            Assert.Throws<ListaVaciaExcepcion>(() =>
+            {
+                _fachada.ObtenerClientesNoRespondidos();
+            });
+            
+            Assert.Throws<ListaVaciaExcepcion>(() =>
+            {
+                gestionCliente.ObtenerClientesNoRespondidos();
+            });
 
         }
         
@@ -329,9 +337,11 @@ namespace LibraryTests
             var usuarioGenerico1 = new Usuario("NombreGenerico", "correo@gmail.com", "099222333",_gestionUsuario,new GestionCliente());
             administrador.GestionUsuario.Usuarios = new List<Usuario>();
             _fachada.RegistrarUsuario(administrador, usuarioGenerico1);
-            _fachada.RegistrarUsuario(administrador, usuarioGenerico1);
             Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(1));
-            
+            Assert.Throws<ItemDuplicadoExcepcion>(() =>
+            {
+                _fachada.RegistrarUsuario(administrador, usuarioGenerico1);
+            });
         }
         
         [Test]
@@ -358,7 +368,7 @@ namespace LibraryTests
             var vendedor1 = new Vendedor("juan", "juan@gmail.com", "099222333", gestionUsuario, gestionCliente);
             var vendedor2 = new Vendedor("juan2", "juan@gmail.com", "099222333", gestionUsuario2, gestionCliente2);
             
-            var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", _fecha);
+            var cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "M", _fecha);
             gestionCliente.AgregarCliente(cliente);
             
             Assert.That(vendedor1.GestionCliente.Clientes.Count, Is.EqualTo(1));

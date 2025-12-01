@@ -4,6 +4,7 @@ using System.IO;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace LibraryTests
 {
@@ -198,8 +199,11 @@ namespace LibraryTests
              
              string comentario = "Esta reunion fue respondida";
              reunion.Comentarios.Add(comentario);
-             resultado = _gestionCliente.ObtenerClientesNoRespondidos();
-             Assert.That(resultado.Count, Is.EqualTo(0));
+             
+             Assert.Throws<ListaVaciaExcepcion>(() =>
+             {
+                 resultado = _gestionCliente.ObtenerClientesNoRespondidos();
+             });
          }
 
          [Test]

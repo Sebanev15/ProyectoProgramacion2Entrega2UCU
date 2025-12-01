@@ -36,7 +36,7 @@ namespace Library
         /// </remarks>
         public void SuspenderUsuario(Usuario usuario)
         {
-            if (usuario != null)
+            if (usuario == null)
             {
                 throw new CampoInvalidoExepcion("Falta ingresar el usuario.");
             }
@@ -45,7 +45,7 @@ namespace Library
     
         public void ReactivarUsuario(Usuario usuario)
         {
-            if (usuario != null)
+            if (usuario == null)
             {
                 throw new CampoInvalidoExepcion("Falta ingresar el usuario.");
             }
@@ -54,7 +54,7 @@ namespace Library
 
         public void EliminarUsuario(Usuario usuario, IGestionUsuario gestionUsuario)
         {         
-            if (usuario != null)
+            if (usuario == null)
             {
                 throw new CampoInvalidoExepcion("Falta ingresar el usuario.");
             }

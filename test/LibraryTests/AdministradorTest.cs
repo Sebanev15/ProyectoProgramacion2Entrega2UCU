@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace LibraryTests
 {
@@ -53,8 +54,13 @@ namespace LibraryTests
     {
         administrador.GestionUsuario.Usuarios = new List<Usuario>();
         administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
-        administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
-        Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(1));
+       
+        
+        Assert.Throws<ItemDuplicadoExcepcion>(() =>
+        {
+            administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
+        });
+       
     }
 
     [Test]
