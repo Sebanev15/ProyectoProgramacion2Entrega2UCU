@@ -25,9 +25,18 @@ public class CommandsEtiqueta: InteractionModuleBase<SocketInteractionContext>
         try
         {
             List<string> parametrosClientes = parametrosCliente.Split(' ').ToList();
+            
             List<Cliente> clientes = _fachada.BuscarCliente(parametrosClientes);
             
-            if (clientes.Count == 0 )
+            if (Selecciones.ClienteSeleccionado.TryGetValue(Context.User.Id, out Cliente seleccionado))
+            {
+                _fachada.CrearEtiqueta(seleccionado, etiqueta);
+
+                await ReplyAsync($"Se creó la etiqueta {etiqueta} para {seleccionado.Nombre}");
+                Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+                return;
+            }
+            else if (clientes.Count == 0 )
             {
                 await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
                 return;
@@ -43,15 +52,14 @@ public class CommandsEtiqueta: InteractionModuleBase<SocketInteractionContext>
             }
             if (clientes.Count > 1)
             {
-                SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
+                Selecciones.OpcionesClientes[Context.User.Id] = clientes;
             
                 var listado = string.Join("\n",
                     clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
                 await ReplyAsync(
-                    $"Se encontraron varios admins con los parametros {parametrosCliente}.\n" +
-                    $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
-                SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
+                    $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
+                    $"Elegí uno usando:\n`/elegircliente <numero>`\n\n{listado}");
 
             }
         }

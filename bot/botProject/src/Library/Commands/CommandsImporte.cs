@@ -23,8 +23,23 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
     public async Task ExecuteCrearCotizacionAsync(double monto, DateTime fecha, [Remainder] string parametrosCliente)
     {
         List<string> parametros = parametrosCliente.Split(' ').ToList();
+        
         List<Cliente> clientes = _fachada.BuscarCliente(parametros);
         
+        if (Selecciones.ClienteSeleccionado.TryGetValue(Context.User.Id, out Cliente clienteSeleccionado))
+        {
+            
+            _fachada.CrearCotizacion(fecha, monto, clienteSeleccionado);
+
+            await ReplyAsync(
+                $"Cotización creada para {clienteSeleccionado.Nombre}\n" +
+                $"Monto: ${monto}\n" +
+                $"Fecha: {fecha:dd-MM-yyyy}");
+            
+            Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+            return;
+        }   
+
         if (clientes.Count == 0)
         {
             await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
@@ -44,15 +59,14 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             return;
         }
         
-        SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
+        Selecciones.OpcionesClientes[Context.User.Id] = clientes;
 
         var listado = string.Join("\n",
             clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
         await ReplyAsync(
             $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
-            $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
-        SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
+            $"Elegí uno usando:\n`/elegircliente <numero>`\n\n{listado}");
     }
 
     
@@ -78,7 +92,21 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
     public async Task ExecuteCrearVentaAsync([Remainder] string producto,double monto, DateTime fecha, [Remainder] string parametrosCliente)
     {
         List<string> parametros = parametrosCliente.Split(' ').ToList();
+        
         List<Cliente> clientes = _fachada.BuscarCliente(parametros);
+        
+        if (Selecciones.ClienteSeleccionado.TryGetValue(Context.User.Id, out Cliente clienteSeleccionado))
+        {
+            
+            _fachada.CrearVenta(producto,fecha, monto, clienteSeleccionado);
+
+            await ReplyAsync(
+                $"Venta creada para {clienteSeleccionado.Nombre}\n" +
+                $"Monto: ${monto}\n" +
+                $"Fecha: {fecha:dd-MM-yyyy}");                
+            Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+            return;
+        }   
         
         if (clientes.Count == 0)
         {
@@ -99,34 +127,79 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             return;
         }
         
-        SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
+        Selecciones.OpcionesClientes[Context.User.Id] = clientes;
 
         var listado = string.Join("\n",
             clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
         await ReplyAsync(
             $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
-            $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
-        SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
+            $"Elegí uno usando:\n`/elegircliente <numero>`\n\n{listado}");
     }
     
     [SlashCommand("modificarventa", "Modifica una venta")]
-    public async Task ExecuteModificarVentaAsync([Remainder] string parametrosVentaVieja, [Remainder] string productoNuevo,double montoNuevo, DateTime fechaNueva, [Remainder] string parametrosClienteNuevo)
+    public async Task ExecuteModificarVentaAsync([Remainder] string parametrosVentaVieja, [Remainder] string productoNuevo, double montoNuevo, DateTime fechaNueva, [Remainder] string parametrosClienteNuevo)
     {
         List<string> parametros = parametrosVentaVieja.Split(' ').ToList();
         List<string> parametrosCliente = parametrosClienteNuevo.Split(' ').ToList();
+            
         List<Venta> ventas = _fachada.BuscarVentasSinFecha(parametros);
         List<Cliente> clientes = _fachada.BuscarCliente(parametrosCliente);
         
-        if (ventas.Count == 0)
+        bool hayClienteSeleccionado = Selecciones.ClienteSeleccionado.TryGetValue(Context.User.Id, out Cliente clienteSeleccionado);
+        bool hayVentaSeleccionada = Selecciones.VentaSeleccionada.TryGetValue(Context.User.Id, out Venta ventaSeleccionada);
+
+        if (hayClienteSeleccionado && hayVentaSeleccionada)
         {
-            await ReplyAsync($"No se encontró ninguna venta con los parametros {parametrosVentaVieja}.");
+            _fachada.ModificarImporte(
+                ventaSeleccionada,
+                new Venta(productoNuevo, fechaNueva, montoNuevo, clienteSeleccionado));
+
+            await ReplyAsync("Se modificó la venta usando la venta y el cliente previamente seleccionados.");
+
+            Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+            Selecciones.VentaSeleccionada.Remove(Context.User.Id);
             return;
         }
         
+        if (hayClienteSeleccionado)
+        {
+
+            Venta venta = ventas.First();
+            _fachada.ModificarImporte(
+                venta,
+                new Venta(productoNuevo, fechaNueva, montoNuevo, clienteSeleccionado));
+
+            await ReplyAsync("Se modificó la venta usando la venta encontrada y el cliente previamente seleccionado.");
+
+            Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+            return;
+        }   
+        
+        if (hayVentaSeleccionada)
+        {
+
+            Cliente cliente = clientes.First();
+
+            _fachada.ModificarImporte(
+                ventaSeleccionada,
+                new Venta(productoNuevo, fechaNueva, montoNuevo, cliente));
+
+            await ReplyAsync("Se modificó la venta usando la venta seleccionada y el cliente encontrado por parámetros.");
+
+            Selecciones.VentaSeleccionada.Remove(Context.User.Id);
+            return;
+        }
+
+        if (ventas.Count == 0)
+        {
+            await ReplyAsync($"No se encontró ninguna venta con los parámetros {parametrosVentaVieja}.");
+            return;
+        }
+            
         if (clientes.Count == 0)
         {
-            await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosClienteNuevo}.");
+            await ReplyAsync($"No se encontró ningún cliente con los parámetros {parametrosClienteNuevo}.");
             return;
         }
         
@@ -134,37 +207,38 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
         { 
             Venta venta = ventas.First();
             Cliente cliente = clientes.First();
-            
-            _fachada.ModificarImporte(venta,new Venta(productoNuevo,fechaNueva,montoNuevo, cliente));
+                
+            _fachada.ModificarImporte(
+                venta,
+                new Venta(productoNuevo, fechaNueva, montoNuevo, cliente));
 
-            await ReplyAsync("Se modifico la venta");
+            await ReplyAsync("Se modificó la venta.");
             return;
         }
-
-        if (ventas.Count() > 1)
+        
+        if (ventas.Count > 1)
         {
-            SeleccionesUsuarios.OpcionesVenta[Context.User.Id] = ventas;
-            
-            var listado = string.Join("\n",
-                ventas.Select((v, i) => $"{i + 1}. Producto: {v.Producto} Fecha: {v.Fecha} Monto: {v.Monto} Cliente asociado: {v.Cliente}"));
+            Selecciones.OpcionesVenta[Context.User.Id] = ventas;
+                
+            string listadoVentas = string.Join("\n",
+                ventas.Select((v, i) => $"{i + 1}. Producto: {v.Producto} Fecha: {v.Fecha} Monto: {v.Monto} Cliente: {v.Cliente.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varias ventas con los parametros {parametrosVentaVieja}.\n" +
-                $"Elegí uno usando:\n`/elegirVenta <numero>`\n\n{listado}");
-            SeleccionesUsuarios.OpcionesVenta.Remove(Context.User.Id);
+                $"Se encontraron varias ventas con los parámetros {parametrosVentaVieja}.\n" +
+                $"Elegí una usando:\n`/elegirventa <numero>`\n\n{listadoVentas}");
         }
         
-        if (clientes.Count() > 1)
+        if (clientes.Count > 1)
         {
-            SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
-            
-            var listado = string.Join("\n",
-                clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
+            Selecciones.OpcionesClientes[Context.User.Id] = clientes;
+                
+            string listadoClientes = string.Join("\n",
+                clientes.Select((c, i) =>
+                    $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Teléfono: {c.Telefono} Correo: {c.Correo} Género: {c.Genero} Nacimiento: {c.FechaDeNacimiento}"));
 
             await ReplyAsync(
-                $"Se encontraron varios clientes con los parametros {parametrosClienteNuevo}.\n" +
-                $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
-            SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
+                $"Se encontraron varios clientes con los parámetros {parametrosClienteNuevo}.\n" +
+                $"Elegí uno usando:\n`/elegircliente <numero>`\n\n{listadoClientes}");
         }
     }
     
@@ -173,18 +247,52 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
     {
         List<string> parametrosVentas = parametrosVenta.Split(' ').ToList();
         List<string> parametrosClientes = parametrosCliente.Split(' ').ToList();
+        
         List<Venta> ventas = _fachada.BuscarVentasSinFecha(parametrosVentas);
         List<Cliente> clientes = _fachada.BuscarCliente(parametrosClientes);
+
+
+        if (Selecciones.VentaSeleccionada.TryGetValue(Context.User.Id, out Venta ventaSel) &&
+            Selecciones.ClienteSeleccionado.TryGetValue(Context.User.Id, out Cliente clienteSel))
+        {
+            _fachada.AgregarImporte(ventaSel, clienteSel);
+
+            await ReplyAsync($"Se agregó la venta {ventaSel.Producto} al cliente {clienteSel.Nombre}.");
+
+            Selecciones.VentaSeleccionada.Remove(Context.User.Id);
+            Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+            return;
+        }
+        
+        if (Selecciones.ClienteSeleccionado.TryGetValue(Context.User.Id, out Cliente clienteSeleccionado))
+        {
+            Venta venta = ventas.First();
+            _fachada.AgregarImporte(venta, clienteSeleccionado);
+
+            await ReplyAsync($"Se agregó la venta {venta.Producto} al cliente {clienteSeleccionado.Nombre}.");
+            Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+            return;
+        }   
+        
+        if (Selecciones.VentaSeleccionada.TryGetValue(Context.User.Id, out Venta ventaSeleccionada))
+        {
+            Cliente cliente = clientes.First();
+            _fachada.AgregarImporte(ventaSeleccionada, cliente);
+
+            await ReplyAsync($"Se agregó la venta {ventaSeleccionada.Producto} al cliente {cliente.Nombre}.");
+            Selecciones.VentaSeleccionada.Remove(Context.User.Id);
+            return;
+        }
         
         if (ventas.Count == 0)
         {
-            await ReplyAsync($"No se encontró ninguna venta con los parametros {parametrosVenta}.");
+            await ReplyAsync($"No se encontró ninguna venta con los parámetros {parametrosVenta}.");
             return;
         }
         
         if (clientes.Count == 0)
         {
-            await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
+            await ReplyAsync($"No se encontró ningún cliente con los parámetros {parametrosCliente}.");
             return;
         }
         
@@ -193,105 +301,149 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             Venta venta = ventas.First();
             Cliente cliente = clientes.First();
             
-            _fachada.AgregarImporte(venta,cliente);
+            _fachada.AgregarImporte(venta, cliente);
 
-            await ReplyAsync($"Se agrego la venta {venta.Producto} al cliente {cliente.Nombre}");
+            await ReplyAsync($"Se agregó la venta {venta.Producto} al cliente {cliente.Nombre}.");
             return;
         }
-
-        if (ventas.Count() > 1)
+        
+        if (ventas.Count > 1)
         {
-            SeleccionesUsuarios.OpcionesVenta[Context.User.Id] = ventas;
+            Selecciones.OpcionesVenta[Context.User.Id] = ventas;
             
             var listado = string.Join("\n",
-                ventas.Select((v, i) => $"{i + 1}. Producto: {v.Producto} Fecha: {v.Fecha} Monto: {v.Monto} Cliente asociado: {v.Cliente}"));
+                ventas.Select((v, i) => $"{i + 1}. Producto: {v.Producto} Fecha: {v.Fecha} Monto: {v.Monto} Cliente: {v.Cliente.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varias ventas con los parametros {parametrosVenta}.\n" +
-                $"Elegí uno usando:\n`/elegirVenta <numero>`\n\n{listado}");
-            
-            SeleccionesUsuarios.OpcionesVenta.Remove(Context.User.Id);
+                $"Se encontraron varias ventas con los parámetros {parametrosVenta}.\n" +
+                $"Elegí una usando:\n`/elegirventa <numero>`\n\n{listado}");
         }
         
-        if (clientes.Count() > 1)
+        if (clientes.Count > 1)
         {
-            SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
+            Selecciones.OpcionesClientes[Context.User.Id] = clientes;
             
             var listado = string.Join("\n",
-                clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
+                clientes.Select((c, i) => $"{i + 1}. {c.Nombre} {c.Apellido} - {c.Correo} - {c.Telefono}"));
 
             await ReplyAsync(
-                $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
-                $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
-            SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
+                $"Se encontraron varios clientes con los parámetros {parametrosCliente}.\n" +
+                $"Elegí uno usando:\n`/elegircliente <numero>`\n\n{listado}");
         }
     }
     
-    [SlashCommand("agregarcotizacion", "Agrega una cotizacion ya existente a un cliente")]
-    public async Task ExecuteAgregarCotizacionAsync([Remainder] string parametrosCotizacion, [Remainder] string parametrosCliente)
+[SlashCommand("agregarcotizacion", "Agrega una cotización ya existente a un cliente")]
+public async Task ExecuteAgregarCotizacionAsync(
+    [Remainder] string parametrosCotizacion,
+    [Remainder] string parametrosCliente)
+{
+    List<string> parametrosCotizaciones = parametrosCotizacion.Split(' ').ToList();
+    List<string> parametrosClientes = parametrosCliente.Split(' ').ToList();
+
+    List<Cotizacion> cotizaciones = _fachada.BuscarCotizacionessSinFecha(parametrosCotizaciones);
+    List<Cliente> clientes = _fachada.BuscarCliente(parametrosClientes);
+    
+
+    if (Selecciones.CotizacionSeleccionada.TryGetValue(Context.User.Id, out Cotizacion cotSel)
+        && Selecciones.ClienteSeleccionado.TryGetValue(Context.User.Id, out Cliente cliSel))
     {
-        List<string> parametrosCotizaciones = parametrosCotizacion.Split(' ').ToList();
-        List<string> parametrosClientes = parametrosCliente.Split(' ').ToList();
-        List<Cotizacion> cotizaciones = _fachada.BuscarCotizacionessSinFecha(parametrosCotizaciones);
-        List<Cliente> clientes = _fachada.BuscarCliente(parametrosClientes);
-        
-        if (cotizaciones.Count == 0)
-        {
-            await ReplyAsync($"No se encontró ninguna venta con los parametros {parametrosCotizacion}.");
-            return;
-        }
-        
-        if (clientes.Count == 0)
-        {
-            await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
-            return;
-        }
-        
-        if (cotizaciones.Count == 1 && clientes.Count == 1)
-        { 
-            Cotizacion cotizacion = cotizaciones.First();
-            Cliente cliente = clientes.First();
-            
-            _fachada.AgregarImporte(cotizacion,cliente);
+        _fachada.AgregarImporte(cotSel, cliSel);
 
-            await ReplyAsync($"Se agrego la cotizacion al cliente {cliente.Nombre}");
-            return;
-        }
+        await ReplyAsync($"Se agregó la cotización al cliente {cliSel.Nombre}");
 
-        if (cotizaciones.Count() > 1)
-        {
-            SeleccionesUsuarios.OpcionesCotizacion[Context.User.Id] = cotizaciones;
-            
-            var listado = string.Join("\n",
-                cotizaciones.Select((c, i) => $"{i + 1}. Fecha: {c.Fecha} Monto: {c.Monto} Cliente asociado: {c.Cliente}"));
-
-            await ReplyAsync(
-                $"Se encontraron varias ventas con los parametros {parametrosCotizacion}.\n" +
-                $"Elegí uno usando:\n`/elegirCotizacion <numero>`\n\n{listado}");
-            SeleccionesUsuarios.OpcionesCotizacion.Remove(Context.User.Id);
-        }
-        
-        if (clientes.Count() > 1)
-        {
-            SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
-            
-            var listado = string.Join("\n",
-                clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
-
-            await ReplyAsync(
-                $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
-                $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
-            
-            SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
-        }
+        Selecciones.CotizacionSeleccionada.Remove(Context.User.Id);
+        Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+        return;
     }
+
+    if (Selecciones.CotizacionSeleccionada.TryGetValue(Context.User.Id, out cotSel))
+    {
+        Cliente cliente = clientes.First();
+
+        _fachada.AgregarImporte(cotSel, cliente);
+
+        await ReplyAsync($"Se agregó la cotización al cliente {cliente.Nombre}");
+        Selecciones.CotizacionSeleccionada.Remove(Context.User.Id);
+        return;
+    }
+
+
+    if (Selecciones.ClienteSeleccionado.TryGetValue(Context.User.Id, out cliSel))
+    {
+        Cotizacion cot = cotizaciones.First();
+
+        _fachada.AgregarImporte(cot, cliSel);
+
+        await ReplyAsync($"Se agregó la cotización al cliente {cliSel.Nombre}");
+        Selecciones.ClienteSeleccionado.Remove(Context.User.Id);
+        return;
+    }
+
+    if (cotizaciones.Count == 0)
+    {
+        await ReplyAsync($"No se encontró ninguna cotización con los parámetros {parametrosCotizacion}.");
+        return;
+    }
+
+    if (clientes.Count == 0)
+    {
+        await ReplyAsync($"No se encontró ningún cliente con los parámetros {parametrosCliente}.");
+        return;
+    }
+    
+    if (cotizaciones.Count == 1 && clientes.Count == 1)
+    {
+        Cotizacion cot = cotizaciones.First();
+        Cliente cli = clientes.First();
+
+        _fachada.AgregarImporte(cot, cli);
+        await ReplyAsync($"Se agregó la cotización al cliente {cli.Nombre}");
+        return;
+    }
+    
+    if (cotizaciones.Count > 1)
+    {
+        Selecciones.OpcionesCotizacion[Context.User.Id] = cotizaciones;
+
+        string listado = string.Join("\n",
+            cotizaciones.Select((c, i) =>
+                $"{i + 1}. Fecha: {c.Fecha:dd/MM/yyyy} Monto: {c.Monto} Cliente asociado: {c.Cliente?.Nombre ?? "Ninguno"}"));
+
+        await ReplyAsync(
+            $"Se encontraron varias cotizaciones con los parámetros {parametrosCotizacion}.\n" +
+            $"Elegí una con:\n`/elegircotizacion <numero>`\n\n{listado}");
+    }
+    
+    if (clientes.Count > 1)
+    {
+        Selecciones.OpcionesClientes[Context.User.Id] = clientes;
+
+        string listado = string.Join("\n",
+            clientes.Select((c, i) =>
+                $"{i + 1}. {c.Nombre} {c.Apellido} | Tel: {c.Telefono} | Correo: {c.Correo}"));
+
+        await ReplyAsync(
+            $"Se encontraron varios clientes con los parámetros {parametrosCliente}.\n" +
+            $"Elegí uno con:\n`/elegircliente <numero>`\n\n{listado}");
+    }
+}
+
 
     [SlashCommand("eliminarcotizacion", "Agrega una cotizacion ya existente a un cliente")]
     public async Task ExecuteeliminarCotizacionAsync([Remainder] string parametrosCotizacion)
     {
         List<string> parametrosCotizaciones = parametrosCotizacion.Split(' ').ToList();
+        
         List<Cotizacion> cotizaciones = _fachada.BuscarCotizacionessSinFecha(parametrosCotizaciones);
         
+        if (Selecciones.CotizacionSeleccionada.TryGetValue(Context.User.Id, out Cotizacion seleccionado))
+        {
+            _fachada.EliminarImporte(seleccionado);
+
+            await ReplyAsync($"Se elimino la cotizacion");
+            Selecciones.CotizacionSeleccionada.Remove(Context.User.Id);
+            return;
+        }
         if (cotizaciones.Count == 0)
         {
             await ReplyAsync($"No se encontró ninguna venta con los parametros {parametrosCotizacion}.");
@@ -310,15 +462,14 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
 
         if (cotizaciones.Count() > 1)
         {
-            SeleccionesUsuarios.OpcionesCotizacion[Context.User.Id] = cotizaciones;
+            Selecciones.OpcionesCotizacion[Context.User.Id] = cotizaciones;
             
             var listado = string.Join("\n",
                 cotizaciones.Select((c, i) => $"{i + 1}. Cliente{c.Cliente} {c.Fecha} {c.Monto}"));
 
             await ReplyAsync(
                 $"Se encontraron varias ventas con los parametros {parametrosCotizacion}.\n" +
-                $"Elegí uno usando:\n`/elegirCotizacion <numero>`\n\n{listado}");
-            SeleccionesUsuarios.OpcionesCotizacion.Remove(Context.User.Id);
+                $"Elegí uno usando:\n`/elegircotizacion <numero>`\n\n{listado}");
         }
     }
     
@@ -326,7 +477,17 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
     public async Task ExecuteEliminarVentaAsync([Remainder] string parametrosVenta)
     {
         List<string> parametrosVentas = parametrosVenta.Split(' ').ToList();
+        
         List<Venta> ventas = _fachada.BuscarVentasSinFecha(parametrosVentas);
+        
+        if (Selecciones.VentaSeleccionada.TryGetValue(Context.User.Id, out Venta seleccionado))
+        {
+            _fachada.EliminarImporte(seleccionado);
+
+            await ReplyAsync($"Se elimino la venta {seleccionado.Producto}");
+            Selecciones.CotizacionSeleccionada.Remove(Context.User.Id);
+            return;
+        }
         
         if (ventas.Count == 0)
         {
@@ -346,15 +507,14 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
 
         if (ventas.Count() > 1)
         {
-            SeleccionesUsuarios.OpcionesVenta[Context.User.Id] = ventas;
+            Selecciones.OpcionesVenta[Context.User.Id] = ventas;
             
             var listado = string.Join("\n",
                 ventas.Select((v, i) => $"{i + 1}. Producto: {v.Producto} Fecha: {v.Fecha} Monto: {v.Monto} Cliente asociado: {v.Cliente}"));
 
             await ReplyAsync(
                 $"Se encontraron varias ventas con los parametros {parametrosVenta}.\n" +
-                $"Elegí uno usando:\n`/elegirVenta <numero>`\n\n{listado}");
-            SeleccionesUsuarios.OpcionesVenta.Remove(Context.User.Id);
+                $"Elegí uno usando:\n`/elegirventa <numero>`\n\n{listado}");
         }
     }
 }

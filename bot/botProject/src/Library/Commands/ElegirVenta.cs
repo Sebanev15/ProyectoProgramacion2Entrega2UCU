@@ -13,7 +13,7 @@ namespace Ucu.Poo.DiscordBot.Commands
         public async Task ElegirVentaAsync(int numero)
         {
             List<Venta> lista;
-            if (!SeleccionesUsuarios.OpcionesVenta.TryGetValue(Context.User.Id, out lista))
+            if (!Selecciones.OpcionesVenta.TryGetValue(Context.User.Id, out lista))
             {
                 await ReplyAsync("No tenés ninguna selección activa.");
                 return;
@@ -27,6 +27,8 @@ namespace Ucu.Poo.DiscordBot.Commands
 
             Venta venta = lista[numero - 1];
 
+            Selecciones.VentaSeleccionada[Context.User.Id] = venta;
+            
             await ReplyAsync(
                 $" Seleccionaste: {venta.Producto}.\n" +
                 $"Ahora podés volver a ejecutar usando exactamente ese nombre.");
