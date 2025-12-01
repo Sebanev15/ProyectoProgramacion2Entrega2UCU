@@ -5,6 +5,10 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
 {
+    /// <summary>
+    /// Clase que representa la gestion de los clientes, realiza las operaciones relacionada a
+    /// los clientes y a las clases fuertemente asociadas.
+    /// </summary>
     public class GestionCliente: IGestionCliente
     {
         public List<IInteraccion> Interacciones { get; set; }
@@ -70,10 +74,11 @@ namespace Library
 
         public List<Cliente> BuscarCliente(List<string> datosBusqueda)
         {
+            int cantidadDatos = datosBusqueda.Count;
             List<Cliente> resultados = new List<Cliente>();
-            
             foreach (Cliente cliente in Clientes)
             {
+                int contador = 0;
                 foreach (var informacionAtributo in cliente.GetType().GetProperties())
                 {
                     var valorAtributo = informacionAtributo.GetValue(cliente);
@@ -81,12 +86,16 @@ namespace Library
                     {
                         foreach (string datosBuscados in datosBusqueda)
                         {
-                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(cliente))
+                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(cliente) )
                             {
-                                resultados.Add(cliente);
-                            }    
+                                contador++;
+                            }
                         }
                     }
+                }
+                if (cantidadDatos==contador)
+                {
+                    resultados.Add(cliente);
                 }
             }
             return resultados;

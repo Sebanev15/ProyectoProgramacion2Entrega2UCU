@@ -15,6 +15,7 @@ namespace LibraryTests
         private Usuario usuarero;
         private GestionCliente _gestionCliente;
         private Cliente jorjito;
+        private Cliente jorjito2;
         private List<IImporte> Importes;
         private Cliente jorge;
         private Venta venta;
@@ -32,6 +33,7 @@ namespace LibraryTests
             usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionUsuario(), new GestionCliente());
 
             jorjito = new Cliente("jorjito", "perez", "00", "monson@gmail.com", "M", fechaN);
+            jorjito2 = new Cliente("jorjito", "perez", "01", "monson@gmail.com", "M", fechaN);
             jorjito.Interacciones = new List<IInteraccion>();
             interaccion = new Reunion( fechaReunion, "Reunion", jorjito, usuarero, "Montevideo");
             Importes = new List<IImporte>();
@@ -135,13 +137,15 @@ namespace LibraryTests
          {
              _gestionCliente.AgregarCliente(jorge);
              _gestionCliente.AgregarCliente(jorjito);
-             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(2));
+             _gestionCliente.AgregarCliente(jorjito2);
+             Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(3));
              List<string> datos = new List<string>();
              datos.Add("jorjito");
-             datos.Add("01");
+             datos.Add("00");
              List<Cliente> resultado=_gestionCliente.BuscarCliente(datos);
             
-             Assert.That(resultado.Contains(jorjito)&& resultado.Contains(jorge), Is.True);
+             Assert.That(resultado.Contains(jorjito), Is.True);
+             Assert.That(resultado.Contains(jorjito2), Is.False);
              
          }
          [Test]

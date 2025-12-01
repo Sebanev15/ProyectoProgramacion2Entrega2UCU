@@ -4,6 +4,9 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
 {
+    /// <summary>
+    /// Clase que representa a un Usuario tipo Administrador.s
+    /// </summary>
     public class Administrador: Usuario
     {
         public Administrador(string esteNombre, string esteCorreo, string esteTelefono, IGestionUsuario estaGestionUsuario, IGestionCliente estaGestionCliente) : base(esteNombre, esteCorreo, 

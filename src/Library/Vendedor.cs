@@ -4,6 +4,9 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Library
 {
+    /// <summary>
+    /// Clase que represnta a un Usuario tipo Vendedor.
+    /// </summary>
     public class Vendedor: Usuario
     {
 

@@ -4,6 +4,11 @@
         <name>Library</name>
     </assembly>
     <members>
+        <member name="T:Library.Administrador">
+            <summary>
+            Clase que representa a un Usuario tipo Administrador.s
+            </summary>
+        </member>
         <member name="M:Library.Administrador.SuspenderUsuario(Library.Usuario)">
             <summary>
             Suspende las funciones de un usuario.
@@ -109,6 +114,18 @@
                  público de creación que chequee si ya hay una instancia [GetInstancia()].
              </remarks>
         </member>
+        <member name="T:Library.GestionCliente">
+            <summary>
+            Clase que representa la gestion de los clientes, realiza las operaciones relacionada a
+            los clientes y a las clases fuertemente asociadas.
+            </summary>
+        </member>
+        <member name="T:Library.GestionUsuario">
+            <summary>
+            Clase que representa la gestion de los clientes, realiza las operaciones relacionada a
+            los clientes y a las clases fuertemente asociadas.
+            </summary>
+        </member>
         <member name="T:Library.interfaces.IImporte">
             <summary>
             Esta interfaz define el contrato para cualquier tipo de importe del sistema.
@@ -174,6 +191,11 @@
             **SOLID: Dependency Inversion Principle (DIP):** Depende de la ABSTRACCIÓN (`IGestionCliente`) y no de una clase concreta.
             **GRASP: Low Coupling:** El acoplamiento es bajo porque depende de una interfaz y no de una implementación concreta.
             </remarks>
+        </member>
+        <member name="T:Library.Vendedor">
+            <summary>
+            Clase que represnta a un Usuario tipo Vendedor.
+            </summary>
         </member>
         <member name="T:Library.Venta">
             <summary>
