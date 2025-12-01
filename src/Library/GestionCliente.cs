@@ -39,6 +39,7 @@ namespace Library
             List<Venta> resultados = new List<Venta>();
 
             foreach (IImporte importe in Importes)
+
             {
                 if (importe is Venta)
                 {
