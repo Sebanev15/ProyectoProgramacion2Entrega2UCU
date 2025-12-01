@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace LibraryTests
 {
@@ -53,14 +54,16 @@ namespace LibraryTests
     {
         administrador.GestionUsuario.Usuarios = new List<Usuario>();
         administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
-        administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
-        Assert.That(administrador.GestionUsuario.Usuarios.Count, Is.EqualTo(1));
+        ItemDuplicadoExcepcion excepcion = Assert.Throws<ItemDuplicadoExcepcion>(() => administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario));
+        
+        Assert.That(excepcion.Message, Is.EqualTo($"El usuario {usuarioGenerico1.Nombre} ya esta registrado"));
     }
 
     [Test]
     public void SuspenderUsuarioTest()
     {
         Assert.That(!usuarioGenerico1.EstaSuspendido);
+        
         administrador.SuspenderUsuario(usuarioGenerico1);
         Assert.That(usuarioGenerico1.EstaSuspendido);
     }
@@ -68,8 +71,9 @@ namespace LibraryTests
     [Test]
     public void EliminarUsuarioTest()
     {
+        Assert.That(gestionUsuario.Usuarios.Contains(usuarioGenerico1));
         administrador.EliminarUsuario(usuarioGenerico1, gestionUsuario);
-        Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(0));
+        Assert.That(!gestionUsuario.Usuarios.Contains(usuarioGenerico1));
     }    
     
     [Test]

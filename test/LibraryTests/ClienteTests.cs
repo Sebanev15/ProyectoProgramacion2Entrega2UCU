@@ -23,9 +23,9 @@ namespace LibraryTests
             user = new Usuario("nombre", "correo", "31212", _gestionUsuario, _gestionCliente);
             etiqueta = new Etiqueta("nuevo");
             DateTime fecha = new DateTime(2024, 10, 20);
-            importe = new Venta("algo", fecha, 500.0, j);
+            importe = new Venta("algo", fecha, 500.2, j);
             j = new Cliente("Juan", "Sanchez", "099477703", "correo@mail.com", "M", new DateTime(1997, 10, 24));
-            abril = new Cliente("Abril", "Sortez", "099477123", "abril@mail.com", "F", new DateTime(2002, 5, 2));
+            abril = new Cliente("Abril", "Sortez", "099477123", "abril@mail.com", "H", new DateTime(2002, 5, 2));
             llamada = new Llamada(fecha, "tema", j, user);
         }
 
@@ -94,8 +94,9 @@ namespace LibraryTests
         public void ObtenerVentasTotales()
         {
             j.AgregarImporte(importe);
-            Assert.That(j.ObtenerVentasTotales(new DateTime(2024, 10, 19),new DateTime(2025, 10, 20)),
-                Is.EqualTo("Juan: MontoTotal=500,0, cantidad de ventas=1"));
+            string resultado = j.ObtenerVentasTotales(new DateTime(2024,10,19),new DateTime(2025,10,20));
+            Assert.That(resultado,
+                Is.EqualTo($"{j.Nombre} {j.Apellido}: MontoTotal = {importe.Monto}; cantidad de ventas = 1"));
         }
 
         [Test]

@@ -130,8 +130,8 @@ namespace Library
                     cantidad++;
                 }
             }
-            string montoTotal = monto.ToString("0.0");
-            string informacionVentas=$"{nombreCliente}: MontoTotal = {montoTotal}, cantidad de ventas = {cantidad}";
+            string montoTotal = monto.ToString();
+            string informacionVentas=$"{nombreCliente}: MontoTotal = {montoTotal}; cantidad de ventas = {cantidad}";
             return informacionVentas;
         }
 
