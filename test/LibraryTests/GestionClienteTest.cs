@@ -35,7 +35,7 @@ namespace LibraryTests
             jorjito.Interacciones = new List<IInteraccion>();
             interaccion = new Reunion( fechaReunion, "Reunion", jorjito, usuarero, "Montevideo");
             Importes = new List<IImporte>();
-            jorge = new Cliente("jorge", "perez", "00", "monson@gmail.com", "M", fechaN);
+            jorge = new Cliente("jorge", "perez", "01", "monson@gmail.com", "M", fechaN);
             DateTime fecha = new DateTime(2024, 10, 20);
             DateTime fecha1 = new DateTime(2024, 11, 20);
             venta = new Venta("caja", fecha, 12, jorge);
@@ -136,8 +136,13 @@ namespace LibraryTests
              _gestionCliente.AgregarCliente(jorge);
              _gestionCliente.AgregarCliente(jorjito);
              Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(2));
-             List<Cliente> resultado=_gestionCliente.BuscarCliente("jorjito");
-             Assert.That(resultado.Contains(jorjito), Is.True);
+             List<string> datos = new List<string>();
+             datos.Add("jorjito");
+             datos.Add("01");
+             List<Cliente> resultado=_gestionCliente.BuscarCliente(datos);
+            
+             Assert.That(resultado.Contains(jorjito)&& resultado.Contains(jorge), Is.True);
+             
          }
          [Test]
          public void ListarClientesTesting()

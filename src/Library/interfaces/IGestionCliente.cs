@@ -24,7 +24,7 @@ namespace Library.interfaces
 
         void EliminarCliente(Cliente cliente);
 
-        List<Cliente> BuscarCliente(string clienteBusqueda);
+        List<Cliente> BuscarCliente(List<string>datosBusqueda);
 
         void ListarClientes();
         
