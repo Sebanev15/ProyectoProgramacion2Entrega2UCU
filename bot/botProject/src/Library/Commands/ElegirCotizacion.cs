@@ -31,7 +31,6 @@ namespace Ucu.Poo.DiscordBot.Commands
                 $" Seleccionaste la cotizacion número: {numero}.\n" +
                 $"Ahora podés volver a ejecutar usando exactamente ese nombre.");
             
-            SeleccionesUsuarios.OpcionesCotizacion.Remove(Context.User.Id);
         }
     }
 }

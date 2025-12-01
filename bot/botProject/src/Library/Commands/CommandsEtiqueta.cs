@@ -46,11 +46,13 @@ public class CommandsEtiqueta: InteractionModuleBase<SocketInteractionContext>
                 SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
             
                 var listado = string.Join("\n",
-                    clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+                    clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
                 await ReplyAsync(
                     $"Se encontraron varios admins con los parametros {parametrosCliente}.\n" +
                     $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
+                SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
+
             }
         }
         catch (CampoInvalidoExepcion e)

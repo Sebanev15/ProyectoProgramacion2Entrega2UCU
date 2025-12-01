@@ -30,8 +30,6 @@ namespace Ucu.Poo.DiscordBot.Commands
             await ReplyAsync(
                 $" Seleccionaste: {venta.Producto}.\n" +
                 $"Ahora podés volver a ejecutar usando exactamente ese nombre.");
-            
-            SeleccionesUsuarios.OpcionesVenta.Remove(Context.User.Id);
         }
     }
 }
