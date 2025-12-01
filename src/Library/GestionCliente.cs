@@ -37,7 +37,7 @@ namespace Library
         {
             int cantidadDatos = datosBusqueda.Count;
             List<Venta> resultados = new List<Venta>();
-            foreach (Venta venta in Interacciones)
+            foreach (Venta venta in Importes)
             {
                 int contador = 0;
                 foreach (var informacionAtributo in venta.GetType().GetProperties())
@@ -66,7 +66,7 @@ namespace Library
         {
             int cantidadDatos = datosBusqueda.Count;
             List<Cotizacion> resultados = new List<Cotizacion>();
-            foreach (Cotizacion cotizacion in Interacciones)
+            foreach (Cotizacion cotizacion in Importes)
             {
                 int contador = 0;
                 foreach (var informacionAtributo in cotizacion.GetType().GetProperties())
