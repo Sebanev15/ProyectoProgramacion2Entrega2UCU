@@ -29,8 +29,7 @@ namespace Ucu.Poo.DiscordBot.Commands
             await ReplyAsync(
                 $" Seleccionaste: {usuario.Nombre}.\n" +
                 $"Ahora podés volver a ejecutar usando exactamente ese nombre.");
-            
-            SeleccionesUsuarios.OpcionesUsuarios.Remove(Context.User.Id);
+
         }
     }
 }

@@ -47,11 +47,12 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
         SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
 
         var listado = string.Join("\n",
-            clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+            clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
         await ReplyAsync(
             $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
             $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
+        SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
     }
 
     
@@ -101,11 +102,12 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
         SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
 
         var listado = string.Join("\n",
-            clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+            clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
         await ReplyAsync(
             $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
             $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
+        SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
     }
     
     [SlashCommand("modificarventa", "Modifica una venta")]
@@ -144,11 +146,12 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             SeleccionesUsuarios.OpcionesVenta[Context.User.Id] = ventas;
             
             var listado = string.Join("\n",
-                ventas.Select((v, i) => $"{i + 1}. {v.Producto}"));
+                ventas.Select((v, i) => $"{i + 1}. Producto: {v.Producto} Fecha: {v.Fecha} Monto: {v.Monto} Cliente asociado: {v.Cliente}"));
 
             await ReplyAsync(
                 $"Se encontraron varias ventas con los parametros {parametrosVentaVieja}.\n" +
                 $"Elegí uno usando:\n`/elegirVenta <numero>`\n\n{listado}");
+            SeleccionesUsuarios.OpcionesVenta.Remove(Context.User.Id);
         }
         
         if (clientes.Count() > 1)
@@ -156,11 +159,12 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
             
             var listado = string.Join("\n",
-                clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+                clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
             await ReplyAsync(
                 $"Se encontraron varios clientes con los parametros {parametrosClienteNuevo}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
+            SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
         }
     }
     
@@ -200,11 +204,13 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             SeleccionesUsuarios.OpcionesVenta[Context.User.Id] = ventas;
             
             var listado = string.Join("\n",
-                ventas.Select((v, i) => $"{i + 1}. {v.Producto}"));
+                ventas.Select((v, i) => $"{i + 1}. Producto: {v.Producto} Fecha: {v.Fecha} Monto: {v.Monto} Cliente asociado: {v.Cliente}"));
 
             await ReplyAsync(
                 $"Se encontraron varias ventas con los parametros {parametrosVenta}.\n" +
                 $"Elegí uno usando:\n`/elegirVenta <numero>`\n\n{listado}");
+            
+            SeleccionesUsuarios.OpcionesVenta.Remove(Context.User.Id);
         }
         
         if (clientes.Count() > 1)
@@ -212,11 +218,12 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
             
             var listado = string.Join("\n",
-                clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+                clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
             await ReplyAsync(
                 $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
+            SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
         }
     }
     
@@ -256,11 +263,12 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             SeleccionesUsuarios.OpcionesCotizacion[Context.User.Id] = cotizaciones;
             
             var listado = string.Join("\n",
-                cotizaciones.Select((c, i) => $"{i + 1}. Cliente{c.Cliente} {c.Fecha} {c.Monto}"));
+                cotizaciones.Select((c, i) => $"{i + 1}. Fecha: {c.Fecha} Monto: {c.Monto} Cliente asociado: {c.Cliente}"));
 
             await ReplyAsync(
                 $"Se encontraron varias ventas con los parametros {parametrosCotizacion}.\n" +
                 $"Elegí uno usando:\n`/elegirCotizacion <numero>`\n\n{listado}");
+            SeleccionesUsuarios.OpcionesCotizacion.Remove(Context.User.Id);
         }
         
         if (clientes.Count() > 1)
@@ -268,11 +276,13 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             SeleccionesUsuarios.OpcionesClientes[Context.User.Id] = clientes;
             
             var listado = string.Join("\n",
-                clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
+                clientes.Select((c, i) => $"{i + 1}. Nombre: {c.Nombre} {c.Apellido} Telefono: {c.Telefono} Correo: {c.Correo} Genero: {c.Genero} Fecha de nacimiento: {c.FechaDeNacimiento}"));
 
             await ReplyAsync(
                 $"Se encontraron varios clientes con los parametros {parametrosCliente}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
+            
+            SeleccionesUsuarios.OpcionesClientes.Remove(Context.User.Id);
         }
     }
 
@@ -308,6 +318,7 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             await ReplyAsync(
                 $"Se encontraron varias ventas con los parametros {parametrosCotizacion}.\n" +
                 $"Elegí uno usando:\n`/elegirCotizacion <numero>`\n\n{listado}");
+            SeleccionesUsuarios.OpcionesCotizacion.Remove(Context.User.Id);
         }
     }
     
@@ -338,11 +349,12 @@ public class CommandsImporte: InteractionModuleBase<SocketInteractionContext>
             SeleccionesUsuarios.OpcionesVenta[Context.User.Id] = ventas;
             
             var listado = string.Join("\n",
-                ventas.Select((v, i) => $"{i + 1}. {v.Producto}"));
+                ventas.Select((v, i) => $"{i + 1}. Producto: {v.Producto} Fecha: {v.Fecha} Monto: {v.Monto} Cliente asociado: {v.Cliente}"));
 
             await ReplyAsync(
                 $"Se encontraron varias ventas con los parametros {parametrosVenta}.\n" +
                 $"Elegí uno usando:\n`/elegirVenta <numero>`\n\n{listado}");
+            SeleccionesUsuarios.OpcionesVenta.Remove(Context.User.Id);
         }
     }
 }
