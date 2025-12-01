@@ -12,7 +12,7 @@ namespace Ucu.Poo.DiscordBot.Commands
         public async Task ElegirUsuarioAsync(int numero)
         {
             List<Usuario> lista;
-            if (!SeleccionesUsuarios.OpcionesUsuarios.TryGetValue(Context.User.Id, out lista))
+            if (!Selecciones.OpcionesUsuarios.TryGetValue(Context.User.Id, out lista))
             {
                 await ReplyAsync("No tenés ninguna selección activa.");
                 return;
@@ -26,10 +26,11 @@ namespace Ucu.Poo.DiscordBot.Commands
 
             Usuario usuario = lista[numero - 1];
 
+            Selecciones.UsuarioSeleccionado[Context.User.Id] = usuario;
+            
             await ReplyAsync(
                 $" Seleccionaste: {usuario.Nombre}.\n" +
                 $"Ahora podés volver a ejecutar usando exactamente ese nombre.");
-
         }
     }
 }
