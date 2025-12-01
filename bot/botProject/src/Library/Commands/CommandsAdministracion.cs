@@ -6,123 +6,85 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands;
 
-public class CommandsAdministracion
+public class CommandsAdministracion : ModuleBase<SocketCommandContext>
 {
-    public class CommandReactivarUsuario: ModuleBase<SocketCommandContext>
+
+    private readonly Fachada _fachada;
+
+    CommandsAdministracion(Fachada fachada)
     {
-        private readonly Fachada _fachada;
+        _fachada = fachada;
+    }
 
-        CommandReactivarUsuario(Fachada fachada)
+    
+    [SlashCommand("reactivarusuario", "Reactiva al usuario")]
+    public async Task ExecuteAsync(Administrador admin, Usuario usuario)
+    {
+        try
         {
-            _fachada = fachada;
+            _fachada.ReactivarUsuario(admin,usuario);
+            await ReplyAsync($"Se reactivo el usuario {usuario.Nombre}");
         }
-
-        [SlashCommand("reactivarusuario", "Reactiva al usuario")]
-        public async Task ExecuteAsync(Administrador admin, Usuario usuario)
+        catch (CampoInvalidoExepcion e)
         {
-            try
-            {
-                _fachada.ReactivarUsuario(admin,usuario);
-                await ReplyAsync($"Se reactivo el usuario {usuario.Nombre}");
-            }
-            catch (CampoInvalidoExepcion e)
-            {
-                await ReplyAsync(e.Message);
-            }
+            await ReplyAsync(e.Message);
+        }
+    }
+
+    [SlashCommand("registrarusuario","Registra al usuario")]
+    public async Task ExecuteAsync1(Administrador administrador, Usuario usuario)
+    {
+        try
+        {
+            _fachada.RegistrarUsuario(administrador, usuario);
+            await ReplyAsync($"Se registro al usuario {usuario.Nombre}");
+        }
+        catch (CampoInvalidoExepcion e)
+        {
+            await ReplyAsync(e.Message);
+        }
+    }
+
+
+    [SlashCommand("suspenderusuario","Suspende al usuario")]
+    public async Task ExecuteAsync2(Administrador admin, Usuario usuario)
+    {
+        try
+        {
+            _fachada.SuspenderUsuario(admin,usuario);
+            await ReplyAsync($"Se suspendió al usuario {usuario.Nombre}");
+        }
+        catch (CampoInvalidoExepcion e)
+        {
+            await ReplyAsync(e.Message);
         }
     }
     
-    public class CommandRegistrarUsuario : ModuleBase<SocketCommandContext>
+    [SlashCommand("eliminarusuario", "Elimina el usuario")]
+    public async Task ExecuteAsync3(Administrador administrador, Usuario usuario)
     {
-        private readonly Fachada _fachada;
-
-        CommandRegistrarUsuario(Fachada fachada)
+        try
         {
-            _fachada = fachada;
+            _fachada.EliminarUsuario(administrador, usuario);
+            await ReplyAsync($"Se elimino el usuario {usuario.Nombre}");
         }
-        [SlashCommand("registrarusuario","Registra al usuario")]
-        public async Task ExecuteAsync(Administrador administrador, Usuario usuario)
+        catch (CampoInvalidoExepcion e)
         {
-            try
-            {
-                _fachada.RegistrarUsuario(administrador, usuario);
-                await ReplyAsync($"Se registro al usuario {usuario.Nombre}");
-            }
-            catch (CampoInvalidoExepcion e)
-            {
-                await ReplyAsync(e.Message);
-            }
+            await ReplyAsync(e.Message);
         }
-        
-        public class CommandSuspenderUsuario: ModuleBase<SocketCommandContext>
+    }
+
+    [SlashCommand("asignaraotrovendedor", "Asigna un cliente a otro vendedor")]
+    public async Task ExecuteAsync(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
+    {
+        try
         {
-            private readonly Fachada _fachada;
-
-            CommandSuspenderUsuario(Fachada fachada)
-            {
-                _fachada = fachada;
-            }
-
-            [SlashCommand("suspenderusuario","Suspende al usuario")]
-            public async Task ExecuteAsync(Administrador admin, Usuario usuario)
-            {
-                try
-                {
-                    _fachada.SuspenderUsuario(admin,usuario);
-                    await ReplyAsync($"Se suspendió al usuario {usuario.Nombre}");
-                }
-                catch (CampoInvalidoExepcion e)
-                {
-                    await ReplyAsync(e.Message);
-                }
-            }
+            _fachada.AsignarOtroVendedor(vendedorInicial, vendedorAsignado, cliente);
+            await ReplyAsync($"Se asigno el cliente {cliente.Nombre} al vendedor {vendedorAsignado.Nombre} desde el vendedor {vendedorInicial.Nombre}");
         }
-        
-        public class CommandEliminarUsuario : ModuleBase<SocketCommandContext>
+        catch (CampoInvalidoExepcion e)
         {
-            private readonly Fachada _fachada;
-
-            CommandEliminarUsuario(Fachada fachada)
-            {
-                _fachada = fachada;
-            }
-            [SlashCommand("eliminarusuario", "Elimina el usuario")]
-            public async Task ExecuteAsync(Administrador administrador, Usuario usuario)
-            {
-                try
-                {
-                    _fachada.EliminarUsuario(administrador, usuario);
-                    await ReplyAsync($"Se elimino el usuario {usuario.Nombre}");
-                }
-                catch (CampoInvalidoExepcion e)
-                {
-                    await ReplyAsync(e.Message);
-                }
-            }
-
-        }
-        
-        public class CommandAsignarAOtroVendedor : ModuleBase<SocketCommandContext>
-        {
-            private readonly Fachada _fachada;
-
-            CommandAsignarAOtroVendedor(Fachada fachada)
-            {
-                _fachada = fachada;
-            }
-            [SlashCommand("asignaraotrovendedor", "Asigna un cliente a otro vendedor")]
-            public async Task ExecuteAsync(Vendedor vendedorInicial, Vendedor vendedorAsignado, Cliente cliente)
-            {
-                try
-                {
-                    _fachada.AsignarOtroVendedor(vendedorInicial, vendedorAsignado, cliente);
-                    await ReplyAsync($"Se asigno el cliente {cliente.Nombre} al vendedor {vendedorAsignado.Nombre} desde el vendedor {vendedorInicial.Nombre}");
-                }
-                catch (CampoInvalidoExepcion e)
-                {
-                    await ReplyAsync(e.Message);
-                }
-            }
+            await ReplyAsync(e.Message);
         }
     }
 }
