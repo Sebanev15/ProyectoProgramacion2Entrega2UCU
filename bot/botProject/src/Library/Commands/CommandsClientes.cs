@@ -4,6 +4,7 @@ using Library;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands
 {
@@ -34,11 +35,15 @@ namespace Ucu.Poo.DiscordBot.Commands
         [SlashCommand("modificarcliente", "Modificar un cliente existente con formulario")]
         public async Task ModificarModalAsync(string parametrosDeBusqueda)
         {
-            List<string> parametros = new List<string> { parametrosDeBusqueda };
+            List<string> parametros = new List<string> {};
+            foreach (string parametro in parametrosDeBusqueda.Split(' '))
+            {
+                parametros.Add(parametro);
+            }
             List<Cliente> clientea = _fachada.BuscarCliente(parametros);
             if (clientea.Count != 1)
             {
-                await RespondAsync("No se encontró un cliente único con ese nombre. Asegúrese de que el nombre es correcto.", ephemeral: true);
+                await RespondAsync($"No se encontró un cliente único con los parametros {parametrosDeBusqueda}", ephemeral: true);
                 return;
             }
             Cliente clienteEncontrado = clientea[0];
@@ -56,11 +61,56 @@ namespace Ucu.Poo.DiscordBot.Commands
 
             await RespondWithModalAsync(modal.Build());
         }
+        
+        [SlashCommand("eliminarcliente", "Elimina un cliente existente")]
+        public async Task EliminarClienteAsync(string parametrosDeBusqueda)
+        {
+            List<string> parametros = new List<string> {};
+            foreach (string parametro in parametrosDeBusqueda.Split(' '))
+            {
+                parametros.Add(parametro);
+            }
+            List<Cliente> clientes = _fachada.BuscarCliente(parametros);
+            if (clientes.Count != 1)
+            {
+                await RespondAsync($"No se encontró un cliente único con los parametros {parametrosDeBusqueda}.", ephemeral: true);
+                return;
+            }
+            Cliente clienteEncontrado = clientes[0];
+            _fachada.EliminarCliente(clienteEncontrado);
+            await RespondAsync($"Cliente {clienteEncontrado.Nombre} {clienteEncontrado.Apellido} eliminado correctamente.");
+        }
+
+        [SlashCommand("buscarclientes", "Busca clientes por parámetros")]
+        public async Task BuscarClientesAsync(string parametrosDeBusqueda)
+        {
+            List<string> parametros = new List<string> {};
+            foreach (string parametro in parametrosDeBusqueda.Split(' '))
+            {
+                parametros.Add(parametro);
+            }
+            List<Cliente> clientes = _fachada.BuscarCliente(parametros);
+            if (clientes.Count == 0)
+            {
+                await RespondAsync($"No se encontró ningún cliente con los parametros {parametrosDeBusqueda}.");
+                return;
+            }
+
+            var listaClientes = new StringBuilder();
+            int i = 1;
+            foreach (var cliente in clientes)
+            {
+                listaClientes.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
+            }
+
+            await RespondAsync(listaClientes.ToString());
+        }
 
         [SlashCommand("mostrarclientes", "Muestra los clientes creados en formato de tabla")]
         public async Task MostrarClientesAsync()
         {
-            var clientes = _fachada.ListarClientesConReturn();
+            List<Cliente> clientes = _fachada.ListarClientesConReturn();
             if (clientes.Count == 0)
             {
                 await RespondAsync("No hay clientes registrados.");
@@ -77,5 +127,55 @@ namespace Ucu.Poo.DiscordBot.Commands
 
             await RespondAsync(listaClientes.ToString());
         }
+
+        [SlashCommand("clientesinactivos", "Muestra los clientes que no han tenido interacciones recientes")]
+        public async Task ClientesInactivosAsync()
+        {
+            List<Cliente> clientesInactivos;
+            try
+            {
+                clientesInactivos = _fachada.ObtenerClientesInactivos();
+            }
+            catch (ListaVaciaExcepcion)
+            {
+                await RespondAsync("No hay clientes inactivos.");
+                return;
+            }
+
+            var listaClientes = new StringBuilder();
+            int i = 1;
+            foreach (var cliente in clientesInactivos)
+            {
+                listaClientes.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
+            }
+
+            await RespondAsync(listaClientes.ToString());
+        }
+
+        [SlashCommand("clientesnorespondidos", "Muestra los clientes que no han respondido a interacciones")]
+        public async Task ClientesNoRespondidosAsync()
+        {
+            List<Cliente> clientesNoRespondidos;
+            try
+            {
+                clientesNoRespondidos = _fachada.ObtenerClientesNoRespondidos();
+            }
+            catch (ListaVaciaExcepcion)
+            {
+                await RespondAsync("No hay clientes no respondidos.");
+                return;
+            }
+            var listaClientes = new StringBuilder();
+            int i = 1;
+            foreach (var cliente in clientesNoRespondidos)
+            {
+                listaClientes.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
+            }
+            await RespondAsync(listaClientes.ToString());
+            
+        }
+        
     }
 }
