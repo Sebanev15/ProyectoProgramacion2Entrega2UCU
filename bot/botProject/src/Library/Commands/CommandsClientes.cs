@@ -21,12 +21,38 @@ namespace Ucu.Poo.DiscordBot.Commands
         {
             var modal = new ModalBuilder()
                 .WithTitle("Crear nuevo cliente")
-                .WithCustomId("modal_crear_cliente")
+                .WithCustomId("modal_global:crear_cliente")
                 .AddTextInput("Nombre completo", "nombre_completo", placeholder: "Juan Pérez", required: true)
                 .AddTextInput("Teléfono", "telefono", placeholder: "099123456", required: true)
                 .AddTextInput("Correo", "correo", placeholder: "correo@example.com", required: true)
                 .AddTextInput("Género (M/H)", "genero", placeholder: "M o H", maxLength: 1, required: true)
                 .AddTextInput("Fecha nacimiento (YYYY-MM-DD)", "fecha_nac", placeholder: "2000-05-01", required: true);
+
+            await RespondWithModalAsync(modal.Build());
+        }
+
+        [SlashCommand("modificarcliente", "Modificar un cliente existente con formulario")]
+        public async Task ModificarModalAsync(string parametrosDeBusqueda)
+        {
+            List<string> parametros = new List<string> { parametrosDeBusqueda };
+            List<Cliente> clientea = _fachada.BuscarCliente(parametros);
+            if (clientea.Count != 1)
+            {
+                await RespondAsync("No se encontró un cliente único con ese nombre. Asegúrese de que el nombre es correcto.", ephemeral: true);
+                return;
+            }
+            Cliente clienteEncontrado = clientea[0];
+
+            var modal = new ModalBuilder()
+                .WithTitle("Modificar cliente")
+                .WithCustomId($"modal_global:modificar_cliente")
+                .AddTextInput("Nombre completo", "nombre_completo",
+                    value: (clienteEncontrado.Nombre + " " + clienteEncontrado.Apellido), required: true)
+                .AddTextInput("Género (M/H)", "genero", value: clienteEncontrado.Genero, placeholder: "M o H",
+                    maxLength: 1, required: false)
+                .AddTextInput("Teléfono", "telefono", value: clienteEncontrado.Telefono, placeholder: "099123456", required: false)
+                .AddTextInput("Correo", "correo", value: clienteEncontrado.Correo, placeholder: "correo@example.com", required: false)
+                .AddTextInput("Fecha nacimiento (YYYY-MM-DD)", "fecha_nac", value: clienteEncontrado.FechaDeNacimiento.ToString("yyyy-MM-dd"), required: false);
 
             await RespondWithModalAsync(modal.Build());
         }

@@ -104,20 +104,38 @@ namespace Ucu.Poo.DiscordBot.Services
                     }
                 };
 
-                var modalHandlers = serviceProvider.GetServices<IModalHandler>()
-                    .ToDictionary(h => h.CustomId, h => h);
+                var modalHandlers = serviceProvider.GetServices<IModalHandler>().ToList();
 
                 Console.WriteLine($"Handlers de modals registrados: {modalHandlers.Count}");
                 foreach (var handler in modalHandlers)
                 {
-                    Console.WriteLine($"  - Handler para: {handler.Key}");
+                    Console.WriteLine($"  - Handler para: {handler.CustomId}");
                 }
 
                 client.ModalSubmitted += async modal =>
                 {
                     Console.WriteLine($"Modal recibido: {modal.Data.CustomId}");
 
-                    if (modalHandlers.TryGetValue(modal.Data.CustomId, out var handler))
+                    IModalHandler handler = null;
+                    foreach (var h in modalHandlers)
+                    {
+                        if (h.CustomId.EndsWith("*"))
+                        {
+                            string prefix = h.CustomId.TrimEnd('*');
+                            if (modal.Data.CustomId.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                            {
+                                handler = h;
+                                break;
+                            }
+                        }
+                        else if (h.CustomId == modal.Data.CustomId)
+                        {
+                            handler = h;
+                            break;
+                        }
+                    }
+
+                    if (handler != null)
                     {
                         await handler.HandleAsync(modal);
                     }
@@ -126,6 +144,7 @@ namespace Ucu.Poo.DiscordBot.Services
                         Console.WriteLine($"⚠️ No hay handler registrado para: {modal.Data.CustomId}");
                     }
                 };
+
 
                 var readyTaskSource = new TaskCompletionSource<bool>();
 
