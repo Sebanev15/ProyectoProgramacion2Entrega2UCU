@@ -60,12 +60,16 @@ namespace Library
         // -------------------------------------- CREACIÓN DE ENTIDADES ------------------------------------------------
         public Cotizacion CrearCotizacion(DateTime fecha, double monto, Cliente cliente)
         {
-            return new Cotizacion(fecha, monto, cliente);
+            Cotizacion cotizacion = new Cotizacion(fecha, monto, cliente);
+            _gestionCliente.AgregarImporte(cotizacion, cliente);
+            return cotizacion;
         }
         
         public Venta CrearVenta(string producto, DateTime fecha, double monto, Cliente cliente)
         {
-            return new Venta(producto,fecha, monto, cliente);
+            Venta venta = new Venta(producto,fecha, monto, cliente);
+            _gestionCliente.AgregarImporte(venta, cliente);
+            return venta;
         }
 
         public Cliente CrearCliente(string nombre, string apellido, string telefono, string correo, string genero,
