@@ -20,19 +20,21 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
 
     
     [SlashCommand("reactivarusuario", "Reactiva al usuario")]
-    public async Task ExecuteReactivarUsuarioAsync(string nombreAdmin, string nombreUsuario)
+    public async Task ExecuteReactivarUsuarioAsync( [Remainder] string parametrosAdmin, [Remainder] string parametrosUsuario)
     {
-        List<Usuario> usuarios = _fachada.BuscarUsuario(nombreUsuario);
-        List<Usuario> admins = _fachada.BuscarUsuario(nombreAdmin);
+        List<string> parametrosUsuarios = parametrosUsuario.Split(' ').ToList();
+        List<string> parametrosAdmins = parametrosAdmin.Split(' ').ToList();
+        List<Usuario> usuarios = _fachada.BuscarUsuario(parametrosUsuarios);
+        List<Usuario> admins = _fachada.BuscarUsuario(parametrosAdmins);
         
         if (usuarios.Count == 0 )
         {
-            await ReplyAsync($"No se encontró ningún usuario llamado {nombreUsuario}.");
+            await ReplyAsync($"No se encontró ningún usuario con los parametros {parametrosUsuario}.");
             return;
         }
         if (admins.Count == 0 )
         {
-            await ReplyAsync($"No se encontró ningún admin llamado {nombreAdmin}.");
+            await ReplyAsync($"No se encontró ningún admin con los parametros {parametrosAdmin}.");
             return;
         }
         if (usuarios.Count == 1 && admins.Count == 1)
@@ -53,7 +55,7 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                 admins.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios admins con el nombre {nombreAdmin}.\n" +
+                $"Se encontraron varios admins con los parametros {parametrosAdmin}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
         
@@ -65,26 +67,28 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                 usuarios.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios admins con el nombre {nombreUsuario}.\n" +
+                $"Se encontraron varios admins con los parametros {parametrosUsuario}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
     }
     
 
-    [SlashCommand("registrarusuario","Registra al usuario")]
-    public async Task ExecuteRegistrarUsuarioAsync(string nombreAdmin, string nombreUsuario)
+    [SlashCommand("registrarusuario","Registra al usuario, primero se le pasan los parametros de un Admin y despues los de un Usuario")]
+    public async Task ExecuteRegistrarUsuarioAsync( [Remainder] string parametrosAdmin, [Remainder] string parametrosUsuario)
     {
-        List<Usuario> usuarios = _fachada.BuscarUsuario(nombreUsuario);
-        List<Usuario> admins = _fachada.BuscarUsuario(nombreAdmin);
+        List<string> parametrosUsuarios = parametrosUsuario.Split(' ').ToList();
+        List<string> parametrosAdmins = parametrosAdmin.Split(' ').ToList();
+        List<Usuario> usuarios = _fachada.BuscarUsuario(parametrosUsuarios);
+        List<Usuario> admins = _fachada.BuscarUsuario(parametrosAdmins);
         
         if (usuarios.Count == 0 )
         {
-            await ReplyAsync($"No se encontró ningún usuario llamado {nombreUsuario}.");
+            await ReplyAsync($"No se encontró ningún usuario con los parametros {parametrosUsuarios}.");
             return;
         }
         if (admins.Count == 0 )
         {
-            await ReplyAsync($"No se encontró ningún admin llamado {nombreAdmin}.");
+            await ReplyAsync($"No se encontró ningún admin con los parametros {parametrosAdmin}.");
             return;
         }
         if (usuarios.Count == 1 && admins.Count == 1)
@@ -105,7 +109,7 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                 admins.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios admins con el nombre {nombreAdmin}.\n" +
+                $"Se encontraron varios admins con los parametros {parametrosAdmin}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
         
@@ -117,25 +121,27 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                 usuarios.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios admins con el nombre {nombreUsuario}.\n" +
+                $"Se encontraron varios usuarios con los parametros {parametrosUsuarios}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
     }
     
-    [SlashCommand("eliminarusuario", "Elimina el usuario")]
-    public async Task ExecuteEliminarUsuarioAsync(string nombreAdmin, string nombreUsuario)
+    [SlashCommand("eliminarusuario", "Elimina el usuario. Se pasa primero un admin y despues los parametros del usuario")]
+    public async Task ExecuteEliminarUsuarioAsync( [Remainder] string parametrosAdmin, [Remainder] string parametrosUsuario)
     {
-        List<Usuario> usuarios = _fachada.BuscarUsuario(nombreUsuario);
-        List<Usuario> admins = _fachada.BuscarUsuario(nombreAdmin);
+        List<string> parametrosUsuarios = parametrosUsuario.Split(' ').ToList();
+        List<string> parametrosAdmins = parametrosAdmin.Split(' ').ToList();
+        List<Usuario> usuarios = _fachada.BuscarUsuario(parametrosUsuarios);
+        List<Usuario> admins = _fachada.BuscarUsuario(parametrosAdmins);
         
         if (usuarios.Count == 0 )
         {
-            await ReplyAsync($"No se encontró ningún usuario llamado {nombreUsuario}.");
+            await ReplyAsync($"No se encontró ningún usuario con los parametros {parametrosUsuario}.");
             return;
         }
         if (admins.Count == 0 )
         {
-            await ReplyAsync($"No se encontró ningún admin llamado {nombreAdmin}.");
+            await ReplyAsync($"No se encontró ningún admin con los parametros {parametrosAdmin}.");
             return;
         }
         if (usuarios.Count == 1 && admins.Count == 1)
@@ -156,7 +162,7 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                 admins.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios admins con el nombre {nombreAdmin}.\n" +
+                $"Se encontraron varios admins con los parametros {parametrosAdmin}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
         
@@ -168,32 +174,37 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                 usuarios.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
             await ReplyAsync(
-                $"Se encontraron varios admins con el nombre {nombreUsuario}.\n" +
+                $"Se encontraron varios admins con los parametros {parametrosUsuario}.\n" +
                 $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
         }
     }
 
-    [SlashCommand("asignaraotrovendedor", "Asigna un cliente a otro vendedor")]
-    public async Task ExecuteAsignarAOtroVendedorAsync(string nombreVendedorInicial, string nombreVendedorAsignado, string nombreCliente)
+    [SlashCommand("asignaraotrovendedor", "Asigna un cliente a otro vendedor. Primero se pasan los" +
+                                          " parametros del vendedor al que se le va a quitar el cliente, despues al " +
+                                          "que se le va a asignar y por ultimo el cliente")]
+    public async Task ExecuteAsignarAOtroVendedorAsync([Remainder] string parametrosVendedorInicial, [Remainder] string parametrosVendedorAsignado, [Remainder] string parametrosCliente)
     {
         {
-            List<Usuario> vendedoresIniciales = _fachada.BuscarUsuario(nombreVendedorInicial);
-            List<Usuario> VendedoresAsignados = _fachada.BuscarUsuario(nombreVendedorAsignado);
-            List<Cliente> clientes = _fachada.BuscarCliente(nombreCliente);
+            List<string> parametrosClientes = parametrosCliente.Split(' ').ToList();
+            List<string> parametrosVendedoresAsignados = parametrosVendedorAsignado.Split(' ').ToList();
+            List<string> parametrosVendedoresIniciales = parametrosVendedorInicial.Split(' ').ToList();
+            List<Usuario> vendedoresIniciales = _fachada.BuscarUsuario(parametrosVendedoresIniciales);
+            List<Usuario> VendedoresAsignados = _fachada.BuscarUsuario(parametrosVendedoresAsignados);
+            List<Cliente> clientes = _fachada.BuscarCliente(parametrosClientes);
         
             if (vendedoresIniciales.Count == 0 )
             {
-                await ReplyAsync($"No se encontró ningún vendedor llamado {nombreVendedorInicial}.");
+                await ReplyAsync($"No se encontró ningún vendedor con los parametros {parametrosVendedorInicial}.");
                 return;
             }
             if (VendedoresAsignados.Count == 0 )
             {
-                await ReplyAsync($"No se encontró ningún vendedor llamado {nombreVendedorAsignado}.");
+                await ReplyAsync($"No se encontró ningún vendedor con los parametros {parametrosVendedorAsignado}.");
                 return;
             }
             if (clientes.Count == 0 )
             {
-                await ReplyAsync($"No se encontró ningún cliente llamado {nombreCliente}.");
+                await ReplyAsync($"No se encontró ningún cliente con los parametros {parametrosCliente}.");
                 return;
             }
             if (vendedoresIniciales.Count == 1 && VendedoresAsignados.Count == 1 && clientes.Count == 1)
@@ -215,7 +226,7 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                     vendedoresIniciales.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
                 await ReplyAsync(
-                    $"Se encontraron varios admins con el nombre {nombreVendedorInicial}.\n" +
+                    $"Se encontraron varios admins con los parametros {parametrosVendedorInicial}.\n" +
                     $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
             }
         
@@ -227,7 +238,7 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                     VendedoresAsignados.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
                 await ReplyAsync(
-                    $"Se encontraron varios admins con el nombre {nombreVendedorAsignado}.\n" +
+                    $"Se encontraron varios admins con los parametros {parametrosVendedorAsignado}.\n" +
                     $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
             }            
             
@@ -239,7 +250,7 @@ public class CommandsAdministracion : InteractionModuleBase<SocketInteractionCon
                     clientes.Select((c, i) => $"{i + 1}. {c.Nombre}"));
 
                 await ReplyAsync(
-                    $"Se encontraron varios admins con el nombre {nombreCliente}.\n" +
+                    $"Se encontraron varios admins con los parametros {parametrosCliente}.\n" +
                     $"Elegí uno usando:\n`/elegirCliente <numero>`\n\n{listado}");
             }
         }
