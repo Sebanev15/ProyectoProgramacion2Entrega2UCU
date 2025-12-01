@@ -175,6 +175,16 @@ namespace Library
         {
             return _gestionCliente.BuscarInteracciones(fecha, busqueda, cliente);
         }
+        
+        public List<Venta> BuscarVentasSinFecha(List<string> datosBusqueda)
+        {
+            return _gestionCliente.BuscarVentasSinFecha(datosBusqueda);
+        }        
+        
+        public List<Cotizacion> BuscarCotizacionessSinFecha(List<string> datosBusqueda)
+        {
+            return _gestionCliente.BuscarCotizacionesSinFecha(datosBusqueda);
+        }
 
         public void AgregarComentarioInteraccion(IInteraccion interaccion, string comentario)
         {

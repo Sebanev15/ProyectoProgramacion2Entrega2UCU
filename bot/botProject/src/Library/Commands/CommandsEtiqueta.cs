@@ -20,7 +20,7 @@ public class CommandsEtiqueta: InteractionModuleBase<SocketInteractionContext>
     }
     
     [SlashCommand("crearetiqueta", "Crea y agrega una etiqueta a un cliente.")]
-    public async Task ExecuteAgregarEtiquetaAsync( [Remainder] string parametrosCliente, [Remainder] string etiqueta)
+    public async Task ExecuteCrearEtiquetaAsync( [Remainder] string parametrosCliente, [Remainder] string etiqueta)
     {
         try
         {
