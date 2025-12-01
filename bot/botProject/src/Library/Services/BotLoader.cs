@@ -42,7 +42,7 @@ namespace Ucu.Poo.DiscordBot.Services
                     LogLevel = LogSeverity.Info,
                     DefaultRunMode = RunMode.Async
                 }))
-                .AddSingleton<CommandsCrearEntidades.CommandCrearCliente>()
+                .AddSingleton<CommandsCrearEntidades>()
                 .AddSingleton<IModalHandler, ClienteModals>()
                 .AddScoped<IBot, Bot>();
 
@@ -55,7 +55,7 @@ namespace Ucu.Poo.DiscordBot.Services
                 client.Log += msg => { Console.WriteLine($"[Client Log] {msg}"); return Task.CompletedTask; };
                 interactions.Log += msg => { Console.WriteLine($"[Interaction Log] {msg}"); return Task.CompletedTask; };
 
-                var assembly = typeof(CommandsCrearEntidades.CommandCrearCliente).Assembly;
+                var assembly = typeof(CommandsCrearEntidades).Assembly;
                 Console.WriteLine($"Cargando módulos desde ensamblado: {assembly.FullName}");
 
                 var modulesAdded = await interactions.AddModulesAsync(assembly, serviceProvider).ConfigureAwait(false);

@@ -6,12 +6,12 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands;
 
-public class CommandsAdministracion : ModuleBase<SocketCommandContext>
+public class CommandsAdministracion : InteractionModuleBase<SocketInteractionContext>
 {
 
     private readonly Fachada _fachada;
 
-    CommandsAdministracion(Fachada fachada)
+    public CommandsAdministracion(Fachada fachada)
     {
         _fachada = fachada;
     }
