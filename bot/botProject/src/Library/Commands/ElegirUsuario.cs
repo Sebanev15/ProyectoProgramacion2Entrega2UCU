@@ -8,7 +8,7 @@ namespace Ucu.Poo.DiscordBot.Commands
 {
     public class CommandElegirUsuario : InteractionModuleBase<SocketInteractionContext>
     {
-        [SlashCommand("elegirUsuario", "Elige un usuario de un lista de nombres repetidos")]
+        [SlashCommand("elegirusuario", "Elige un usuario de un lista de nombres repetidos")]
         public async Task ElegirUsuarioAsync(int numero)
         {
             List<Usuario> lista;
