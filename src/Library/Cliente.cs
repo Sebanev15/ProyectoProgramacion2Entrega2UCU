@@ -118,7 +118,7 @@ namespace Library
 
         public string ObtenerVentasTotales(DateTime inicio, DateTime fin)
         {
-            string nombreCliente =this.Nombre;
+            string nombreCliente =this.Nombre + " " + this.Apellido;
             double monto = 0;
             int cantidad = 0;
             
@@ -131,7 +131,7 @@ namespace Library
                 }
             }
             string montoTotal = monto.ToString("0.0");
-            string informacionVentas=$"{nombreCliente}: MontoTotal={montoTotal}, cantidad de ventas={cantidad}";
+            string informacionVentas=$"{nombreCliente}: MontoTotal = {montoTotal}, cantidad de ventas = {cantidad}";
             return informacionVentas;
         }
 
