@@ -37,59 +37,71 @@ namespace Library
         {
             int cantidadDatos = datosBusqueda.Count;
             List<Venta> resultados = new List<Venta>();
-            foreach (Venta venta in Interacciones)
+
+            foreach (IImporte importe in Importes)
             {
-                int contador = 0;
-                foreach (var informacionAtributo in venta.GetType().GetProperties())
+                if (importe is Venta)
                 {
-                    var valorAtributo = informacionAtributo.GetValue(venta);
-                    if (valorAtributo is string)
+                    int contador = 0;
+                    foreach (var informacionAtributo in importe.GetType().GetProperties())
                     {
-                        foreach (string datosBuscados in datosBusqueda)
+                        var valorAtributo = informacionAtributo.GetValue(importe);
+                        if (valorAtributo != null)
                         {
-                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(venta) )
+                            foreach (string datosBuscados in datosBusqueda)
                             {
-                                contador++;
+                                if (valorAtributo.ToString().Equals(datosBuscados) && !resultados.Contains(importe as Venta))
+                                {
+                                    contador++;
+                                }
                             }
                         }
                     }
-                }
-                if (cantidadDatos==contador)
-                {
-                    resultados.Add(venta);
+                    if (cantidadDatos == contador)
+                    {
+                        resultados.Add(importe as Venta);
+                    }
                 }
             }
             return resultados;
         }
+
+
         
         public List<Cotizacion> BuscarCotizacionesSinFecha(List<string> datosBusqueda)
         {
             int cantidadDatos = datosBusqueda.Count;
             List<Cotizacion> resultados = new List<Cotizacion>();
-            foreach (Cotizacion cotizacion in Interacciones)
+
+            foreach (IImporte importe in Importes)
             {
-                int contador = 0;
-                foreach (var informacionAtributo in cotizacion.GetType().GetProperties())
+                if (importe is Cotizacion)
                 {
-                    var valorAtributo = informacionAtributo.GetValue(cotizacion);
-                    if (valorAtributo is string)
+                    int contador = 0;
+                    foreach (var informacionAtributo in importe.GetType().GetProperties())
                     {
-                        foreach (string datosBuscados in datosBusqueda)
+                        var valorAtributo = informacionAtributo.GetValue(importe);
+                        if (valorAtributo != null)
                         {
-                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(cotizacion) )
+                            foreach (string datosBuscados in datosBusqueda)
                             {
-                                contador++;
+                                if (valorAtributo.ToString().Equals(datosBuscados) && !resultados.Contains(importe as Cotizacion))
+                                {
+                                    contador++;
+                                }
                             }
                         }
                     }
-                }
-                if (cantidadDatos==contador)
-                {
-                    resultados.Add(cotizacion);
+                    if (cantidadDatos == contador)
+                    {
+                        resultados.Add(importe as Cotizacion);
+                    }
                 }
             }
             return resultados;
         }
+
+
         
         public void AgregarComentarioInteraccion(IInteraccion interaccion, string comentario)
         {
@@ -134,24 +146,25 @@ namespace Library
         {
             int cantidadDatos = datosBusqueda.Count;
             List<Cliente> resultados = new List<Cliente>();
+    
             foreach (Cliente cliente in Clientes)
             {
                 int contador = 0;
                 foreach (var informacionAtributo in cliente.GetType().GetProperties())
                 {
                     var valorAtributo = informacionAtributo.GetValue(cliente);
-                    if (valorAtributo is string)
+                    if (valorAtributo != null)
                     {
                         foreach (string datosBuscados in datosBusqueda)
                         {
-                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(cliente) )
+                            if (valorAtributo.ToString().Equals(datosBuscados) && !resultados.Contains(cliente))
                             {
                                 contador++;
                             }
                         }
                     }
                 }
-                if (cantidadDatos==contador)
+                if (cantidadDatos == contador)
                 {
                     resultados.Add(cliente);
                 }
