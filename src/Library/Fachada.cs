@@ -78,9 +78,9 @@ namespace Library
             return new Cliente(nombre, apellido, telefono, correo, genero, fechaDeNacimiento);
         }
         
-        public Etiqueta CrearEtiqueta(string nombreEtiqueta)
+        public void CrearEtiqueta(Cliente cliente, string nombreEtiqueta)
         {
-                return new Etiqueta(nombreEtiqueta);
+             _gestionCliente.AgregarEtiqueta(cliente, new Etiqueta(nombreEtiqueta));    
         }
 
         public Mensaje CrearMensaje(DateTime fecha, string tema, Cliente cliente, Usuario usuario, bool esEnviado)
@@ -176,6 +176,16 @@ namespace Library
         public List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda, Cliente cliente)
         {
             return _gestionCliente.BuscarInteracciones(fecha, busqueda, cliente);
+        }
+        
+        public List<Venta> BuscarVentasSinFecha(List<string> datosBusqueda)
+        {
+            return _gestionCliente.BuscarVentasSinFecha(datosBusqueda);
+        }        
+        
+        public List<Cotizacion> BuscarCotizacionessSinFecha(List<string> datosBusqueda)
+        {
+            return _gestionCliente.BuscarCotizacionesSinFecha(datosBusqueda);
         }
 
         public void AgregarComentarioInteraccion(IInteraccion interaccion, string comentario)

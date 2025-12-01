@@ -53,20 +53,23 @@ namespace LibraryTests
     public void CrearUsuarioYaExistenteTest()
     {
         administrador.GestionUsuario.Usuarios = new List<Usuario>();
-        administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
-       
+        administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);    
         
         Assert.Throws<ItemDuplicadoExcepcion>(() =>
         {
             administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario);
         });
        
+        ItemDuplicadoExcepcion excepcion = Assert.Throws<ItemDuplicadoExcepcion>(() => administrador.RegistrarUsuario(usuarioGenerico1, administrador.GestionUsuario));
+        
+        Assert.That(excepcion.Message, Is.EqualTo($"El usuario {usuarioGenerico1.Nombre} ya esta registrado"));
     }
 
     [Test]
     public void SuspenderUsuarioTest()
     {
         Assert.That(!usuarioGenerico1.EstaSuspendido);
+        
         administrador.SuspenderUsuario(usuarioGenerico1);
         Assert.That(usuarioGenerico1.EstaSuspendido);
     }
@@ -74,10 +77,19 @@ namespace LibraryTests
     [Test]
     public void EliminarUsuarioTest()
     {
+        Assert.That(gestionUsuario.Usuarios.Contains(usuarioGenerico1));
         administrador.EliminarUsuario(usuarioGenerico1, gestionUsuario);
-        Assert.That(gestionUsuario.Usuarios.Count, Is.EqualTo(0));
-    }    
-    
+        Assert.That(!gestionUsuario.Usuarios.Contains(usuarioGenerico1));
+    }
+
+    [Test]
+    public void EliminarUsuarioNoExistenteTest()
+    {
+        Assert.That(!gestionUsuario.Usuarios.Contains(usuarioGenerico2));
+        CampoInvalidoExepcion excepcion =
+            Assert.Throws<CampoInvalidoExepcion>(() => administrador.EliminarUsuario(usuarioGenerico2, gestionUsuario));
+        Assert.That(excepcion.Message, Is.EqualTo("El usuario no esta registrado."));
+    }
     [Test]
     public void ReactivarUsuarioTest()
     {
@@ -85,7 +97,15 @@ namespace LibraryTests
         Assert.That(usuarioGenerico1.EstaSuspendido);
         administrador.ReactivarUsuario(usuarioGenerico1);
         Assert.That(usuarioGenerico1.EstaSuspendido, Is.False);
-        
+    }
+
+    [Test]
+    public void ReactivarUsuarioNoExistenteTest()
+    {
+        CampoInvalidoExepcion excepcion =
+            Assert.Throws<CampoInvalidoExepcion>(() => administrador.ReactivarUsuario(null));
+
+        Assert.That(excepcion.Message, Is.EqualTo("Falta ingresar el usuario."));
     }
 }
 }

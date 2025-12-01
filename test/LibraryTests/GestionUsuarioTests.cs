@@ -75,6 +75,15 @@ namespace LibraryTests
             Assert.That(_vendedor1.GestionCliente.Clientes.Contains(_cliente),Is.False);
             Assert.That(_vendedor2.GestionCliente.Clientes.Contains(_cliente),Is.True);
         }
+
+        [Test]
+        public void BuscarUsuario()
+        {
+            _gestionUsuario.CrearUsuario(_administrador, usuario);
+            List<string> datosBusqueda = new List<string> { "juan" };
+            List<Usuario> resultado = _gestionUsuario.BuscarUsuario(datosBusqueda);
+            Assert.That(resultado.Count, Is.EqualTo(1));
+        }
     }
     
 }

@@ -32,7 +32,65 @@ namespace Library
         {
             return cliente.BuscarInteracciones(fecha, busqueda);
         }
-
+        
+        public List<Venta> BuscarVentasSinFecha(List<string> datosBusqueda)
+        {
+            int cantidadDatos = datosBusqueda.Count;
+            List<Venta> resultados = new List<Venta>();
+            foreach (Venta venta in Interacciones)
+            {
+                int contador = 0;
+                foreach (var informacionAtributo in venta.GetType().GetProperties())
+                {
+                    var valorAtributo = informacionAtributo.GetValue(venta);
+                    if (valorAtributo is string)
+                    {
+                        foreach (string datosBuscados in datosBusqueda)
+                        {
+                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(venta) )
+                            {
+                                contador++;
+                            }
+                        }
+                    }
+                }
+                if (cantidadDatos==contador)
+                {
+                    resultados.Add(venta);
+                }
+            }
+            return resultados;
+        }
+        
+        public List<Cotizacion> BuscarCotizacionesSinFecha(List<string> datosBusqueda)
+        {
+            int cantidadDatos = datosBusqueda.Count;
+            List<Cotizacion> resultados = new List<Cotizacion>();
+            foreach (Cotizacion cotizacion in Interacciones)
+            {
+                int contador = 0;
+                foreach (var informacionAtributo in cotizacion.GetType().GetProperties())
+                {
+                    var valorAtributo = informacionAtributo.GetValue(cotizacion);
+                    if (valorAtributo is string)
+                    {
+                        foreach (string datosBuscados in datosBusqueda)
+                        {
+                            if (valorAtributo.Equals(datosBuscados) && !resultados.Contains(cotizacion) )
+                            {
+                                contador++;
+                            }
+                        }
+                    }
+                }
+                if (cantidadDatos==contador)
+                {
+                    resultados.Add(cotizacion);
+                }
+            }
+            return resultados;
+        }
+        
         public void AgregarComentarioInteraccion(IInteraccion interaccion, string comentario)
         {
             interaccion.AgregarComentario(comentario);

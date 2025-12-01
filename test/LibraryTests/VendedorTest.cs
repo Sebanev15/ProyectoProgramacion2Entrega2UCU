@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Library;
 using NUnit.Framework;
+using Ucu.Poo.DiscordBot.Domain;
 
 namespace LibraryTests
 {
@@ -17,7 +18,7 @@ namespace LibraryTests
         vendedor1 = new Vendedor("Sebastian","seba@gmail.com","099111222", new GestionUsuario(), new GestionCliente());
         vendedor2 = new Vendedor("Jose", "jose@gmail.com", "099000111", new GestionUsuario(),new GestionCliente());
         DateTime diaNacimiento = new DateTime(2000, 1, 1);
-        cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "masculino", diaNacimiento);
+        cliente = new Cliente("Pepe", "Rodriguez", "091222333", "pepe@gmail.com", "H", diaNacimiento);
         vendedor1.GestionCliente.AgregarCliente(cliente);
     }
     
@@ -44,9 +45,8 @@ namespace LibraryTests
     {
         var consoleOutput = new StringWriter();
         
-        vendedor2.AsignarOtroVendedor(vendedor1, cliente);
-        
-        Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(0));
+        CampoInvalidoExepcion excepcion = Assert.Throws<CampoInvalidoExepcion>(() => vendedor2.AsignarOtroVendedor(vendedor1, cliente));
+        Assert.That(excepcion.Message, Is.EqualTo("El cliente no existe."));
 
     }
     
