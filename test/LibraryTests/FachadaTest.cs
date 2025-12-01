@@ -81,17 +81,6 @@ namespace LibraryTests
         }
         
         [Test]
-        public void AgregarEtiquetaFachadaTest()
-        {
-            var cliente = _cliente;
-            var etiqueta = new Etiqueta("Premium");
-
-            _fachada.AgregarEtiqueta(etiqueta, cliente);
-
-            Assert.That(cliente.Etiquetas.Contains(etiqueta));
-        }
-        
-        [Test]
         public void AgregarEliminarClienteFachadaTest()
         {
             var fecha = _fecha;
@@ -112,8 +101,6 @@ namespace LibraryTests
             var etiqueta2 = new Etiqueta("MUY importante");
             _fachada.AgregarCliente(original);
             _fachada.AgregarCliente(modificado);
-            _fachada.AgregarEtiqueta(etiqueta, original);
-            _fachada.AgregarEtiqueta(etiqueta2, modificado);
             _fachada.ModificarCliente(original, modificado);
 
             Assert.That(original.Nombre, Is.EqualTo(modificado.Nombre));
@@ -378,5 +365,66 @@ namespace LibraryTests
             Assert.That(vendedor2.GestionCliente.Clientes.Count, Is.EqualTo(1));
             Assert.That(vendedor2.GestionCliente.Clientes.Contains(cliente));
         }
+
+        [Test]
+        public void CrearMensajeTest()
+        {
+            Mensaje resultado= _fachada.CrearMensaje(_fecha, "reunion a las 4am", _cliente, _usuario, true);
+            
+            Assert.That(resultado.Fecha, Is.EqualTo(_fecha));
+            Assert.That(resultado.Tema, Is.EqualTo("reunion a las 4am"));
+            Assert.That(resultado.Cliente, Is.EqualTo(_cliente));
+            Assert.That(resultado.Usuario, Is.EqualTo(_usuario));
+            Assert.That(resultado.EsEnviado, Is.True);
+        }
+        [Test]
+        public void CrearLLamadaTest()
+        {
+            Llamada resultado= _fachada.CrearLlamada(_fecha, "reunion a las 4am", _cliente, _usuario);
+            
+            Assert.That(resultado.Fecha, Is.EqualTo(_fecha));
+            Assert.That(resultado.Tema, Is.EqualTo("reunion a las 4am"));
+            Assert.That(resultado.Cliente, Is.EqualTo(_cliente));
+            Assert.That(resultado.Usuario, Is.EqualTo(_usuario));
+        }
+        [Test]
+        public void CrearReunionTest()
+        {
+            Reunion resultado= _fachada.CrearReunion(_fecha, "reunion a las 4am", _cliente, _usuario, "Jurassic Park");
+            
+            Assert.That(resultado.Fecha, Is.EqualTo(_fecha));
+            Assert.That(resultado.Tema, Is.EqualTo("reunion a las 4am"));
+            Assert.That(resultado.Cliente, Is.EqualTo(_cliente));
+            Assert.That(resultado.Usuario, Is.EqualTo(_usuario));
+            Assert.That(resultado.Direccion, Is.EqualTo("Jurassic Park"));
+        }
+        
+        [Test]
+        public void CrearCorreoTest()
+        {
+            Correo resultado= _fachada.CrearCorreo(_fecha, "reunion a las 4am", _cliente, _usuario, false);
+            
+            Assert.That(resultado.Fecha, Is.EqualTo(_fecha));
+            Assert.That(resultado.Tema, Is.EqualTo("reunion a las 4am"));
+            Assert.That(resultado.Cliente, Is.EqualTo(_cliente));
+            Assert.That(resultado.Usuario, Is.EqualTo(_usuario));
+            Assert.That(resultado.EsEnviado, Is.EqualTo(false));
+        }
+        [Test]
+        public void ListarClientesTest()
+        {
+            _gestionCliente.AgregarCliente(_cliente);
+            List<Cliente> resultado = _fachada.ListarClientesConReturn();
+            Assert.That(_gestionCliente.Clientes.Count, Is.EqualTo(resultado.Count));
+        }
+        [Test]
+        public void BuscarUsuarioTest()
+        {
+            List<string> datos = new List<string>();
+            datos.Add("Usuariooo");
+            var resultado = _fachada.BuscarUsuario(datos);
+            Assert.That(resultado, Is.EqualTo(_gestionUsuario.BuscarUsuario(datos)));
+        }
+
     }
 }

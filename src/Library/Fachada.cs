@@ -83,31 +83,28 @@ namespace Library
                 return new Etiqueta(nombreEtiqueta);
         }
 
-        public IInteraccion CrearMensaje(DateTime fecha, string tema, Cliente cliente, Usuario usuario, bool esEnviado)
+        public Mensaje CrearMensaje(DateTime fecha, string tema, Cliente cliente, Usuario usuario, bool esEnviado)
         {
             return new Mensaje(fecha, tema, cliente, usuario, esEnviado);
         }
         
-        public IInteraccion CrearLlamada(DateTime fecha, string tema, Cliente cliente, Usuario usuario)
+        public Llamada CrearLlamada(DateTime fecha, string tema, Cliente cliente, Usuario usuario)
         {
             return new Llamada(fecha, tema, cliente, usuario);
         }
         
-        public IInteraccion CrearReunion(DateTime fecha, string tema, Cliente cliente, Usuario usuario, string direccion)
+        public Reunion CrearReunion(DateTime fecha, string tema, Cliente cliente, Usuario usuario, string direccion)
         {
             return new Reunion(fecha, tema, cliente, usuario, direccion);
         }
         
-        public IInteraccion CrearCorreo(DateTime fecha, string tema, Cliente cliente, Usuario usuario, bool esEnviado)
+        public Correo CrearCorreo(DateTime fecha, string tema, Cliente cliente, Usuario usuario, bool esEnviado)
         {
             return new Correo(fecha, tema, cliente, usuario, esEnviado);
         }
         
         // -------------------------------------- ETIQUETAS ------------------------------------------------------------
-        public void AgregarEtiqueta(Etiqueta etiqueta, Cliente cliente)
-        {
-            _gestionCliente.AgregarEtiqueta(cliente, etiqueta);
-        }
+     
         
         // -------------------------------------- GESTIÓN DE CLIENTES --------------------------------------------------
         public void AgregarCliente(Cliente cliente){
