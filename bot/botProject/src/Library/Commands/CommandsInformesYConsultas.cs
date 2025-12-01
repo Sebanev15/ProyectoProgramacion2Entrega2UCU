@@ -10,86 +10,64 @@ using Ucu.Poo.DiscordBot.Domain;
 namespace Ucu.Poo.DiscordBot.Commands;
 
 
-public class CommandsInformesYConsultas
+public class CommandsInformesYConsultas: ModuleBase<SocketCommandContext>
 {
-    public class CommandObtenerClientesInactivos : ModuleBase<SocketCommandContext>
+    private readonly Fachada _fachada;
+
+    public CommandsInformesYConsultas(Fachada fachada)
     {
-        private readonly Fachada _fachada;
+        _fachada = fachada;
+    }
 
-        public CommandObtenerClientesInactivos(Fachada fachada)
+    
+    [SlashCommand("obtenerclientesinactivos", "Devuelve una lista de los clientes inactivos")]
+    public async Task ExecuteAsync()
+    {
+        try
         {
-            _fachada = fachada;
+            List<Cliente> resultado = _fachada.ObtenerClientesInactivos();
+
+            string mensaje = "Clientes inactivos:\n" + string.Join("\n", resultado.Select(c => $"- {c.Nombre} {c.Apellido}"));
+
+            await ReplyAsync(mensaje);
         }
-
-        [SlashCommand("obtenerclientesinactivos", "Devuelve una lista de los clientes inactivos")]
-        public async Task ExecuteAsync()
+        catch (ListaVaciaExcepcion e)
         {
-            try
-            {
-                List<Cliente> resultado = _fachada.ObtenerClientesInactivos();
-
-                string mensaje = "Clientes inactivos:\n" + string.Join("\n", resultado.Select(c => $"- {c.Nombre} {c.Apellido}"));
-
-                await ReplyAsync(mensaje);
-            }
-            catch (ListaVaciaExcepcion e)
-            {
-                await ReplyAsync(e.Message);
-            }
+            await ReplyAsync(e.Message);
         }
     }
-    
-    public class CommandObtenerClientesNoRespondidos : ModuleBase<SocketCommandContext>
+
+    [SlashCommand("obtenerclientesnorespondidos", "Devuelve una lista de los clientes sin responder")]
+    public async Task ExecuteAsync2()
     {
-        private readonly Fachada _fachada;
-
-        public CommandObtenerClientesNoRespondidos(Fachada fachada)
+        try
         {
-            _fachada = fachada;
+            List<Cliente> resultado = _fachada.ObtenerClientesNoRespondidos();
+
+            string mensaje = "Clientes no respondidos:\n" + string.Join("\n", resultado.Select(c => $"- {c.Nombre} {c.Apellido}"));
+
+            await ReplyAsync(mensaje);
         }
-
-        [SlashCommand("obtenerclientesnorespondidos", "Devuelve una lista de los clientes sin responder")]
-        public async Task ExecuteAsync()
+        catch (ListaVaciaExcepcion e)
         {
-            try
-            {
-                List<Cliente> resultado = _fachada.ObtenerClientesNoRespondidos();
-
-                string mensaje = "Clientes no respondidos:\n" + string.Join("\n", resultado.Select(c => $"- {c.Nombre} {c.Apellido}"));
-
-                await ReplyAsync(mensaje);
-            }
-            catch (ListaVaciaExcepcion e)
-            {
-                await ReplyAsync(e.Message);
-            }
+            await ReplyAsync(e.Message);
         }
     }
-    
-    public class CommandObtenerVentasTotales : ModuleBase<SocketCommandContext>
+
+    [SlashCommand("obtenerventastotales", "Devuelve todas las ventas en un periodo de tiempo")]
+    public async Task ExecuteAsync3(DateTime fechaInicio, DateTime fechaFin)
     {
-        private readonly Fachada _fachada;
-
-        public CommandObtenerVentasTotales(Fachada fachada)
+        try
         {
-            _fachada = fachada;
+            List<String> resultado = _fachada.ObtenerVentasTotales(fechaInicio,fechaFin);
+
+            string mensaje = "Total de ventas:\n" + string.Join("\n", resultado.Select(venta => $"- {venta}"));
+
+            await ReplyAsync(mensaje);
         }
-
-        [SlashCommand("obtenerventastotales", "Devuelve todas las ventas en un periodo de tiempo")]
-        public async Task ExecuteAsync(DateTime fechaInicio, DateTime fechaFin)
+        catch (ListaVaciaExcepcion e)
         {
-            try
-            {
-                List<String> resultado = _fachada.ObtenerVentasTotales(fechaInicio,fechaFin);
-
-                string mensaje = "Total de ventas:\n" + string.Join("\n", resultado.Select(venta => $"- {venta}"));
-
-                await ReplyAsync(mensaje);
-            }
-            catch (ListaVaciaExcepcion e)
-            {
-                await ReplyAsync(e.Message);
-            }
+            await ReplyAsync(e.Message);
         }
     }
 }

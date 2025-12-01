@@ -8,16 +8,16 @@ using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands;
 
-public class CommandsCrearEntidades
+public class CommandsCrearEntidades: ModuleBase<SocketCommandContext>
 {
-    public class CommandCrearEtiqueta : ModuleBase<SocketCommandContext>
-    {
         private readonly Fachada _fachada;
 
-        CommandCrearEtiqueta(Fachada fachada)
+        CommandsCrearEntidades(Fachada fachada)
         {
             _fachada = fachada;
         }
+        
+        
         [SlashCommand("crearetiqueta", "Crea una etiqueta")]
         public async Task ExecuteAsync(string nombre)
         {
@@ -32,20 +32,8 @@ public class CommandsCrearEntidades
             }
         }
 
-    }
-    
-    public class CommandCrearCotizacion : ModuleBase<SocketCommandContext>
-    {
-        private readonly Fachada _fachada;
-
-        public CommandCrearCotizacion(Fachada fachada)
-        {
-            _fachada = fachada;
-        }
-
         [SlashCommand("crearcotizacion", "Crea una cotización")]
-        
-        public async Task ExecuteAsync(double monto, DateTime fecha, [Remainder] string nombreCliente)
+        public async Task ExecuteAsync2(double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
             var clientes = _fachada.BuscarCliente(nombreCliente);
             
@@ -77,19 +65,9 @@ public class CommandsCrearEntidades
                 $"Se encontraron varios clientes con el nombre {nombreCliente}.\n" +
                 $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
         }
-    }
-    
-    public class CommandCrearCliente: ModuleBase<SocketCommandContext>
-    {
-        private readonly Fachada _fachada;
-
-        CommandCrearCliente(Fachada fachada)
-        {
-            _fachada = fachada;
-        }
 
         [SlashCommand("crearcliente", "Crea un cliente")]
-        public async Task ExecuteAsync([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
+        public async Task ExecuteAsync3([Remainder] string nombre, [Remainder] string apellido, string telefono, string correo, string genero, DateTime fechaDeNacimiento)
         {
             try
             {
@@ -102,20 +80,9 @@ public class CommandsCrearEntidades
                 await ReplyAsync(e.Message);
             }
         }
-    }
-    
-    public class CommandCrearVenta : ModuleBase<SocketCommandContext>
-    {
-        private readonly Fachada _fachada;
-
-        public CommandCrearVenta(Fachada fachada)
-        {
-            _fachada = fachada;
-        }
 
         [SlashCommand("crearventa", "Crea una venta")]
-        
-        public async Task ExecuteAsync([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
+        public async Task ExecuteAsync4([Remainder] string producto,double monto, DateTime fecha, [Remainder] string nombreCliente)
         {
             var clientes = _fachada.BuscarCliente(nombreCliente);
             
@@ -147,5 +114,5 @@ public class CommandsCrearEntidades
                 $"Se encontraron varios clientes con el nombre {nombreCliente}.\n" +
                 $"Elegí uno usando:\n`!elegirCliente <numero>`\n\n{listado}");
         }
-    }
+    
 }
