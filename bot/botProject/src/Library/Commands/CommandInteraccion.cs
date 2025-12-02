@@ -156,29 +156,33 @@ namespace Ucu.Poo.DiscordBot.Commands
         }
 
         [SlashCommand("buscarinteraccion", "Busca interacciones por parámetros")]
-        public async Task BuscarInteraccionAsync(string parametrosDeBusqueda, Cliente cliente)
+        public async Task BuscarInteraccionAsync(string parametrosDeBusqueda, string clienteBusqueda)
         {
             List<string> parametros = new List<string> {};
             foreach (string parametro in parametrosDeBusqueda.Split(' '))
             {
                 parametros.Add(parametro);
             }
-            List<IInteraccion> interacciones = _fachada.BuscarInteraccionesSinFecha(parametros, cliente);
-            if (interacciones.Count == 0)
-            {
-                await RespondAsync($"No se encontró ninguna interaccion con los parametros {parametrosDeBusqueda}.");
-                return;
-            }
 
-            var listaInteracciones = new StringBuilder();
-            int i = 1;
-            foreach (var interaccion in interacciones)
+            foreach (Cliente cliente in _fachada.GetGestionCliente().BuscarCliente(parametros))
             {
-                listaInteracciones.AppendLine($"{i}. Fecha: {interaccion.Fecha.ToString()} - Tema: {interaccion.Tema} - Cliente: {interaccion.Cliente} - Usuario: {interaccion.Usuario} - Comentarios: {interaccion.Comentarios.ToString()}");
-                i++;
-            }
+                List<IInteraccion> interacciones = _fachada.BuscarInteraccionesSinFecha(parametros, cliente);
+                if (interacciones.Count == 0)
+                {
+                    await RespondAsync($"No se encontró ninguna interaccion con los parametros {parametrosDeBusqueda}.");
+                    return;
+                }
 
-            await RespondAsync(listaInteracciones.ToString());
+                var listaInteracciones = new StringBuilder();
+                int i = 1;
+                foreach (var interaccion in interacciones)
+                {
+                    listaInteracciones.AppendLine($"{i}. Fecha: {interaccion.Fecha.ToString()} - Tema: {interaccion.Tema} - Cliente: {interaccion.Cliente} - Usuario: {interaccion.Usuario} - Comentarios: {interaccion.Comentarios.ToString()}");
+                    i++;
+                }
+
+                await RespondAsync(listaInteracciones.ToString());
+            }
         }
         
     }
