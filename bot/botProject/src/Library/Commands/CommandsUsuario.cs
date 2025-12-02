@@ -123,7 +123,7 @@ public class CommandsUsuario : InteractionModuleBase<SocketInteractionContext>
 
     
 
-    [SlashCommand("registrarusuario","Registra al usuario; primero un Admin y luego el Usuario.")]
+    [SlashCommand("registrarusuario","Registra al usuario.")]
     public async Task ExecuteRegistrarUsuarioAsync(string parametrosAdmin, string parametrosUsuario)
     {
         List<string> paramsUsuarios = parametrosUsuario.Split(' ').ToList();
