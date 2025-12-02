@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,35 @@ public class CommandsUsuario : InteractionModuleBase<SocketInteractionContext>
         _fachada = fachada;
     }
 
+    [SlashCommand("crearvendedor", "Crea un vendedor")]
+    public async Task ExecuteCrearVendedorAsync(
+        string nombre,
+        string telefono,
+        string correo)
+    {
+        _fachada.CrearVendedor(nombre, telefono, correo);
+
+        await ReplyAsync(
+            $"Vendedor creado: {nombre}\n" +
+            $"Teléfono: {telefono}\n" +
+            $"Correo: {correo}\n");
+    }
     
+    [SlashCommand("crearadministrador", "Crea un Administrador")]
+    public async Task ExecuteCrearAdministradorAsync(
+        string nombre,
+        string telefono,
+        string correo)
+    {
+        _fachada.CrearAdministrador(nombre, telefono, correo);
+
+        await ReplyAsync(
+            $"Administrador creado: {nombre}\n" +
+            $"Teléfono: {telefono}\n" +
+            $"Correo: {correo}\n");
+    }
+    
+
     [SlashCommand("reactivarusuario", "Reactiva al usuario")]
     public async Task ExecuteReactivarUsuarioAsync(string parametrosAdmin, string parametrosUsuario)
     {
