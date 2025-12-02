@@ -12,6 +12,7 @@ namespace Library.interfaces
         void RegistrarInteraccion(Cliente cliente, IInteraccion interaccion);
 
         List<IInteraccion> BuscarInteracciones(DateTime fecha, string busqueda, Cliente cliente);
+        List<IInteraccion> BuscarInteraccionesSinFecha(List<string> busqueda, Cliente cliente);
         
         List<Venta> BuscarVentasSinFecha(List<string> datosBusqueda);
         

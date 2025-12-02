@@ -33,6 +33,11 @@ namespace Library
             return cliente.BuscarInteracciones(fecha, busqueda);
         }
         
+        public List<IInteraccion> BuscarInteraccionesSinFecha(List<string> busqueda, Cliente cliente)
+        {
+            return cliente.BuscarInteraccionesSinFecha(busqueda);
+        }
+        
         public List<Venta> BuscarVentasSinFecha(List<string> datosBusqueda)
         {
             int cantidadDatos = datosBusqueda.Count;

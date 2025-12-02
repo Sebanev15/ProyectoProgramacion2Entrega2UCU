@@ -128,6 +128,31 @@ namespace Library
             }
             return resultadoInteracciones;
         }
+        
+        public List<IInteraccion> BuscarInteraccionesSinFecha(List<string> busquedaList)
+        {
+            List<IInteraccion> resultadoInteracciones = new List<IInteraccion>();
+            foreach (IInteraccion interaccion in Interacciones)
+            {
+                foreach (var informacionAtributo in interaccion.GetType().GetProperties())
+                {
+                    var valorAtributo = informacionAtributo.GetValue(interaccion);
+                    if (valorAtributo is string)
+                    {
+                        foreach (string s in busquedaList)
+                        {
+                            if (valorAtributo.Equals(s) && !resultadoInteracciones.Contains(interaccion))
+                            {
+
+                                resultadoInteracciones.Add(interaccion);
+
+                            }
+                        }
+                    }
+                }
+            }
+            return resultadoInteracciones;
+        }
 
 
         public string ObtenerVentasTotales(DateTime inicio, DateTime fin)
