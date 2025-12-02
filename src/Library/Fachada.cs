@@ -193,6 +193,11 @@ namespace Library
             return _gestionCliente.BuscarInteracciones(fecha, busqueda, cliente);
         }
         
+        public List<IInteraccion> BuscarInteraccionesSinFecha(List<string> busqueda, Cliente cliente)
+        {
+            return _gestionCliente.BuscarInteraccionesSinFecha(busqueda, cliente);
+        }
+
         public List<Venta> BuscarVentasSinFecha(List<string> datosBusqueda)
         {
             return _gestionCliente.BuscarVentasSinFecha(datosBusqueda);

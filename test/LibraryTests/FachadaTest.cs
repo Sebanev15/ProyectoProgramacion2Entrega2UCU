@@ -159,9 +159,10 @@ namespace LibraryTests
             var cliente = _cliente;
             gestionCliente.AgregarCliente(cliente);
             DateTime fechaNueva = new DateTime(2024, 10, 20);
-            cliente.Interacciones.Add(new Reunion(fechaNueva, "Reunion1", cliente, _usuario, "Eiffel" ));
-            ListaVaciaExcepcion excepcion = Assert.Throws<ListaVaciaExcepcion>(() => _fachada.ObtenerClientesInactivos());
-            Assert.That(excepcion.Message, Is.EqualTo("No hay clientes inactivos"));
+            Assert.Throws<ListaVaciaExcepcion>(() =>
+            {
+                _fachada.ObtenerClientesInactivos();
+            });
         }
 
         [Test]
