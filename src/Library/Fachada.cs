@@ -72,6 +72,21 @@ namespace Library
             return venta;
         }
 
+        public Vendedor CrearVendedor(string nombre, string telefono, string correo)
+        {
+            GestionCliente gestionCliente = new GestionCliente();
+            GestionUsuario gestionUsuario = new GestionUsuario();
+            return new Vendedor(nombre, correo, telefono,gestionUsuario,gestionCliente);
+        }        
+        
+        
+        public Administrador CrearAdministrador(string nombre, string telefono, string correo)
+        {
+            GestionCliente gestionCliente = new GestionCliente();
+            GestionUsuario gestionUsuario = new GestionUsuario();
+            return new Administrador(nombre, correo, telefono,gestionUsuario,gestionCliente);
+        }
+        
         public Cliente CrearCliente(string nombre, string apellido, string telefono, string correo, string genero,
             DateTime fechaDeNacimiento)
         {
