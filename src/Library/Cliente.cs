@@ -177,14 +177,43 @@ namespace Library
         public void ModificarDatos(Cliente clienteMod)
         { 
             foreach (var propiedad in clienteMod.GetType().GetProperties())
+            {
+                var destinoProp = this.GetType().GetProperty(propiedad.Name);
+                if (destinoProp != null && destinoProp.CanWrite)
+                    destinoProp.SetValue(this, propiedad.GetValue(clienteMod));
+            }
+        }
+        
+        //----------------------------------De aca para abajo es la Defensa---------------------------------------------
+
+        public List<IImporte> ObtenerVentasConRango(int rangoMin, int rangoMax)
+        {
+            List<IImporte> ventasEnRango = new List<IImporte>();
+            foreach (Venta venta in Importes)
+            {
+                if (venta.Monto > rangoMin && venta.Monto < rangoMax)
                 {
-                    var destinoProp = this.GetType().GetProperty(propiedad.Name);
-                    if (destinoProp != null && destinoProp.CanWrite)
-                        destinoProp.SetValue(this, propiedad.GetValue(clienteMod));
+                    ventasEnRango.Add(venta);
                 }
-            }   
+            }
+
+            return ventasEnRango;
+        }
+
+        public bool TieneProducto(string producto)
+        {
+            foreach (Venta venta in Importes)
+            {
+                if (venta.Producto == producto)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
+}
     
 
 // NombreCliente las ventas totales(monto), cantidad de ventas 

@@ -1,9 +1,12 @@
+using System;
 using Discord;
 using Discord.Interactions;
 using Library;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Library.interfaces;
 using Ucu.Poo.DiscordBot.Domain;
 
 namespace Ucu.Poo.DiscordBot.Commands
@@ -175,6 +178,52 @@ namespace Ucu.Poo.DiscordBot.Commands
             }
             await RespondAsync(listaClientes.ToString());
             
+        }
+        
+        //----------------------------------De aca para abajo es la Defensa---------------------------------------------
+
+        [SlashCommand("obtenerventasenunrango",
+            "Devuelve todas las ventas y de que cliente son que estan en el rango pasado")]
+        public async Task ObtenerVentasEnRango(int rangoMin, int rangoMax)
+        {
+            try
+            {
+                string resultado = $"Los clientes con ventas de valor entre {rangoMin} y {rangoMax} son:\n";
+                List<List<IImporte>> ventasConRango = _fachada.VentasConRango(rangoMin, rangoMax);
+
+                foreach (List<IImporte> ventas in ventasConRango)
+                {
+                    resultado += string.Join("\n",
+                        ventas.Select((v, i) => $"{i + 1}. Cliente: {v.Cliente.Nombre} {v.Cliente.Apellido}"));
+
+                }
+
+                await ReplyAsync(resultado);
+
+            }
+            catch (ListaVaciaExcepcion e)
+            {
+                await ReplyAsync(e.Message);
+            }
+        }
+        
+        [SlashCommand("clientesconproducto","Devuelve una lista con los clientes que tengan al menos una venta del producto")]
+        public async Task ClientesConProducto(string producto)
+        {
+            try
+            {
+                string resultado = $"Los clientes con ventas del producto {producto} son:\n";
+                List<Cliente> ClientesConProducto = _fachada.ClientesConProductoDeterminado(producto);
+                
+                resultado += string.Join("\n", ClientesConProducto.Select((c, i) => $"{i + 1}. Cliente: " + $"{c.Nombre} {c.Apellido} Telefono: {c.Telefono}"));
+
+                await ReplyAsync(resultado);
+
+            }
+            catch (ListaVaciaExcepcion e)
+            {
+                await ReplyAsync(e.Message);
+            }
         }
         
     }

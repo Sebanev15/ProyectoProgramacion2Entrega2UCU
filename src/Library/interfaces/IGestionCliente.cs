@@ -43,5 +43,11 @@ namespace Library.interfaces
         void ModificarImporte(IImporte importeBase, IImporte importeModificado);
         
         void EliminarImporte(IImporte importe);
+        
+        //----------------------------------De aca para abajo es la Defensa---------------------------------------------
+
+        List<List<IImporte>>  VentasConRango(int rangoMin, int rangoMax);
+
+        List<Cliente> ObtenerClientesConProducto(string producto);
     }
 }

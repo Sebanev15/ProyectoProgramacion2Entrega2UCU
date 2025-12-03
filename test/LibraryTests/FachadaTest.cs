@@ -14,17 +14,22 @@ namespace LibraryTests
         private Fachada _fachada;
         private DateTime _fecha;
         private Cliente _cliente;
+        private Cliente _cliente2;
         private Usuario _usuario;
         private IInteraccion _interaccion;
         private Administrador _admin;
         private Etiqueta _etiqueta;
         private IGestionCliente _gestionCliente;
         private IGestionUsuario _gestionUsuario;
+        private Venta _venta;
+        private Venta _venta2;
+        
         [SetUp]
         public void Setup()
         {
             _fecha = new DateTime(2024, 10, 1);
             _cliente = new Cliente("juan", "smith", "12345678", "juansmith007@gmail.com", "M",_fecha);
+            _cliente2 = new Cliente("juana", "smiths", "1234567438", "juansmith2007@gmail.com", "H",_fecha);
             _fachada = Fachada.GetInstancia();
             _gestionCliente = _fachada.GetGestionCliente();
             _gestionUsuario = _fachada.GetGestionUsuario();
@@ -32,6 +37,8 @@ namespace LibraryTests
             _interaccion = new Correo(_fecha, "importante", _cliente, _usuario, true);
             _admin = new Administrador("Mauro", "mauroeladmin@gmail.com", "12341234",_gestionUsuario,new GestionCliente());
             _etiqueta = new Etiqueta("Importante");
+            _venta = new Venta("caja", _fecha, 12, _cliente);
+            _venta2 = new Venta("ca0", _fecha, 9, _cliente);
         }
 
         [Test]
@@ -432,5 +439,48 @@ namespace LibraryTests
             Assert.That(resultado, Is.EqualTo(_gestionUsuario.BuscarUsuario(datos)));
         }
 
+        //----------------------------------De aca para abajo es la Defensa---------------------------------------------
+
+        [Test]
+        public void VentasConRango()
+        {
+            _cliente.Importes.Add(_venta);
+            _cliente2.Importes.Add(_venta2);
+            _gestionCliente.Clientes.Add(_cliente2);
+            _gestionCliente.Clientes.Add(_cliente);
+             
+            List<IImporte> ventasConRango_cliente = new List<IImporte>();
+            ventasConRango_cliente.Add(_venta);
+             
+            List<IImporte> ventasConRangoJorjito = new List<IImporte>();
+             
+             
+            List<List<IImporte>> ventasConRango = new List<List<IImporte>>();
+            ventasConRango = _gestionCliente.VentasConRango(10, 1000);
+             
+            Assert.That(ventasConRango.Contains(ventasConRango_cliente), Is.False);    
+            Assert.That(ventasConRango.Contains(ventasConRangoJorjito), Is.False);    
+
+            ventasConRango = _fachada.VentasConRango(10, 1000);
+             
+            Assert.That(ventasConRango.Count, Is.EqualTo(2));    
+            Assert.That(ventasConRango.Contains(ventasConRangoJorjito), Is.False);    
+             
+        }
+        
+        [Test]
+        public void ObtenerClientesConProducto()
+        {
+            _gestionCliente.Clientes.Add(_cliente);
+            _cliente.Importes.Add(_venta);
+
+            List<Cliente> clientesConProduto = new List<Cliente>();
+            Assert.That(clientesConProduto.Contains(_cliente), Is.False);
+
+            clientesConProduto = _fachada.ClientesConProductoDeterminado("caja");
+             
+            Assert.That(clientesConProduto.Contains(_cliente), Is.True);
+             
+        }
     }
 }

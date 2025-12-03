@@ -11,6 +11,7 @@ namespace LibraryTests
         private Cliente j;
         private Cliente abril;
         private IImporte importe;
+        private Venta venta;
         private Etiqueta etiqueta;
         private IInteraccion llamada;
         private Usuario user;
@@ -24,6 +25,7 @@ namespace LibraryTests
             etiqueta = new Etiqueta("nuevo");
             DateTime fecha = new DateTime(2024, 10, 20);
             importe = new Venta("algo", fecha, 500.2, j);
+            venta = new Venta("producto", fecha, 800.2, j);
             j = new Cliente("Juan", "Sanchez", "099477703", "correo@mail.com", "M", new DateTime(1997, 10, 24));
             abril = new Cliente("Abril", "Sortez", "099477123", "abril@mail.com", "H", new DateTime(2002, 5, 2));
             llamada = new Llamada(fecha, "tema", j, user);
@@ -129,6 +131,33 @@ namespace LibraryTests
             IImporte importeAgregado = abril.Importes[0];
             Assert.That(importeAgregado, Is.TypeOf<Cotizacion>());
             Assert.That(abril.Importes.Count, Is.EqualTo(1));
+        }
+        
+        //----------------------------------De aca para abajo es la Defensa---------------------------------------------
+
+        [Test]
+        public void ObtenerVentasConRango()
+        {
+            abril.Importes.Add(importe);
+            List<IImporte> ventas = new List<IImporte>();
+            
+            Assert.That(ventas.Contains(importe),Is.False);
+
+            ventas = abril.ObtenerVentasConRango(10, 1000);
+            
+            Assert.That(ventas.Contains(importe),Is.True);
+            
+        }
+        
+        [Test]
+        public void TieneProducto()
+        {            
+            Assert.That(abril.TieneProducto(venta.Producto),Is.False);
+
+            abril.Importes.Add(venta);
+            
+            Assert.That(abril.TieneProducto(venta.Producto),Is.True);
+            
         }
     }
 }

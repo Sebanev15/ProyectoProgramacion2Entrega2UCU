@@ -2,6 +2,7 @@ using Library.interfaces;
 using System.Collections.Generic;
 using System;
 using Ucu.Poo.DiscordBot.Domain;
+using IImporte = Library.interfaces.IImporte;
 
 namespace Library
 {
@@ -177,7 +178,7 @@ namespace Library
             }
             return resultados;
         }
-
+        
         public void ListarClientes()
         {
             foreach (Cliente cliente in Clientes)
@@ -249,6 +250,43 @@ namespace Library
         public void ModificarImporte(IImporte importeBase, IImporte importeModificado)
         {
             importeBase.ModificarImporte(importeModificado);
+        }
+
+        //----------------------------------De aca para abajo es la Defensa---------------------------------------------
+
+        public List<List<IImporte>> VentasConRango(int rangoMin, int rangoMax)
+        {
+            
+            List<List<IImporte>> ventasConRangoDeterminado = new List<List<IImporte>>();
+            foreach (Cliente cliente in Clientes)
+            {
+                ventasConRangoDeterminado.Add(cliente.ObtenerVentasConRango(rangoMin,rangoMax));
+            }
+
+            if (ventasConRangoDeterminado.Count == 0)
+            {
+                throw new ListaVaciaExcepcion("No hay ventas en ese rango");
+            }
+
+            return ventasConRangoDeterminado;
+        }
+
+        public List<Cliente> ObtenerClientesConProducto(string producto)
+        {
+            List<Cliente> clientesConProducto = new List<Cliente>();
+            foreach (Cliente cliente in Clientes)
+            {
+                if (cliente.TieneProducto(producto) == true)
+                {
+                    clientesConProducto.Add(cliente);
+                }
+            }
+
+            if (clientesConProducto.Count == 0)
+            {
+                throw new ListaVaciaExcepcion("No hay clientes con este producto");
+            }
+            return clientesConProducto;
         }
     }
 }

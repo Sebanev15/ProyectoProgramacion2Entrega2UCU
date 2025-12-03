@@ -20,6 +20,8 @@ namespace LibraryTests
         private List<IImporte> Importes;
         private Cliente jorge;
         private Venta venta;
+        private Venta venta2;
+        private Venta venta3;
         private Cotizacion cotizacion;
 
 
@@ -42,11 +44,13 @@ namespace LibraryTests
             DateTime fecha = new DateTime(2024, 10, 20);
             DateTime fecha1 = new DateTime(2024, 11, 20);
             venta = new Venta("caja", fecha, 12, jorge);
+            venta2 = new Venta("producto2", fecha, 8, jorjito);
+            venta3 = new Venta("producto23", fecha, 200, jorjito2);
             cotizacion = new Cotizacion(fecha1, 12, jorge);
 
             usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionUsuario(),new GestionCliente());
-
-
+            
+            
             Importes.Add(venta);
             Importes.Add(cotizacion);
             
@@ -263,7 +267,7 @@ namespace LibraryTests
              Assert.That(resultado.Count, Is.EqualTo(0));
          }
          
-[Test]
+        [Test]
          public void BuscarVentasSinFecha_SinResultados()
          {
              List<string> datosBusqueda = new List<string> { "productoInexistente" };
@@ -283,6 +287,51 @@ namespace LibraryTests
              Assert.That(resultado.Count, Is.EqualTo(2));
          }
          
+         
+         //----------------------------------De aca para abajo es la Defensa---------------------------------------------
 
+         [Test]
+         public void VentasConRango()
+         {
+             jorjito2.Importes.Add(venta);
+             jorjito.Importes.Add(venta2);
+             _gestionCliente.Clientes.Add(jorge);
+             _gestionCliente.Clientes.Add(jorjito2);
+             
+             List<IImporte> ventasConRangoJorjito2 = new List<IImporte>();
+             ventasConRangoJorjito2.Add(venta);
+             
+             List<IImporte> ventasConRangoJorjito = new List<IImporte>();
+             
+             
+             List<List<IImporte>> ventasConRango = new List<List<IImporte>>();
+             ventasConRango = _gestionCliente.VentasConRango(10, 1000);
+             
+             Assert.That(ventasConRango.Contains(ventasConRangoJorjito2), Is.False);    
+             Assert.That(ventasConRango.Contains(ventasConRangoJorjito), Is.False);    
+
+             ventasConRango = _gestionCliente.VentasConRango(10, 1000);
+             
+             Assert.That(ventasConRango.Count, Is.EqualTo(2));    
+             Assert.That(ventasConRango.Contains(ventasConRangoJorjito), Is.False);    
+
+             
+             
+         }
+
+         [Test]
+         public void ObtenerClientesConProducto()
+         {
+             _gestionCliente.Clientes.Add(jorge);
+             jorge.Importes.Add(venta);
+
+             List<Cliente> clientesConProduto = new List<Cliente>();
+             Assert.That(clientesConProduto.Contains(jorge), Is.False);
+
+             clientesConProduto = _gestionCliente.ObtenerClientesConProducto("caja");
+             
+             Assert.That(clientesConProduto.Contains(jorge), Is.True);
+             
+         }
     }
 }

@@ -242,5 +242,28 @@ namespace Library
         {
             return _gestionUsuario.BuscarUsuario(usuarioBusqueda);
         }
+        
+        //----------------------------------De aca para abajo es la Defensa---------------------------------------------
+
+        public List<List<IImporte>> VentasConRango(int rangoMin, int rangoMax)
+        {
+            List<List<IImporte>> ventasConRango = _gestionCliente.VentasConRango(rangoMin, rangoMax);
+            return ventasConRango;
+        }
+
+        public List<Cliente> ClientesConProductoDeterminado(string producto)
+        {
+            List<Cliente> clientesConProducto = _gestionCliente.ObtenerClientesConProducto(producto);
+            return clientesConProducto;
+        }
     }
 }
+
+
+///Historias de defensa
+///
+/// 1
+/// Comando que retorne los clientes con ventas con un rango de monto
+///
+/// 2
+/// Comando que retorne los clientes con ventas de cierto producto
