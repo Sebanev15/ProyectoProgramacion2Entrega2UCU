@@ -177,5 +177,63 @@ namespace Ucu.Poo.DiscordBot.Commands
             
         }
         
+        [SlashCommand("clientes-con-ventas-mayores", "Muestra los clientes que no han respondido a interacciones")]
+        public async Task ClientesConVentasMayores(double monto)
+        {
+            var lista = _fachada.GetGestionCliente().ObtenerClientesVentasMayoresA(monto);
+            var clientesReturn = new StringBuilder();
+            int i = 1;
+            foreach (var cliente in lista)
+            {
+                clientesReturn.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
+            }
+            await RespondAsync(clientesReturn.ToString());
+            
+        }
+        
+        [SlashCommand("clientes-con-ventas-menores", "Muestra los clientes que no han respondido a interacciones")]
+        public async Task ClientesConVentasMenores(double monto)
+        {
+            var lista = _fachada.GetGestionCliente().ObtenerClientesVentasMenoresA(monto);
+            var clientesReturn = new StringBuilder();
+            int i = 1;
+            foreach (var cliente in lista)
+            {
+                clientesReturn.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
+            }
+            await RespondAsync(clientesReturn.ToString());
+            
+        }
+        
+        [SlashCommand("clientes-con-ventas-en-rango", "Muestra los clientes que no han respondido a interacciones")]
+        public async Task ClientesConVentasEnRango(double monto1, double monto2)
+        {
+            var lista = _fachada.GetGestionCliente().ObtenerClientesConVentasEnRango(monto1,monto2);
+            var clientesReturn = new StringBuilder();
+            int i = 1;
+            foreach (var cliente in lista)
+            {
+                clientesReturn.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
+            }
+            await RespondAsync(clientesReturn.ToString());
+            
+        }
+        
+        [SlashCommand("clientes-con-ventas-de-producto", "Muestra los clientes que no han respondido a interacciones")]
+        public async Task ClientesConVentasDeProducto(string producto)
+        {
+            var lista = _fachada.GetGestionCliente().ObtenerClientesConVentasDeProducto(producto);
+            var clientesReturn = new StringBuilder();
+            int i = 1;
+            foreach (var cliente in lista)
+            {
+                clientesReturn.AppendLine($"{i}. {cliente.Nombre} {cliente.Apellido} - Tel: {cliente.Telefono} - Correo: {cliente.Correo} - Género: {cliente.Genero} - Fecha Nac: {cliente.FechaDeNacimiento:yyyy-MM-dd}");
+                i++;
+            }
+            await RespondAsync(clientesReturn.ToString());
+        }
     }
 }

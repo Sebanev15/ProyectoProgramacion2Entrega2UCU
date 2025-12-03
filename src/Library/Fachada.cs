@@ -242,5 +242,25 @@ namespace Library
         {
             return _gestionUsuario.BuscarUsuario(usuarioBusqueda);
         }
+        
+        //Comando que retorne los clientes con ventas mayores o menores a cierto monto o dentro de un cierto rango de montos.
+        public List<Cliente> ObtenerClientesVentasMayoresA(double monto)
+        {
+            return _gestionCliente.ObtenerClientesVentasMayoresA(monto);
+        }
+        public List<Cliente> ObtenerClientesVentasMenoresA(double monto)
+        {
+            return _gestionCliente.ObtenerClientesVentasMenoresA(monto);
+        }
+        public List<Cliente> ObtenerClientesConVentasEnRango(double monto1, double monto2)
+        {
+            return _gestionCliente.ObtenerClientesConVentasEnRango(monto1, monto2);
+        }
+        
+        //Comando que retorne los clientes con ventas de cierto producto o servicio
+        public List<Cliente> ObtenerClientesConVentasDeProducto(string producto)
+        {
+            return _gestionCliente.ObtenerClientesConVentasDeProducto(producto);
+        }
     }
 }

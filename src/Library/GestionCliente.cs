@@ -250,5 +250,91 @@ namespace Library
         {
             importeBase.ModificarImporte(importeModificado);
         }
+        
+        public List<Cliente> ObtenerClientesVentasMayoresA(double monto)
+        {
+            var listReturn = new List<Cliente>();
+            foreach (Cliente cliente in Clientes)
+            {
+                foreach (Venta venta in cliente.Importes)
+                {
+                    if (venta.Monto > monto)
+                    {
+                        if (!listReturn.Contains(cliente))
+                        {
+                            listReturn.Add(cliente);
+                        }
+                    }
+                }
+            }
+
+            return listReturn;
+        }
+        
+        public List<Cliente> ObtenerClientesVentasMenoresA(double monto)
+        {
+            var listReturn = new List<Cliente>();
+            foreach (Cliente cliente in Clientes)
+            {
+                foreach (Venta venta in cliente.Importes)
+                {
+                    if (venta.Monto < monto)
+                    {
+                        if (!listReturn.Contains(cliente))
+                        {
+                            listReturn.Add(cliente);
+                        }
+                    }
+                }
+            }
+
+            return listReturn;
+        }
+
+        public List<Cliente> ObtenerClientesConVentasEnRango(double monto1, double monto2)
+        {
+            var listReturn = new List<Cliente>();
+            if (monto1 > monto2)
+            {
+                var monto = monto1;
+                monto1 = monto2;
+                monto2 = monto;
+            }
+            foreach (Cliente cliente in Clientes)
+            {
+                foreach (Venta venta in cliente.Importes)
+                {
+                    
+                    if (venta.Monto > monto1 && venta.Monto < monto2)
+                    {
+                        if (!listReturn.Contains(cliente))
+                        {
+                            listReturn.Add(cliente);
+                        }
+                    }
+                }
+            }
+
+            return listReturn;
+        }
+
+        public List<Cliente> ObtenerClientesConVentasDeProducto(string producto)
+        {
+            var listReturn = new List<Cliente>();
+            foreach (Cliente cliente in Clientes)
+            {
+                foreach (Venta venta in cliente.Importes)
+                {
+                    if (venta.Producto == producto)
+                    {
+                        if (!listReturn.Contains(cliente))
+                        {
+                            listReturn.Add(cliente);
+                        }
+                    }
+                }
+            }
+            return listReturn;
+        }
     }
 }

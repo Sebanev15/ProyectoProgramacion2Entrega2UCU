@@ -282,7 +282,77 @@ namespace LibraryTests
              List<Venta> resultado = _gestionCliente.BuscarVentasSinFecha(datosBusqueda);
              Assert.That(resultado.Count, Is.EqualTo(2));
          }
-         
 
+         [Test]
+         public void ObtenerClientesVentasMayoresYMenoresTest()
+         {
+             var juan = new Cliente("juan","juan", "123123123", "juan@juan.juan", "H", DateTime.Now);
+             var juan2 = new Cliente("juan","juan", "123123123", "juan@juan.juan", "H", DateTime.Now);
+             var gestionCliente = new GestionCliente();
+             gestionCliente.AgregarCliente(juan);
+             gestionCliente.AgregarCliente(juan2);
+             var venta1 = new Venta("hola", DateTime.Now, 200,juan);
+             var venta2 = new Venta("hola", DateTime.Now, 50,juan2);
+             gestionCliente.AgregarImporte(venta1,juan);
+             gestionCliente.AgregarImporte(venta2,juan2);
+             
+             var listResult = gestionCliente.ObtenerClientesVentasMayoresA(100);
+             Assert.That(listResult.Count, Is.EqualTo(1));
+             Assert.That(listResult.Contains(juan), Is.True);
+             Assert.That(listResult.Contains(juan2), Is.False);
+             
+             listResult = gestionCliente.ObtenerClientesVentasMenoresA(100);
+             Assert.That(listResult.Count, Is.EqualTo(1));
+             Assert.That(listResult.Contains(juan), Is.False);
+             Assert.That(listResult.Contains(juan2), Is.True);
+         }
+
+         [Test]
+         public void ObtenerClientesConVentasEnRangoTest()
+         {
+             var juan = new Cliente("juan","juan", "123123123", "juan@juan.juan", "H", DateTime.Now);
+             var juan2 = new Cliente("juan","juan", "123123123", "juan@juan.juan", "H", DateTime.Now);
+             var gestionCliente = new GestionCliente();
+             gestionCliente.AgregarCliente(juan);
+             gestionCliente.AgregarCliente(juan2);
+             var venta1 = new Venta("hola", DateTime.Now, 200,juan);
+             var venta2 = new Venta("hola", DateTime.Now, 50,juan2);
+             gestionCliente.AgregarImporte(venta1,juan);
+             gestionCliente.AgregarImporte(venta2,juan2);
+
+             var listResult = gestionCliente.ObtenerClientesConVentasEnRango(0, 100);
+             Assert.That(listResult.Count, Is.EqualTo(1));
+             Assert.That(listResult.Contains(juan), Is.False);
+             Assert.That(listResult.Contains(juan2), Is.True);
+             
+             listResult = gestionCliente.ObtenerClientesConVentasEnRango(100, 0);
+             Assert.That(listResult.Count, Is.EqualTo(1));
+             Assert.That(listResult.Contains(juan), Is.False);
+             Assert.That(listResult.Contains(juan2), Is.True);
+             
+             listResult = gestionCliente.ObtenerClientesConVentasEnRango(100,300);
+             Assert.That(listResult.Count, Is.EqualTo(1));
+             Assert.That(listResult.Contains(juan), Is.True);
+             Assert.That(listResult.Contains(juan2), Is.False);
+         }
+
+         [Test]
+         public void ObtenerClientesConVentasDeProductoTest()
+         {
+             var juan = new Cliente("juan","juan", "123123123", "juan@juan.juan", "H", DateTime.Now);
+             var juan2 = new Cliente("juan","juan", "123123123", "juan@juan.juan", "H", DateTime.Now);
+             var gestionCliente = new GestionCliente();
+             gestionCliente.AgregarCliente(juan);
+             gestionCliente.AgregarCliente(juan2);
+             var venta1 = new Venta("a", DateTime.Now, 200,juan);
+             var venta2 = new Venta("hola", DateTime.Now, 50,juan2);
+             gestionCliente.AgregarImporte(venta1,juan);
+             gestionCliente.AgregarImporte(venta2,juan2);
+
+             var listResult = gestionCliente.ObtenerClientesConVentasDeProducto("a");
+             Assert.That(listResult.Count, Is.EqualTo(1));
+             Assert.That(listResult.Contains(juan), Is.True);
+             Assert.That(listResult.Contains(juan2), Is.False);
+         }
     }
 }

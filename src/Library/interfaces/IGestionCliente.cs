@@ -43,5 +43,12 @@ namespace Library.interfaces
         void ModificarImporte(IImporte importeBase, IImporte importeModificado);
         
         void EliminarImporte(IImporte importe);
+        List<Cliente> ObtenerClientesVentasMayoresA(double monto);
+        List<Cliente> ObtenerClientesVentasMenoresA(double monto);
+
+        List<Cliente> ObtenerClientesConVentasEnRango(double monto1, double monto2);
+
+        List<Cliente> ObtenerClientesConVentasDeProducto(string producto);
+
     }
 }

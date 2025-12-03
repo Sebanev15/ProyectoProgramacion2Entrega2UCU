@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
@@ -91,6 +92,17 @@ namespace LibraryTests
 
         }
 
+        [Test]
+        public void BuscarInteraccionesSinFecha()
+        {
+            var listvar = new List<string>();
+            listvar.Append("tema");
+            Assert.That(!j.BuscarInteraccionesSinFecha(listvar).Contains(llamada),Is.True);
+            j.RegistrarInteraccion(llamada);
+            Assert.That(j.BuscarInteraccionesSinFecha(listvar).Contains(llamada),Is.True);
+
+        }
+        
         [Test]
         public void ObtenerVentasTotales()
         {
