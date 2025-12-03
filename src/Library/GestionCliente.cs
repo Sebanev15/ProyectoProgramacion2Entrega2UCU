@@ -250,5 +250,47 @@ namespace Library
         {
             importeBase.ModificarImporte(importeModificado);
         }
+        
+        
+        // METODOS DEFENSA AGUS.M
+        public List<Cliente> ObtenerVentasRangoPrecio(double precioInicio, double precioFin)
+        {
+            List<Cliente> clientesRangoPrecio = new List<Cliente>();
+
+            foreach (Cliente clienteVenta in this.Clientes)
+            {
+                foreach (IImporte venta in clienteVenta.Importes)
+                {
+                    if (venta.Monto >=precioInicio && venta.Monto <= precioFin && !clientesRangoPrecio.Contains(clienteVenta))
+                    {
+                        clientesRangoPrecio.Add(clienteVenta);
+                    }
+                }
+            }
+
+            return clientesRangoPrecio;
+        }
+        
+        public List<Cliente> ObtenerVentasProductoServicio(string nombreProductoServicio)
+        {
+            List<Cliente> clientesProducto = new List<Cliente>();
+
+            foreach (Cliente clienteVenta in this.Clientes)
+            {
+                foreach (Venta venta in clienteVenta.Importes)
+                {
+                    if (venta is Venta)
+                    {
+                        if (venta.Producto== nombreProductoServicio && !clientesProducto.Contains(clienteVenta))
+                        {
+                            clientesProducto.Add(clienteVenta);
+                        }    
+                    }
+                    
+                }
+            }
+            return clientesProducto;
+        }
+        
     }
 }

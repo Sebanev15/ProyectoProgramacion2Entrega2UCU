@@ -37,6 +37,7 @@ namespace Library
         {
             _gestionCliente = new GestionCliente();
             _gestionUsuario = new GestionUsuario();
+            
         }
         
         public static Fachada GetInstancia()
@@ -242,5 +243,18 @@ namespace Library
         {
             return _gestionUsuario.BuscarUsuario(usuarioBusqueda);
         }
+        
+        // TEST DEFENSA AGUS.N
+
+        public List<Cliente> ObtenerVentasProductoServicio(string nombre)
+        {
+            return _gestionCliente.ObtenerVentasProductoServicio(nombre);
+        }
+        
+        public List<Cliente> ObtenerVentasRangoPrecio(double precioInicio, double precioFin)
+        {
+            return _gestionCliente.ObtenerVentasRangoPrecio(precioInicio, precioFin);
+        }
+
     }
 }

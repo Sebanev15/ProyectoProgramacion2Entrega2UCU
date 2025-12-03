@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Library;
 using Library.interfaces;
 using NUnit.Framework;
@@ -33,6 +34,8 @@ namespace LibraryTests
             _admin = new Administrador("Mauro", "mauroeladmin@gmail.com", "12341234",_gestionUsuario,new GestionCliente());
             _etiqueta = new Etiqueta("Importante");
         }
+        
+    
 
         [Test]
         public void CrearCotizacionFachadaTest()
@@ -430,6 +433,46 @@ namespace LibraryTests
             datos.Add("Usuariooo");
             var resultado = _fachada.BuscarUsuario(datos);
             Assert.That(resultado, Is.EqualTo(_gestionUsuario.BuscarUsuario(datos)));
+        }
+        
+        // TEST DEFENSA AGUS.M
+        
+        [Test]
+        public void ObtenerVentasProductoServicio()
+        {
+            DateTime fecha1 = new DateTime(2024, 11, 20);
+            Venta venta1 = new Venta("cajita", fecha1, 2, _cliente);
+            Venta venta2 = new Venta("caja", fecha1, 2, _cliente);
+            _fachada.AgregarCliente(_cliente);
+            Cliente _cliente2 = new Cliente("juan", "smith", "12345678", "juansmith007@gmail.com", "M",_fecha);
+            _fachada.AgregarCliente(_cliente2);
+            _fachada.AgregarImporte(venta2, _cliente);
+            _fachada.AgregarImporte(venta1, _cliente2);
+            var resultado= _gestionCliente.ObtenerVentasProductoServicio("caja");
+            Assert.That(resultado.Count, Is.EqualTo(1));
+            var resultadoFachada = _fachada.ObtenerVentasProductoServicio("caja");
+            Assert.That(resultado.Count, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void ObtenerVentasRangoPrecioTest()
+        {
+            
+            DateTime fecha1 = new DateTime(2024, 11, 20);
+            Venta venta9 = new Venta("cajita", fecha1, 90, _cliente);
+            Venta venta10 = new Venta("caja", fecha1, 101, _cliente);
+            
+            Cliente _cliente5 = new Cliente("juan", "smith", "12345678", "juansmith007@gmail.com", "M",_fecha);
+            Cliente _cliente4 = new Cliente("juan", "smith", "12345678", "juansmith007@gmail.com", "M",_fecha);
+            _fachada.AgregarCliente(_cliente5);
+            _fachada.AgregarCliente(_cliente4);
+            _fachada.AgregarImporte(venta9, _cliente5);
+            _fachada.AgregarImporte(venta10, _cliente4);
+            var resultado= _gestionCliente.ObtenerVentasRangoPrecio(90, 100);
+            Assert.That(resultado.Count, Is.EqualTo(1));
+            var resultadoFachada = _fachada.ObtenerVentasRangoPrecio(90, 100);
+            Assert.That(resultado.Count, Is.EqualTo(1));
+            
         }
 
     }

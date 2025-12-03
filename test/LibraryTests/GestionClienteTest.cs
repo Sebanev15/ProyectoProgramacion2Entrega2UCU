@@ -41,7 +41,7 @@ namespace LibraryTests
             jorge = new Cliente("jorge", "perez", "01", "monson@gmail.com", "M", fechaN);
             DateTime fecha = new DateTime(2024, 10, 20);
             DateTime fecha1 = new DateTime(2024, 11, 20);
-            venta = new Venta("caja", fecha, 12, jorge);
+            venta = new Venta("caja", fecha, 10, jorge);
             cotizacion = new Cotizacion(fecha1, 12, jorge);
 
             usuarero = new Usuario("user", "usurer@gmail.com", "001", new GestionUsuario(),new GestionCliente());
@@ -283,6 +283,37 @@ namespace LibraryTests
              Assert.That(resultado.Count, Is.EqualTo(2));
          }
          
+         // PRUEBAS UNITARIAS DEFENSA AGUSTIN MONTES DE OCA
 
+         [Test]
+         public void ObtenerVentasRangoPrecioTest()
+         {
+             jorjito.Importes.Add(venta);
+             DateTime fecha1 = new DateTime(2024, 11, 20);
+             Venta venta2 = new Venta("caja", fecha1, 2, jorge);
+             Venta venta3 = new Venta("caja", fecha1, 9, jorge);
+             jorjito.Importes.Add(venta2);
+             jorjito2.Importes.Add(venta3);
+             _gestionCliente.AgregarCliente(jorjito);
+             _gestionCliente.AgregarCliente(jorjito2);
+             double inicio = 2;
+             double fin = 9;
+             var resultado = _gestionCliente.ObtenerVentasRangoPrecio(inicio, fin);
+             Assert.That( resultado.Count, Is.EqualTo(2));
+         }
+
+         [Test]
+         public void ObtenerVentasProductoServicioTest()
+         {
+             DateTime fecha1 = new DateTime(2024, 11, 20);
+             Venta venta2 = new Venta("bandera", fecha1, 2, jorge);
+             Venta venta3 = new Venta("caja", fecha1, 9, jorge);
+             jorjito.Importes.Add(venta2);
+             jorjito2.Importes.Add(venta3);
+             _gestionCliente.AgregarCliente(jorjito);
+             _gestionCliente.AgregarCliente(jorjito2);
+             var resultado = _gestionCliente.ObtenerVentasProductoServicio("caja");
+             Assert.That( resultado.Count, Is.EqualTo(1));
+         }
     }
 }

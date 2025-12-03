@@ -182,7 +182,10 @@ namespace Library
                     if (destinoProp != null && destinoProp.CanWrite)
                         destinoProp.SetValue(this, propiedad.GetValue(clienteMod));
                 }
-            }   
+        }  
+        
+       
+        
         }
     }
     
