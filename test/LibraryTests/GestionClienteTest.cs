@@ -282,7 +282,53 @@ namespace LibraryTests
              List<Venta> resultado = _gestionCliente.BuscarVentasSinFecha(datosBusqueda);
              Assert.That(resultado.Count, Is.EqualTo(2));
          }
-         
 
+         [Test]
+         public void ClientesConMontoMayor()
+         {
+             IImporte importe = new Cotizacion(new DateTime(2025, 12, 3), 1000, null);
+             _gestionCliente.AgregarImporte(importe, jorge);
+             _gestionCliente.AgregarCliente(jorge);
+             List<Cliente> clientesConMontoMayor = _gestionCliente.clientesConMontoMayor(900);
+             Assert.That(clientesConMontoMayor[0], Is.EqualTo(jorge));
+             Assert.That(clientesConMontoMayor.Count, Is.EqualTo(1));
+         }
+
+         [Test]
+         public void ClientesConMontoMayorSinElementos()
+         {
+             IImporte importe = new Cotizacion(new DateTime(2025, 12, 3), 1000, null);
+             _gestionCliente.AgregarImporte(importe, jorge);
+             _gestionCliente.AgregarCliente(jorge);
+             List<Cliente> clientesConMontoMayor = _gestionCliente.clientesConMontoMayor(1001);
+             Assert.That(clientesConMontoMayor.Count, Is.EqualTo(0));
+             Assert.That(clientesConMontoMayor, Is.Empty);
+         }
+
+         [Test]
+         public void ClientesConProducto()
+         {
+             IImporte importe = new Venta("Laptop", new DateTime(2025, 12, 3), 1000, null);
+             _gestionCliente.AgregarImporte(importe, jorge);
+             _gestionCliente.AgregarCliente(jorge);
+
+             List<string> busqueda = new List<string>() { "Laptop" };
+             _gestionCliente.Importes.Add(importe);
+             List<Cliente> clientesConProducto = _gestionCliente.clientesConProducto(busqueda);
+             Assert.That(clientesConProducto.Count, Is.EqualTo(1));
+             Assert.That(clientesConProducto[0], Is.EqualTo(jorge));
+         }
+
+         [Test]
+         public void ClienteConProductosExcepcion()
+         {
+             IImporte importe = new Venta("Laptop", new DateTime(2025, 12, 3), 1000, null);
+             _gestionCliente.AgregarImporte(importe, jorge);
+             _gestionCliente.AgregarCliente(jorge);
+
+             List<string> busqueda = new List<string>() { "Laptop" };
+             ListaVaciaExcepcion excepcion = Assert.Throws<ListaVaciaExcepcion>((() => _gestionCliente.clientesConProducto(busqueda)));
+             Assert.That(excepcion.Message, Is.EqualTo("No se encontro ninuna venta con los parametros ingresados"));
+         }
     }
 }

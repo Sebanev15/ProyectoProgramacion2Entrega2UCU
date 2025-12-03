@@ -176,6 +176,59 @@ namespace Ucu.Poo.DiscordBot.Commands
             await RespondAsync(listaClientes.ToString());
             
         }
+
+        [SlashCommand("clientesconmontomayor", "Retorna los clientes con un monto mayor al especificado")]
+        public async Task ClientesConMontoMayorAsync(int monto)
+        {
+            List<Cliente> clientesConMontoMayor = _fachada.clientesConMontoMayor(monto);
+            string retorno;
+            if (clientesConMontoMayor.Count > 0)
+            {
+                retorno = $"Clientes con monto mayor a {monto}:";
+                int numeroLista = 1;
+                foreach (Cliente cliente in clientesConMontoMayor)
+                {
+                    retorno += $"\n {numeroLista}. {cliente.Nombre} {cliente.Apellido}; {cliente.Correo}; {cliente.Telefono}";
+                    numeroLista++;
+                }    
+            }
+            else
+            {
+                retorno = $"No se encontro ningun cliente con monto mayor a {monto}";
+            }
+
+            await RespondAsync(retorno);
+
+        }
         
+        [SlashCommand("clientesconproducto", "Retorna los clientes con el producto especificado")]
+        public async Task ClientesConMontoMayorAsync(string productoBusqueda)
+        {
+            List<string> busqueda = new List<string>();
+            foreach (string busquedaElemento in productoBusqueda.Split(" "))
+            {
+                busqueda.Add(busquedaElemento);
+            }
+
+            List<Cliente> clientesConProducto = _fachada.clientesConProducto(busqueda);
+            string retorno;
+            if (clientesConProducto.Count > 0)
+            {
+                retorno = $"Clientes con el producto:";
+                int numeroLista = 1;
+                foreach (Cliente cliente in clientesConProducto)
+                {
+                    retorno += $"\n {numeroLista}. {cliente.Nombre} {cliente.Apellido}; {cliente.Correo}; {cliente.Telefono}";
+                    numeroLista++;
+                }    
+            }
+            else
+            {
+                retorno = $"No se encontro ningun cliente con el producto especificado";
+            }
+
+            await RespondAsync(retorno);
+
+        }
     }
 }

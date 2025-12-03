@@ -47,6 +47,7 @@ namespace Library
             }
             return _instance;
         }
+        
 
         public IGestionCliente GetGestionCliente()
         {
@@ -241,6 +242,16 @@ namespace Library
         public List<Usuario> BuscarUsuario(List<string> usuarioBusqueda)
         {
             return _gestionUsuario.BuscarUsuario(usuarioBusqueda);
+        }
+
+        public List<Cliente> clientesConProducto(List<string> productoBusqueda)
+        {
+            return _gestionCliente.clientesConProducto(productoBusqueda);
+        }
+
+        public List<Cliente> clientesConMontoMayor(int monto)
+        {
+            return _gestionCliente.clientesConMontoMayor(monto);
         }
     }
 }

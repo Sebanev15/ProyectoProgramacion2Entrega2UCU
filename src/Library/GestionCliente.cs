@@ -113,7 +113,54 @@ namespace Library
         {
             interaccion.AgregarComentario(comentario);
         }
-        
+
+        public List<Cliente> clientesConMontoMayor(int monto)
+        {
+            List<Cliente> clientesConMontoMayor = new List<Cliente>();
+            foreach (Cliente cliente in Clientes)
+            {
+                double montoCliente = 0;
+                foreach (IImporte importe in cliente.Importes)
+                {
+                    montoCliente += importe.Monto;
+                }
+
+                if (montoCliente >= monto)
+                {
+                    clientesConMontoMayor.Add(cliente);
+                }
+            }
+
+            return clientesConMontoMayor;
+        }
+
+        public List<Cliente> clientesConProducto(List<string> productoBusqueda)
+        {
+            List<Cliente> clientesConProducto = new List<Cliente>();
+            List<Venta> ventas = this.BuscarVentasSinFecha(productoBusqueda);
+            if (ventas.Count > 0)
+            {
+                foreach (Cliente cliente in Clientes) 
+                {
+                    foreach (Venta venta in ventas)
+                    {
+                        foreach (Venta ventaCliente in cliente.Importes) 
+                        {
+                            if (ventaCliente.Producto.Equals(venta.Producto))
+                            {
+                                clientesConProducto.Add(cliente);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new ListaVaciaExcepcion("No se encontro ninuna venta con los parametros ingresados");
+            }
+            return clientesConProducto;
+        }
+
         public List<String> ObtenerVentasTotales(DateTime fechaInicio, DateTime fechaFin)
         {
             List<String> listaVentasTotales = new List<String>();

@@ -43,5 +43,12 @@ namespace Library.interfaces
         void ModificarImporte(IImporte importeBase, IImporte importeModificado);
         
         void EliminarImporte(IImporte importe);
+        
+        //comando que retorne los clientes con ventas mayores o menores a cierto monto o cierto rango de montos 
+        //Comando que retorne los clientes con ventas de cierto producto o servicio
+
+        List<Cliente> clientesConMontoMayor(int monto);
+
+        List<Cliente> clientesConProducto(List<string> productoBusqueda);
     }
 }
