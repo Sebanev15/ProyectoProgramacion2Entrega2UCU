@@ -18,7 +18,7 @@ namespace Ucu.Poo.DiscordBot.Commands
             _fachada = fachada;
         }
 
-        [SlashCommand("crearInteraccion", "Crear una Interaccion, seleccione a traves del select el tipo de interaccion")]
+        [SlashCommand("crearinteraccion", "Crear una Interaccion, seleccione a traves del select el tipo de interaccion")]
         public async Task AbrirModalAsync()
         {
             var modal = new ModalBuilder()
