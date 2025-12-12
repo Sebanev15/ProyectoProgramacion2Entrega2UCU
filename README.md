@@ -5,7 +5,7 @@
 
 # Video del bot
 
-//ARRASTREN EL VIDEO EN EL EDITOR DE GITHUB Y AÑADAN TAMBIEN EL ARCHIVO. NO PERMITE MKV
+*[LINK VIDEO]([https://trello.com/invite/b/68ed0187c12483b8609ef0a2/ATTIa938da013537bb8385cd944d51e935820715F812/proyecto](https://correoucuedu-my.sharepoint.com/:v:/g/personal/agustin_montesdeoca_correo_ucu_edu_uy/IQDq6FsDLfRwQ4yM_Eucq96kASppKg2-u-i_GUbu-KhpQA4?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=hvsTye))*
 
 
 
